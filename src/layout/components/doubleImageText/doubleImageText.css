@@ -1,0 +1,50 @@
+.double-image {
+  display: flex;
+  align-items: center;
+}
+
+.double-image .left,
+.double-image .right {
+  position: relative;
+}
+
+.double-image img {
+  width: 100%;
+}
+
+.double-image .text-absolute {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 2.5rem;
+}
+
+.double-image .text-absolute h2 {
+  margin-bottom: 1rem;
+  font-size: 3.75rem;
+  line-height: 95%;
+  font-family: "nimbus-sans-extended", sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.double-image .text-absolute a {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 0.875rem;
+  line-height: 1.0625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: "nimbus-sans-extended", sans-serif;
+  color: #000;
+  transition: all 450ms ease;
+  border: none;
+  margin: 0 0.625rem;
+  text-decoration: none;
+  position: relative;
+  transition: all 300ms ease;
+  border: 1px solid #fff;
+  padding: 10px 1rem;
+  color: #000 !important;
+  background: #fff;
+}
