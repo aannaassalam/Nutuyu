@@ -1,0 +1,61 @@
+.Navbar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  letter-spacing: 1px;
+}
+.Navbar a {
+  text-decoration: none;
+  color: #121212;
+}
+.Navbar .top {
+  width: 100%;
+  display: grid;
+  padding: 35px 50px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+}
+.Navbar .top .search {
+  display: flex;
+  align-items: center;
+}
+.Navbar .top .search svg {
+  width: 22px;
+}
+.Navbar .top .search input {
+  outline: none;
+  border: none;
+  color: #999;
+  padding: 0 0 0 15px;
+  /* border-bottom: 1px solid #999;  */
+  font-size: 16px;
+  letter-spacing: 1px;
+
+  width: 200px;
+}
+.Navbar .top .logo {
+  justify-self: center;
+  letter-spacing: 2px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+.Navbar .top .accCart {
+  justify-self: flex-end;
+  display: flex;
+  justify-content: flex-end;
+}
+.Navbar .top .accCart a {
+  display: flex;
+  align-items: center;
+  margin: 0 20px;
+}
+.Navbar .top .accCart a > svg {
+  margin-right: 7px;
+}
+.Navbar .bottom {
+  padding: 20px 0;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
