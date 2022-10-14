@@ -3,6 +3,7 @@ import "./productCard.css";
 import StyledRating from "../utility/Rating";
 
 export default function ProductCard({ a }) {
+  // Just testing comments for firebase
   return (
     <a href="/" className="product-card">
       <img
