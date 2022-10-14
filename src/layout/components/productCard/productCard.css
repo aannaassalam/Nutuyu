@@ -5,11 +5,32 @@
   text-decoration: none;
   color: #121212;
   background-color: #fff;
+  position: relative;
 }
 
-.product-card img {
+.product-card .main-img {
   /* height: 100%; */
   width: 100%;
+  object-fit: contain;
+}
+
+.product-card:hover .main-img {
+  opacity: 0;
+  transition: opacity 650ms ease-in-out;
+}
+
+.product-card:hover .hover-img {
+  opacity: 1;
+}
+
+.product-card .hover-img {
+  position: absolute;
+  /* top: 0; */
+  left: 0;
+  opacity: 0;
+  transition: opacity 650ms ease-in-out;
+  width: 100%;
+  /* height: 100%; */
   object-fit: contain;
 }
 
@@ -17,6 +38,53 @@
   padding: 1rem 14px 8px 14px;
   display: grid;
   grid-template-columns: 75% 25%;
+}
+
+.product-card:hover .data-sec .quick-add {
+  opacity: 1;
+}
+
+.product-card .data-sec .quick-add {
+  width: 100%;
+  padding: 0.5rem;
+  position: absolute;
+  top: -36%;
+  left: 0;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  background-color: #fff;
+}
+
+.product-card .data-sec .quick-add p {
+  text-align: center;
+  display: block;
+  font-family: "nimbus-sans-extended", sans-serif;
+  font-size: 11px;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.product-card .data-sec .quick-add ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-card .data-sec .quick-add ul li {
+  padding: 0 5px;
+  margin: 2px 2px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+.product-card .data-sec .quick-add ul li:hover {
+  background-color: #000;
+  border-radius: 4px;
+  color: #fff;
 }
 
 .product-card .data-sec .title {

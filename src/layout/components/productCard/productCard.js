@@ -8,9 +8,31 @@ export default function ProductCard({ a }) {
       <img
         src="https://cdn.shopify.com/s/files/1/0005/7750/3289/products/the-cloud-pant-midnight-382578_150x.jpg?v=1661366167"
         alt=""
+        className="main-img"
+      />
+      <img
+        src="https://cdn.shopify.com/s/files/1/0005/7750/3289/products/the-cloud-pant-midnight-728872_150x.jpg?v=1665177743"
+        alt=""
+        className="hover-img"
       />
       {/* <div className="data-sec"> */}
       <div className="data-sec">
+        <div className="quick-add">
+          <p>
+            <strong>Quick Add +</strong>
+          </p>
+          <ul className="sizes">
+            <li>XXS</li>
+            <li>XS</li>
+            <li>S</li>
+            <li>M</li>
+            <li>L</li>
+            <li>XL</li>
+            <li>XXL</li>
+            <li>XXXL</li>
+            <li>XXXXL</li>
+          </ul>
+        </div>
         <div className="title">
           <p>The Day Dream Pant - Midnight</p>
         </div>

@@ -19,7 +19,7 @@ function Slider({ heading }) {
         modules={[Autoplay, Navigation]}
         spaceBetween={0}
         slidesPerView={4}
-        autoplay={{ delay: 3000 }}
+        // autoplay={{ delay: 3000 }}
         pagination={{ clickable: true }}
       >
         {data.map((item, index) => (
