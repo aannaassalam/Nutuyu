@@ -1,0 +1,23 @@
+.category-sec {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.category-sec div {
+  position: relative;
+}
+
+.category-sec img {
+  width: 100%;
+}
+
+.category-sec div h2 {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 2.5rem;
+  color: #fff;
+  font-size: 3.75rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}

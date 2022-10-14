@@ -1,0 +1,52 @@
+.fabric-sec {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.fabric-sec .containers {
+  position: relative;
+}
+
+.fabric-sec img {
+  width: 100%;
+}
+
+.fabric-sec .containers .details {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 2.5rem;
+}
+
+.fabric-sec .containers .details h2 {
+  color: #fff;
+  font-size: 3.75rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.fabric-sec .containers .details p {
+  color: #fff;
+  margin: 1.5rem 0.5rem;
+}
+
+.fabric-sec .containers .details a {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 0.875rem;
+  line-height: 1.0625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: "nimbus-sans-extended", sans-serif;
+  color: #000;
+  transition: all 450ms ease;
+  border: none;
+  margin: 0 0.625rem;
+  text-decoration: none;
+  position: relative;
+  transition: all 300ms ease;
+  border: 1px solid #fff;
+  padding: 10px 1rem;
+  color: #000 !important;
+  background: #fff;
+}
