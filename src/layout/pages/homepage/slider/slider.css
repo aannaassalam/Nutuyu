@@ -1,0 +1,56 @@
+.Slider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: max-content;
+  margin: 50px 0;
+}
+.Slider .swiper {
+  width: 100%;
+}
+.Slider h1 {
+  text-align: center;
+  font-size: 50px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.Slider button {
+  margin-top: 20px;
+  padding: 15px 35px;
+  cursor: pointer;
+  letter-spacing: inherit;
+  outline: none;
+  border: none;
+  background-color: #121212;
+  letter-spacing: 2px;
+  font-family: inherit;
+  color: #fff;
+  text-transform: capitalize;
+  font-size: 16px;
+}
+.Slider .swiper-button-prev,
+.Slider .swiper-button-next {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+.Slider .swiper-button-prev:after,
+.Slider .swiper-button-next:after {
+  color: #000;
+  content: "▷";
+  font-size: 50px;
+  left: 100px;
+  transition: 0.5s;
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
+}
+.Slider .swiper-button-prev:after {
+  clip-path: polygon(100% 100%, 100% 0, 0 50%);
+  content: "◁";
+}
+.Slider .swiper-button-prev:hover::after,
+.Slider .swiper-button-next:hover::after {
+  background-color: #000;
+}

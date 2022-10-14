@@ -1,5 +1,6 @@
 .TopSection {
   height: 90vh;
+  width: 100%;
   /* background-color: bisque; */
 }
 .TopSection .swiper {

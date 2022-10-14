@@ -8,10 +8,10 @@
   width: 5px;
   height: 5px;
   scroll-behavior: smooth;
-  background-color: #999;
+  background-color: #ddd;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #ddd;
+  background-color: #999;
   border-radius: 10px;
 }
