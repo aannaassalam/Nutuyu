@@ -12,17 +12,6 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "swiper/css";
 function TopSection() {
-  var settings = {
-    dots: false,
-    arrow: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    fade: true,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-  };
   const [data, setdata] = useState([
     {
       name: "Anna's Picks",
@@ -32,47 +21,35 @@ function TopSection() {
         "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, obcaecati perferendis assumenda dignissimos dolor saepe quam tempora distinctio eaque corrupti beatae, aliquam eligendi accusamus dicta.",
     },
     {
-      name: "Anna's Picks",
+      name: "Rino And Pelle",
       image: slider2,
       background: "#f7f553",
       content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, obcaecati perferendis assumenda dignissimos dolor saepe quam tempora distinctio eaque corrupti beatae, aliquam eligendi accusamus dicta.",
+        "Embrace the energizing new shades of autumn with Leon & Harper's new collection, explore this Parisian label’s timeless and effortlessly cool silhouettes.",
+    },
+    {
+      name: "Rino Choices",
+      image: slider1,
+      background: "#f7f",
+      content:
+        "Embrace the energizing new shades of autumn with Leon & Harper's new collection, explore this Parisian label’s timeless and effortlessly cool silhouettes.",
     },
   ]);
   return (
     <div className="TopSection">
-      {/* <Slider {...settings}>
-        {data.map((item) => (
-          <div
-            className="slide"
-            style={{ backgroundColor: item.background, position: "static" }}
-          >
-            <div className="content">
-              <p>{item.name}</p>
-              <h1>{item.name}</h1>
-              <p>{item.content}</p>
-              <button>Shop Now</button>
-            </div>
-            <img src={item.image} alt="" />
-          </div>
-        ))}
-      </Slider> */}
       <Swiper
         className="slider"
         effect="fade"
         loop={true}
-        modules={[Navigation, Pagination, EffectFade, Autoplay]}
+        modules={[EffectFade, Autoplay]}
         spaceBetween={50}
         slidesPerView={1}
-        autoplay={{ delay: 5000 }}
+        autoplay={{ delay: 3000 }}
         pagination={{ clickable: true }}
       >
         {data.map((item, index) => (
           <SwiperSlide key={index}>
-            <div
-              className="slide"
-              style={{ backgroundColor: item.background, position: "static" }}
-            >
+            <div className="slide" style={{ backgroundColor: item.background }}>
               <div className="content">
                 <p>{item.name}</p>
                 <h1>{item.name}</h1>
