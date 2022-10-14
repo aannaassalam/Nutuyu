@@ -1,0 +1,11 @@
+.TopSection {
+  height: 90vh;
+  /* background-color: bisque; */
+}
+
+.TopSection div.slide img {
+  height: 70vh;
+}
+.TopSection .slide {
+  display: flex !important;
+}

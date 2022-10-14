@@ -1,0 +1,60 @@
+.NavDropDown {
+  position: absolute;
+  top: 160px;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  padding-top: 0;
+  display: none;
+  justify-content: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  animation: fade.5s;
+}
+.NavDropDown.open {
+  display: flex;
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.NavDropDown .productList {
+  display: flex;
+  padding: 0 100px;
+  margin-top: 10px;
+  border-left: 1px solid rgba(0, 0, 0, 0.05);
+  flex-direction: column;
+  align-items: center;
+}
+.NavDropDown .productList div {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  overflow-y: auto;
+  margin-top: 10px;
+  align-items: center;
+}
+.NavDropDown .productList div a {
+  margin: 10px 10px 5px 0;
+}
+.NavDropDown .imageSide {
+  padding: 30px;
+  background: #e9e9de;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.NavDropDown .imageSide img {
+  width: 150px;
+  margin-bottom: 20px;
+  object-fit: cover;
+}
+.NavDropDown .imageSide p {
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
