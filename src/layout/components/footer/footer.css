@@ -68,8 +68,25 @@
 .footer-top .footer-top-right ul li {
   margin-bottom: 10px;
   padding-bottom: 10px;
+  width: max-content;
+  position: relative;
+  cursor: pointer;
 }
-
+.footer-top .footer-top-right ul li:after {
+  transition: 0.5s;
+  content: "";
+  position: absolute;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  bottom: 0;
+}
+.footer-top .footer-top-right ul li:hover:after {
+  transform-origin: right;
+  left: 0;
+  width: 100%;
+}
 .footer-top .footer-top-right .social-media-links ul li i {
   padding-right: 20px;
   font-size: 16px;
