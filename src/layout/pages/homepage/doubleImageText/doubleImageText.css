@@ -1,14 +1,17 @@
 .double-image {
-  display: flex;
+  display: grid;
   align-items: center;
 }
 
 .double-image .left,
 .double-image .right {
   position: relative;
+  height: 379px;
+  grid-row: 1;
 }
 
 .double-image img {
+  position: absolute;
   width: 100%;
 }
 
@@ -22,7 +25,8 @@
   margin-bottom: 1rem;
   font-size: 3.75rem;
   line-height: 95%;
-  font-family: "nimbus-sans-extended", sans-serif;
+  text-shadow: 2px 2px 5px #22222280;
+  /* font-family: "nimbus-sans-extended", sans-serif; */
   font-weight: bold;
   text-transform: uppercase;
   color: #fff;
@@ -35,7 +39,7 @@
   line-height: 1.0625rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-family: "nimbus-sans-extended", sans-serif;
+  /* font-family: "nimbus-sans-extended", sans-serif; */
   color: #000;
   transition: all 450ms ease;
   border: none;

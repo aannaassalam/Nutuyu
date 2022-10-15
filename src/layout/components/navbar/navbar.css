@@ -38,7 +38,7 @@
 .Navbar .top .logo {
   justify-self: center;
   letter-spacing: 2px;
-  font-family: Georgia, "Times New Roman", Times, serif;
+  /* font-family: Georgia, "Times New Roman", Times, serif; */
 }
 .Navbar .top .accCart {
   justify-self: flex-end;
