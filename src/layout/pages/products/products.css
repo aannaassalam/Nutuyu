@@ -20,8 +20,9 @@
 }
 .Products h1.displayName {
   font-size: 3.75rem;
-  letter-spacing: 5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
+  font-weight: 500;
   margin: 20px 0;
 }
 .Products .filterSection {
@@ -41,7 +42,7 @@
   font-size: 14px;
   text-transform: uppercase;
   position: relative;
-  letter-spacing: 5px;
+  letter-spacing: 2px;
 }
 .Products .filterSection .sortOptions {
   position: absolute;
@@ -51,7 +52,7 @@
   align-items: flex-start;
   width: 250px;
   right: 0;
-  z-index: 99;
+  z-index: 9;
   padding: 10px 0;
   background-color: #fff;
   border: 1px solid #eee;
@@ -60,6 +61,7 @@
   display: flex;
 }
 .Products .filterSection .sortOptions p {
+  text-align: left;
   padding: 10px 20px;
 }
 .Products .filterSection .sortOptions p:hover {

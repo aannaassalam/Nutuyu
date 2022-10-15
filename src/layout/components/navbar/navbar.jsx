@@ -119,7 +119,7 @@ function Navbar() {
       <div className="bottom">
         {dropDown.map((item, id) => (
           <a
-            href="/"
+            href={`/products/${item.name}`}
             onMouseOver={() => {
               var arr = [...dropDown];
               arr[id].open = true;
@@ -138,6 +138,7 @@ function Navbar() {
               p={item.p}
               image={item.image}
               drop={item.drop}
+              name={item.name}
             />
           </a>
         ))}

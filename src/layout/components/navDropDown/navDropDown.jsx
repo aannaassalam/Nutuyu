@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./navDropDown.css";
-function NavDropDown({ open, links, p, image, drop }) {
+function NavDropDown({ open, links, p, image, drop, name }) {
   const [dropDown, setdropDown] = useState(false);
 
   return (
@@ -15,7 +15,7 @@ function NavDropDown({ open, links, p, image, drop }) {
             <h4>Products</h4>
             <div>
               {links?.map((item) => (
-                <a href="">{item}</a>
+                <a href={`/products/${name}/${item}`}>{item}</a>
               ))}
             </div>
           </div>

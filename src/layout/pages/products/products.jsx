@@ -2,22 +2,31 @@ import React, { useState } from "react";
 import "./products.css";
 import ProductCard from "../../components/productCard/productCard";
 import { Plus } from "react-feather";
-function Products() {
+import { useParams } from "react-router-dom";
+function Products(props) {
   const arr = [1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
   const [state, setstate] = useState({
-    filterOptions: true,
-    sortOptions: true,
+    filterOptions: false,
+    sortOptions: false,
   });
+  const params = useParams();
+
+  console.log(params);
+
   return (
     <div className="Products">
       <div className="breadCrumb">
         <a href="/">Home</a>
         {">"}
-        <a href="/products/All">ALL</a>
-        {">"}
-        <a href="/products/All">Men</a>
+        <a href={`/products/${params.category}`}>{params.category}</a>
+        {params.subcategory && (
+          <>
+            {">"}
+            <a href={`/products/${params.subcategory}`}>{params.subcategory}</a>
+          </>
+        )}
       </div>
-      <h1 className="displayName">All</h1>
+      <h1 className="displayName">{params.subcategory || params.category}</h1>
       <div className="filterSection">
         <button
           onClick={() =>
@@ -139,7 +148,7 @@ function Products() {
           }
         >
           {arr.map((item, id) => (
-            <ProductCard />
+            <ProductCard key={id} even={id % 2} />
           ))}
         </div>
       </div>
