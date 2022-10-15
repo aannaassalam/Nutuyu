@@ -1,11 +1,12 @@
 .product-card {
   overflow: hidden;
-  width: 25vw;
+  width: 100%;
   cursor: pointer;
   text-decoration: none;
   color: #121212;
   background-color: #fff;
   position: relative;
+  margin-bottom: 20px;
 }
 
 .product-card .main-img {
@@ -38,6 +39,7 @@
   padding: 1rem 14px 8px 14px;
   display: grid;
   grid-template-columns: 75% 25%;
+  position: relative;
 }
 
 .product-card:hover .data-sec .quick-add {
@@ -48,7 +50,7 @@
   width: 100%;
   padding: 0.5rem;
   position: absolute;
-  top: -36%;
+  top: -90%;
   left: 0;
   opacity: 0;
   transition: opacity 400ms ease;

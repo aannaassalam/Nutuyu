@@ -47,7 +47,7 @@
 }
 .Navbar .top .accCart a {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   margin: 0 20px;
 }
 .Navbar .top .accCart a > svg {

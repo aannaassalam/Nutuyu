@@ -4,6 +4,9 @@
   box-sizing: border-box;
   letter-spacing: 1px;
 }
+.App {
+  min-height: 100vh;
+}
 /* ::-webkit-scrollbar {
   width: 5px;
   height: 5px;

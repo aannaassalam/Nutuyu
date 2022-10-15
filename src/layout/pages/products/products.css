@@ -1,0 +1,141 @@
+.Products {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0;
+}
+.Products .breadCrumb {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 50px;
+}
+.Products .breadCrumb a {
+  text-decoration: none;
+  color: #121212;
+  font-size: 16px;
+  margin: 0 10px;
+}
+.Products h1.displayName {
+  font-size: 3.75rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin: 20px 0;
+}
+.Products .filterSection {
+  padding: 0 50px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.Products .filterSection button {
+  background-color: #fff;
+  border: 1px solid #121212;
+  outline: none;
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 14px;
+  text-transform: uppercase;
+  position: relative;
+  letter-spacing: 5px;
+}
+.Products .filterSection .sortOptions {
+  position: absolute;
+  top: 130%;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 250px;
+  right: 0;
+  z-index: 99;
+  padding: 10px 0;
+  background-color: #fff;
+  border: 1px solid #eee;
+}
+.Products .filterSection .sortOptions.open {
+  display: flex;
+}
+.Products .filterSection .sortOptions p {
+  padding: 10px 20px;
+}
+.Products .filterSection .sortOptions p:hover {
+  font-weight: 600;
+  text-decoration: underline;
+}
+.Products .filterSection button span {
+  margin-bottom: 2px;
+  margin-right: 10px;
+  letter-spacing: 2px;
+}
+.Products .filterSection button svg {
+  margin-right: 10px;
+}
+.Products .productListingWrapper {
+  margin: 20px 0;
+  position: relative;
+  width: 100%;
+}
+.Products .productListingWrapper.fourfr {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+.Products .productListingWrapper .productListing {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 100%;
+}
+
+.Products .productListingWrapper .productListing.threefr {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.Products .filterOptions {
+  position: sticky;
+  top: 30px;
+  max-height: 90vh;
+  width: 100%;
+  overflow-y: auto;
+  padding: 30px;
+}
+.Products .filterOptions .optionList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 15px 0;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  max-height: 250px;
+  overflow-y: auto;
+}
+.Products .filterOptions .optionList::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  scroll-behavior: smooth;
+  background-color: #ddd;
+}
+.Products .filterOptions .optionList::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 10px;
+}
+.Products .filterOptions .optionList h3 {
+  margin-bottom: 10px;
+}
+.Products .filterOptions .optionList input[type="checkbox"] {
+  margin-right: 10px;
+  width: 15px;
+  background-color: #f4f4f4;
+  height: 15px;
+}
+.Products .filterOptions .optionList label {
+  width: 100%;
+  padding: 5px 0;
+  transition: 0.2s;
+}
+.Products .filterOptions .optionList label:hover {
+  background-color: #eee;
+}

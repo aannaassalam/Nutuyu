@@ -104,7 +104,7 @@ function Navbar() {
           <Search />
           <input type="text" placeholder="Type here to search" />
         </div>
-        <h1 className="logo">LOGO</h1>
+        <h1 className="logo">Nutuyu72</h1>
         <div className="accCart">
           <a href="">
             Account
