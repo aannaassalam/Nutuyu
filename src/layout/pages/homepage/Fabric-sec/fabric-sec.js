@@ -1,14 +1,14 @@
 import React from "react";
 import "./fabric-sec.css";
+import cloud from "../../../../assets/cloud_fabric.jpg";
+import storm from "../../../../assets/storm_fabric.jpg";
+import ascend from "../../../../assets/ascend_fabric.jpg";
 
 export default function FabricSec() {
   return (
     <div className="fabric-sec">
       <div className="containers">
-        <img
-          src="https://cdn.shopify.com/s/files/1/0005/7750/3289/files/1CloudPant_Obsidian-E_150x.jpg?v=1639082255"
-          alt=""
-        />
+        <img src={cloud} alt="" />
         <div className="details">
           <h2>Cloud Fabric</h2>
           <p>
@@ -19,10 +19,7 @@ export default function FabricSec() {
         </div>
       </div>
       <div className="containers">
-        <img
-          src="https://cdn.shopify.com/s/files/1/0005/7750/3289/files/3StormPant_Habitat-C_150x.jpg?v=1639082256"
-          alt=""
-        />
+        <img src={storm} alt="" />
         <div className="details">
           <h2>Storm Fabric</h2>
           <p>
@@ -34,10 +31,7 @@ export default function FabricSec() {
         </div>
       </div>
       <div className="containers">
-        <img
-          src="https://cdn.shopify.com/s/files/1/0005/7750/3289/files/2AscendPant_KingCheetahMidnight-A_150x.jpg?v=1639082256"
-          alt=""
-        />
+        <img src={ascend} alt="" />
         <div className="details">
           <h2>Ascend Fabric</h2>
           <p>
