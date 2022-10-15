@@ -7,8 +7,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "swiper/css";
+
 function Slider({ heading }) {
-  const [data, setdata] = useState([1, 2, 3, 4, 4, 4, 4]);
+  const [data, setdata] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
   return (
     <div className="Slider">
       <h1>{heading}</h1>
@@ -24,7 +25,7 @@ function Slider({ heading }) {
       >
         {data.map((item, index) => (
           <SwiperSlide key={index}>
-            <ProductCard a={item} />
+            <ProductCard a={item} even={item % 2} />
           </SwiperSlide>
         ))}
       </Swiper>

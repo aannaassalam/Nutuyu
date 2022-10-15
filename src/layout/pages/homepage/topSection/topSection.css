@@ -27,7 +27,7 @@
   align-items: flex-start;
   justify-content: center;
   padding: 0 50px;
-  font-family: futura-pt, Helvetica, Arial, sans-serif;
+  /* font-family: futura-pt, Helvetica, Arial, sans-serif; */
   flex-direction: column;
   letter-spacing: 2px;
 }

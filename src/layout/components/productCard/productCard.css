@@ -12,15 +12,19 @@
   /* height: 100%; */
   width: 100%;
   object-fit: contain;
+  transition: opacity 650ms ease-in-out;
 }
 
 .product-card:hover .main-img {
   opacity: 0;
   transition: opacity 650ms ease-in-out;
+  transition-delay: 0.2s;
 }
 
 .product-card:hover .hover-img {
   opacity: 1;
+  transition: opacity 650ms ease-in-out;
+  transition-delay: 0.2s;
 }
 
 .product-card .hover-img {
@@ -58,7 +62,7 @@
 .product-card .data-sec .quick-add p {
   text-align: center;
   display: block;
-  font-family: "nimbus-sans-extended", sans-serif;
+  /* font-family: "nimbus-sans-extended", sans-serif; */
   font-size: 11px;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
@@ -74,7 +78,7 @@
 
 .product-card .data-sec .quick-add ul li {
   padding: 0 5px;
-  margin: 2px 2px;
+  margin: 2px 5px;
   font-weight: 600;
   font-size: 12px;
   cursor: pointer;
@@ -120,7 +124,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  font-family: inherit;
+  /* :inherit ; */
   font-style: inherit;
   letter-spacing: normal;
 }
@@ -132,5 +136,5 @@
   color: #000 !important;
   margin-left: 10px;
   margin-top: 3px;
-  font-family: "nimbus-sans", sans-serif;
+  /* font-family: "nimbus-sans", sans-serif; */
 }

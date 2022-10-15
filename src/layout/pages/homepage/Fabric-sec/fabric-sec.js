@@ -10,7 +10,11 @@ export default function FabricSec() {
       <div className="containers">
         <img src={cloud} alt="" />
         <div className="details">
-          <h2>Cloud Fabric</h2>
+          <h2>
+            Cloud
+            <br />
+            Fabric
+          </h2>
           <p>
             Buttery soft, sweat-wicking brushed fabric with a second-skin feel,
             designed to be worn anywhere, anytime.
@@ -21,7 +25,11 @@ export default function FabricSec() {
       <div className="containers">
         <img src={storm} alt="" />
         <div className="details">
-          <h2>Storm Fabric</h2>
+          <h2>
+            Storm
+            <br />
+            Fabric
+          </h2>
           <p>
             Engineered for increased performance and durability through
             movement. Featuring a smooth, compressive feel plus a silky
@@ -33,7 +41,11 @@ export default function FabricSec() {
       <div className="containers">
         <img src={ascend} alt="" />
         <div className="details">
-          <h2>Ascend Fabric</h2>
+          <h2>
+            Ascend
+            <br />
+            Fabric
+          </h2>
           <p>
             Breathable, flexible, high-performance fabric designed with light
             compression and a sweat-wicking texture for comfort and ease of

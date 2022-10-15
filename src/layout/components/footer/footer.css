@@ -82,7 +82,7 @@
   background-color: #fff;
   bottom: 0;
 }
-.footer-top .footer-top-right ul li:hover:after {
+.footer-top .footer-top-right > ul li:hover:after {
   transform-origin: right;
   left: 0;
   width: 100%;

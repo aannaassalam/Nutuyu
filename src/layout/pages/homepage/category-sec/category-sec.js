@@ -9,7 +9,10 @@ export default function CategorySec() {
     <div className="category-sec">
       <div>
         <img src={pink_aunt} alt="" />
-        <h2>Shop Women's</h2>
+        <h2>
+          Shop
+          <br /> Women's
+        </h2>
       </div>
       <div>
         <img src={half_sleeve} alt="" />

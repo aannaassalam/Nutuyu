@@ -3,13 +3,15 @@ import "./productCard.css";
 import StyledRating from "../utility/Rating";
 import blacktee from "../../../assets/Black-tee.jpg";
 import blacktee2 from "../../../assets/black-tee2.jpg";
+import whitetee from "../../../assets/white-tee.jpg";
+import whitetee2 from "../../../assets/white-tee2.jpg";
 
-export default function ProductCard({ a }) {
+export default function ProductCard({ a, even }) {
   // Just testing comments for firebase
   return (
     <a href="/" className="product-card">
-      <img src={blacktee} alt="" className="main-img" />
-      <img src={blacktee2} alt="" className="hover-img" />
+      <img src={even ? blacktee : whitetee} alt="" className="main-img" />
+      <img src={even ? blacktee2 : whitetee2} alt="" className="hover-img" />
       {/* <div className="data-sec"> */}
       <div className="data-sec">
         <div className="quick-add">

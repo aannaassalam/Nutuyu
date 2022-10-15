@@ -2,7 +2,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
+  font-family: GT;
+}
+
+@font-face {
+  font-family: GT;
+  src: url(./assets/fonts/GT-Pressura-Mono.otf);
 }
 /* ::-webkit-scrollbar {
   width: 5px;
