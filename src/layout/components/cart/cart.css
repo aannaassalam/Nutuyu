@@ -1,0 +1,95 @@
+.Cart {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgba(0, 0, 0, 0.23);
+  pointer-events: all;
+  opacity: 1;
+  transition: 0.2s;
+}
+.Cart.close {
+  opacity: 0;
+  pointer-events: none;
+}
+.Cart .cartDiv {
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  transition: 0.2s;
+  transform: translateX(0%);
+  align-items: flex-start;
+}
+.Cart .cartDiv.close {
+  transform: translateX(100%);
+}
+.Cart .cartDiv h1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 50px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.Cart .cartDiv h1 span {
+  cursor: pointer;
+}
+.Cart .cartDiv .top > p {
+  margin: 20px 0;
+}
+.Cart .cartDiv .top {
+  padding: 10px 20px;
+  width: 100%;
+}
+.Cart .cartCards {
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow-y: auto;
+}
+.Cart .total {
+  display: flex;
+  width: 100%;
+  font-size: 25px;
+  justify-content: space-between;
+}
+.Cart .cartDiv > p {
+  margin: 5px 0;
+}
+.Cart .cartDiv > p span {
+  color: #d02f90;
+  text-decoration: underline;
+  font-weight: 600;
+}
+.Cart .cartDiv button {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  outline: none;
+  border: 1px solid #121212;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background-color: #fff;
+  margin-top: 10px;
+  transition: 0.2s;
+  cursor: pointer;
+}
+.Cart .cartDiv button:hover {
+  background-color: #121212;
+  color: #fff;
+}
+.Cart .cartDiv .lastButton {
+  background-color: #121212;
+  color: #fff;
+}

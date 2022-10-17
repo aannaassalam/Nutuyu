@@ -6,7 +6,7 @@ import image2 from "../../../assets/image2.png";
 import image3 from "../../../assets/image3.png";
 
 import "./navbar.css";
-function Navbar() {
+function Navbar({ handleCart }) {
   const [dropDown, setdropDown] = useState([
     {
       name: "Menu 1",
@@ -110,7 +110,7 @@ function Navbar() {
             Account
             <User />
           </a>
-          <a href="">
+          <a onClick={() => handleCart()}>
             Your Bag
             <ShoppingBag />
           </a>
