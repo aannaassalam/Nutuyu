@@ -5,10 +5,13 @@ import Homepage from "./layout/pages/homepage/homepage";
 import Footer from "./layout/components/footer/footer";
 import { Routes, Route } from "react-router-dom";
 import routes from "./router/router";
+import Cart from "./layout/components/cart/cart";
+import { useState } from "react";
 function App() {
+  const [cart, setcart] = useState(false);
   return (
     <div className="App">
-      <Navbar />
+      <Navbar handleCart={() => setcart(true)} />
       <Routes>
         {routes.map((Item, key) => {
           return (
@@ -21,6 +24,7 @@ function App() {
           );
         })}
       </Routes>
+      <Cart open={cart} handleCart={() => setcart(!cart)} />
       <Footer />
     </div>
   );

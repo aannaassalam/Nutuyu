@@ -1,0 +1,53 @@
+.CartCard {
+  width: 100%;
+  padding: 10px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+  display: flex;
+}
+.CartCard img {
+  width: 150px;
+  height: 180px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+.CartCard .details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: -webkit-fill-available;
+}
+.CartCard .details > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.CartCard .details > div a,
+.CartCard .details > div p {
+  text-decoration: none;
+  color: #121212;
+  font-size: 20px;
+}
+.CartCard .details > p {
+  margin: 5px 0;
+  font-weight: 400;
+}
+.CartCard .details .counterDiv {
+  margin-top: auto;
+}
+.CartCard .details .counterDiv p {
+  font-size: 16px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.CartCard .details .counterDiv .counter {
+  display: flex;
+  align-items: center;
+}
+.CartCard .details .counterDiv .counter span {
+  padding: 0 8px;
+  cursor: pointer;
+  font-size: 20px;
+}
