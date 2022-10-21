@@ -8,13 +8,20 @@ const routes = [
   },
   {
     route: "/products/:category",
-    id: "products",
+    id: "category",
     Component: lazy(() => import("../layout/pages/products/products.jsx")),
   },
   {
     route: "/products/:category/:subcategory",
-    id: "products",
+    id: "subcategory",
     Component: lazy(() => import("../layout/pages/products/products.jsx")),
+  },
+  {
+    route: "/product/:id",
+    id: "product description",
+    Component: lazy(() =>
+      import("../layout/pages/product-details/product-details.jsx")
+    ),
   },
 ];
 export default routes;

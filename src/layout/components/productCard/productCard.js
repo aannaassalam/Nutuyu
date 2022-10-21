@@ -9,7 +9,7 @@ import whitetee2 from "../../../assets/white-tee2.jpg";
 export default function ProductCard({ a, even }) {
   // Just testing comments for firebase
   return (
-    <a href="/" className="product-card">
+    <a href="/product/123" className="product-card">
       <img src={even ? blacktee : whitetee} alt="" className="main-img" />
       <img src={even ? blacktee2 : whitetee2} alt="" className="hover-img" />
       {/* <div className="data-sec"> */}
