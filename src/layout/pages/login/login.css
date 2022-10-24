@@ -1,0 +1,59 @@
+.Login {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 40px auto;
+}
+.Login h1 {
+  font-size: 60px;
+  margin: 40px 0;
+  margin-top: 0;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 4px;
+}
+.Login .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.Login p.reset {
+  margin-bottom: 30px;
+}
+.Login p.forgot {
+  align-self: flex-end;
+  cursor: pointer;
+}
+.Login p.forgot:hover {
+  text-decoration: underline;
+}
+.Login p.cancel {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.Login button {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  outline: none;
+  border: 1px solid #121212;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background-color: #121212;
+  margin: 25px 0;
+  transition: 0.2s;
+  cursor: pointer;
+  color: #fff;
+}
+.Login button:hover {
+  background-color: #121212;
+  color: #fff;
+}
+.Login .lastButton {
+  background-color: #fff;
+  color: #121212;
+}
