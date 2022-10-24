@@ -29,11 +29,7 @@ function Login() {
       ) : (
         <>
           <h1>Create An Account</h1>
-          <TextField
-            id="standard-basic"
-            label="Fulll Name"
-            variant="standard"
-          />
+          <TextField id="standard-basic" label="Full Name" variant="standard" />
 
           <TextField id="standard-basic" label="Email" variant="standard" />
 

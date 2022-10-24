@@ -1,0 +1,156 @@
+.Orders {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Orders h2 {
+  align-self: flex-start;
+  margin: 30px;
+}
+.Orders .orderList {
+  width: 90%;
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100px;
+  border-bottom: 1px solid #d3d3d3;
+  margin: 10px 0;
+  cursor: pointer;
+  text-decoration: none;
+  color: #000;
+  font-family: inherit;
+  font-size: 14px;
+  color: #000;
+}
+.Orders .orderList .part1 {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+}
+.Orders .orderList .part1 img {
+  height: 70%;
+  margin-right: 10px;
+}
+.Orders .orderList .part1 .deliveryState {
+  font-size: 14px;
+  margin-top: 5px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.Orders .orderList .left {
+  display: flex;
+  padding: 0;
+  width: 80%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  height: 100%;
+  border: none;
+}
+
+.Orders .orderList .left .part2 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.Orders .orderList .part2 h4 {
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.Orders .orderList .part2 span.date2 {
+  display: none;
+}
+.Orders .orderList .part3 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Orders .orderList .part3 .order-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+}
+.Orders .orderList .part3 .order-info h4 {
+  font-size: 15px;
+  color: #000;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.Orders .orderList .part3 .order-info span,
+.Orders .orderList .left .part2 span {
+  color: #707070;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.Orders .orderList .part3 .order-info span.cod {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .Orders .orderList {
+    justify-content: space-between;
+    padding-right: 0;
+  }
+  .Orders .orderList .left {
+    width: 75%;
+  }
+
+  .Orders .orderList .part3 .order-info span,
+  .Orders .orderList .left .part2 span {
+    color: #707070;
+    font-weight: 500;
+    width: 70px;
+    text-transform: capitalize;
+    width: auto;
+  }
+}
+@media (max-width: 548px) {
+  .Orders .orderList .part3 .order-info:first-child {
+    display: none;
+  }
+}
+@media (max-width: 468px) {
+  .Orders .orderList .part1 {
+    width: 15%;
+    /* align-items: center; */
+  }
+}
+
+@media (max-width: 380px) {
+  .Order .orderList .left .part2 span.date1 {
+    display: none;
+  }
+  .Orders .orderList .left .part2 span.date2 {
+    display: block;
+    letter-spacing: 1px;
+  }
+  .Orders .orderList .part3 .order-info span.cod {
+    display: block;
+  }
+  .Orders .orderList .part3 .order-info span.cod2 {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .Orders .orderList .left .part2 {
+    width: 100%;
+  }
+  .Orders .orderList .part1 img {
+    height: 60%;
+  }
+  .Orders .orderList .part2 h4,
+  .Orders .orderList .part1 .deliveryState,
+  .Orders .orderList .part3 .order-info h4 {
+    font-size: 12px;
+  }
+}
