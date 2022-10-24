@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="newsletter">
             <input type="text" />
             <button>
-              Sign Up<i class="fa-solid fa-arrow-right-long"></i>
+              Sign Up<i className="fa-solid fa-arrow-right-long"></i>
             </button>
           </div>
         </div>
@@ -31,19 +31,19 @@ export default function Footer() {
           <div className="social-media-links">
             <ul>
               <li>
-                <i class="fa-brands fa-facebook-f"></i>
+                <i className="fa-brands fa-facebook-f"></i>
                 <span>Facebook</span>
               </li>
               <li>
-                <i class="fa-brands fa-instagram"></i>
+                <i className="fa-brands fa-instagram"></i>
                 <span>Instagram</span>
               </li>
               <li>
-                <i class="fa-brands fa-pinterest-p"></i>
+                <i className="fa-brands fa-pinterest-p"></i>
                 <span>Pinterest</span>
               </li>
               <li>
-                <i class="fa-brands fa-twitter"></i>
+                <i className="fa-brands fa-twitter"></i>
                 <span>Twitter</span>
               </li>
             </ul>
