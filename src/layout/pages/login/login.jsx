@@ -10,10 +10,14 @@ function Login() {
           <h1>Log in</h1>
           <TextField id="standard-basic" label="Email" variant="standard" />
           <TextField id="standard-basic" label="Password" variant="standard" />
-          <p className="forgot">Forgot Password</p>
+          <p className="forgot" onClick={() => setHandleSection(1)}>
+            Forgot Password
+          </p>
           <button>LogIn</button>
           <p>Don't Have an account?</p>
-          <button className="lastButton">Create an account</button>
+          <button className="lastButton" onClick={() => setHandleSection(2)}>
+            Create an account
+          </button>
         </>
       ) : handleSection === 1 ? (
         <>
@@ -24,7 +28,9 @@ function Login() {
           </p>
           <TextField id="standard-basic" label="Email" variant="standard" />
           <button>Submit</button>
-          <p className="cancel">Cancel</p>
+          <p className="cancel" onClick={() => setHandleSection(0)}>
+            Cancel
+          </p>
         </>
       ) : (
         <>
@@ -42,7 +48,9 @@ function Login() {
 
           <button>Create account</button>
           <p>Already Have an account?</p>
-          <button className="lastButton">login</button>
+          <button className="lastButton" onClick={() => setHandleSection(0)}>
+            login
+          </button>
         </>
       )}
     </div>

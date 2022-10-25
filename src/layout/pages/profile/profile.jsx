@@ -7,7 +7,7 @@ function Profile() {
   const [tabs, settabs] = useState(0);
   return (
     <div className="Profile">
-      <h1 className="welcome">WELCOME BACK,SALSAAL</h1>
+      <h1 className="welcome">WELCOME BACK, JOHN</h1>
       <div className="container">
         <div className="left">
           <p onClick={() => settabs(0)}>profile </p>

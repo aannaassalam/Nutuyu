@@ -10,27 +10,46 @@ import "swiper/css/effect-fade";
 import "swiper/css";
 function TopSection() {
   const [data, setdata] = useState([
+    // {
+    //   name: "Anna's Picks",
+    //   image: slider1,
+    //   background: "#a0b997",
+    //   content:
+    //     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, obcaecati perferendis assumenda dignissimos dolor saepe quam tempora distinctio eaque corrupti beatae, aliquam eligendi accusamus dicta.",
+    // },
     {
-      name: "Anna's Picks",
-      image: slider1,
-      background: "#a0b997",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, obcaecati perferendis assumenda dignissimos dolor saepe quam tempora distinctio eaque corrupti beatae, aliquam eligendi accusamus dicta.",
-    },
-    {
-      name: "Rino And Pelle",
+      name: "NuTuYu72",
       image: slider2,
       background: "#f7f553",
-      content:
-        "Embrace the energizing new shades of autumn with Leon & Harper's new collection, explore this Parisian label’s timeless and effortlessly cool silhouettes.",
+      content: (
+        <>
+          <span>
+            Hello Everyone... our Site is proud to offer to you a variety
+            pre-loved, and gently used items.
+          </span>
+          <br />
+          <span>
+            Pre-loved by us... but New To You. We have clothing, Shoes, Sandals
+            for Women, Men and Children, One-Of-A-Kind Jewelry pieces, Evening
+            Dresses, Fashion Accessories, and unique Home Accessories.
+          </span>
+          <br />
+          <span>
+            Yes, Most of the items are one of a kind, and when purchased they
+            are gone!. You can purchase a variety of different items in any
+            category. Each item will have a description to aid you in your
+            purchase so that what you buy is exactly what you want. Enjoy!
+          </span>
+        </>
+      ),
     },
-    {
-      name: "Rino Choices",
-      image: slider1,
-      background: "#f7f",
-      content:
-        "Embrace the energizing new shades of autumn with Leon & Harper's new collection, explore this Parisian label’s timeless and effortlessly cool silhouettes.",
-    },
+    // {
+    //   name: "Rino Choices",
+    //   image: slider1,
+    //   background: "#f7f",
+    //   content:
+    //     "Embrace the energizing new shades of autumn with Leon & Harper's new collection, explore this Parisian label’s timeless and effortlessly cool silhouettes.",
+    // },
   ]);
   return (
     <div className="TopSection">
@@ -41,8 +60,9 @@ function TopSection() {
         modules={[EffectFade, Autoplay]}
         spaceBetween={50}
         slidesPerView={1}
-        autoplay={{ delay: 3000 }}
-        pagination={{ clickable: true }}
+        allowTouchMove={false}
+        // autoplay={{ delay: 3000 }}
+        // pagination={{ clickable: true }}
       >
         {data.map((item, index) => (
           <SwiperSlide key={index}>

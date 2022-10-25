@@ -10,7 +10,7 @@ function ProfileDetails() {
           id="standard-basic"
           label="Full Name"
           variant="standard"
-          value="Salsaal Shahid"
+          value="John Doe"
           type="text"
         />
         <TextField
@@ -18,14 +18,14 @@ function ProfileDetails() {
           label="Email"
           variant="standard"
           type="email"
-          value={"salsaalshahid9038@gmail.com"}
+          value={"johndoe@example.com"}
         />
         <TextField
           id="standard-basic"
           label="Phone"
           variant="standard"
           type="number"
-          value={8335974849}
+          value={1234567890}
         />
         <TextField
           id="standard-basic"

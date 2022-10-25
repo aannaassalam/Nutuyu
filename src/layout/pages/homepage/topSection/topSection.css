@@ -41,6 +41,8 @@
   letter-spacing: inherit;
   max-width: 50%;
   line-height: 25px;
+  font-size: 14px;
+  letter-spacing: normal;
 }
 .TopSection .slide .content :nth-child(3) {
   margin-bottom: 10px;

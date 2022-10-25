@@ -28,7 +28,12 @@ function Cart({ open, handleCart }) {
           <strong>CATCH ⓘ</strong>
         </p>
         <button>go to cart</button>
-        <button className="lastButton">checkout</button>
+        <button
+          className="lastButton"
+          onClick={() => (window.location.href = "/checkout")}
+        >
+          checkout
+        </button>
       </div>
     </div>
   );

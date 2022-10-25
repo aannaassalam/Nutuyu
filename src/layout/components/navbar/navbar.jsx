@@ -104,9 +104,15 @@ function Navbar({ handleCart }) {
           <Search />
           <input type="text" placeholder="Type here to search" />
         </div>
-        <h1 className="logo">Nutuyu72</h1>
+        <h1
+          className="logo"
+          style={{ cursor: "pointer" }}
+          onClick={() => (window.location.href = "/")}
+        >
+          NuTuYu72
+        </h1>
         <div className="accCart">
-          <a href="">
+          <a href="/profile">
             Account
             <User />
           </a>

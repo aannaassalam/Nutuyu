@@ -33,5 +33,10 @@ const routes = [
       import("../layout/pages/product-details/product-details.jsx")
     ),
   },
+  {
+    route: "/checkout",
+    id: "checkout",
+    Component: lazy(() => import("../layout/pages/checkout/checkout.jsx")),
+  },
 ];
 export default routes;
