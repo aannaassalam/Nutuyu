@@ -10,6 +10,7 @@
   pointer-events: all;
   opacity: 1;
   transition: 0.2s;
+  overflow-y: auto;
   z-index: 999;
 }
 .Cart.close {
