@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./postCard.css";
 import PerComment from "./per comment/perComment";
 import profile from "../../../../assets/user-profile.png";

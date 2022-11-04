@@ -4,10 +4,16 @@ import slider1 from "../../../../assets/slider1.png";
 import slider2 from "../../../../assets/slider2.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, EffectFade, Autoplay } from "swiper";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-fade";
-import "swiper/css";
+// import "swiper/css/navigation";
+// import "swiper/css/pagination";
+// import "swiper/css/effect-fade";
+// import "swiper/css";
+import "swiper/swiper.min.css"; // core Swiper
+// import "swiper/css/navigation"; // Navigation module
+// import "swiper/modules/pagination/pagination.scss";
+// import "swiper/swiper.min.css";
+// import "swiper/modules/pagination/pagination.min.css";
+
 function TopSection() {
   const [data, setdata] = useState([
     // {

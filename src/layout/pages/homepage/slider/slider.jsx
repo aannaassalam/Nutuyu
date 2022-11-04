@@ -3,10 +3,12 @@ import "./slider.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "../../../components/productCard/productCard";
 import { Navigation, Pagination, EffectFade, Autoplay } from "swiper";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-fade";
-import "swiper/css";
+// import "swiper/css/navigation";
+// import "swiper/css/pagination";
+// import "swiper/css/effect-fade";
+// import "swiper/css";
+import "swiper/swiper-bundle.min.css";
+import "swiper/swiper.min.css";
 
 function Slider({ heading }) {
   const [data, setdata] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
