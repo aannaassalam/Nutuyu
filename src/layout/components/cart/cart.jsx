@@ -8,7 +8,7 @@ function Cart({ open, handleCart }) {
       <div className={open ? "cartDiv" : "cartDiv close"}>
         <div className="top">
           <h1>
-            my bag{" "}
+            Shopping Cart
             <span onClick={() => handleCart()}>
               <X />
             </span>

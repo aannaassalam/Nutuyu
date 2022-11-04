@@ -5,7 +5,7 @@ function Orders() {
   return (
     <div className="Orders">
       <h2>Orders</h2>
-      <a href="/" className="orderList">
+      <a href="/orderDetail/123" className="orderList">
         <div className="part1">
           <img src={Black} alt="img" />
           <p className="deliveryState">Cancel</p>
@@ -47,7 +47,7 @@ function Orders() {
           </div>
         </div>
       </a>
-      <a href="/" className="orderList">
+      <a href="/orderDetail/123" className="orderList">
         <div className="part1">
           <img src={Black} alt="img" />
           <p className="deliveryState">Cancel</p>
@@ -89,7 +89,7 @@ function Orders() {
           </div>
         </div>
       </a>{" "}
-      <a href="/" className="orderList">
+      <a href="/orderDetail/123" className="orderList">
         <div className="part1">
           <img src={Black} alt="img" />
           <p className="deliveryState">Cancel</p>
@@ -131,7 +131,7 @@ function Orders() {
           </div>
         </div>
       </a>{" "}
-      <a href="/" className="orderList">
+      <a href="/orderDetail/123" className="orderList">
         <div className="part1">
           <img src={Black} alt="img" />
           <p className="deliveryState">Cancel</p>
@@ -173,7 +173,7 @@ function Orders() {
           </div>
         </div>
       </a>{" "}
-      <a href="/" className="orderList">
+      <a href="/orderDetail/123" className="orderList">
         <div className="part1">
           <img src={Black} alt="img" />
           <p className="deliveryState">Cancel</p>
@@ -215,7 +215,7 @@ function Orders() {
           </div>
         </div>
       </a>{" "}
-      <a href="/" className="orderList">
+      <a href="/orderDetail/123" className="orderList">
         <div className="part1">
           <img src={Black} alt="img" />
           <p className="deliveryState">Cancel</p>
@@ -257,7 +257,7 @@ function Orders() {
           </div>
         </div>
       </a>{" "}
-      <a href="/" className="orderList">
+      <a href="/orderDetail/123" className="orderList">
         <div className="part1">
           <img src={Black} alt="img" />
           <p className="deliveryState">Cancel</p>
@@ -299,7 +299,7 @@ function Orders() {
           </div>
         </div>
       </a>{" "}
-      <a href="/" className="orderList">
+      <a href="/orderDetail/123" className="orderList">
         <div className="part1">
           <img src={Black} alt="img" />
           <p className="deliveryState">Cancel</p>
@@ -341,7 +341,7 @@ function Orders() {
           </div>
         </div>
       </a>{" "}
-      <a href="/" className="orderList">
+      <a href="/orderDetail/123" className="orderList">
         <div className="part1">
           <img src={Black} alt="img" />
           <p className="deliveryState">Cancel</p>
@@ -383,7 +383,7 @@ function Orders() {
           </div>
         </div>
       </a>{" "}
-      <a href="/" className="orderList">
+      <a href="/orderDetail/123" className="orderList">
         <div className="part1">
           <img src={Black} alt="img" />
           <p className="deliveryState">Cancel</p>
@@ -425,7 +425,7 @@ function Orders() {
           </div>
         </div>
       </a>{" "}
-      <a href="/" className="orderList">
+      <a href="/orderDetail/123" className="orderList">
         <div className="part1">
           <img src={Black} alt="img" />
           <p className="deliveryState">Cancel</p>

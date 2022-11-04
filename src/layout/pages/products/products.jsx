@@ -11,8 +11,6 @@ function Products(props) {
   });
   const params = useParams();
 
-  console.log(params);
-
   return (
     <div className="Products">
       <div className="breadCrumb">

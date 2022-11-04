@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavDropDown from "../navDropDown/navDropDown";
 import { Search, ShoppingBag, ShoppingCart, User } from "react-feather";
 import image1 from "../../../assets/image1.png";
 import image2 from "../../../assets/image2.png";
 import image3 from "../../../assets/image3.png";
-
 import "./navbar.css";
+import { getDoc, doc, getFirestore } from "firebase/firestore";
+
 function Navbar({ handleCart }) {
+  const [categories, setCategories] = useState([]);
+
   const [dropDown, setdropDown] = useState([
     {
       name: "Menu 1",
@@ -97,6 +100,19 @@ function Navbar({ handleCart }) {
       drop: false,
     },
   ]);
+
+  useEffect(() => {
+    getDoc(doc(getFirestore(), "settings", "dMsgyXwanQY5tnH075J0")).then(
+      (doc) =>
+        setCategories(
+          doc.data().categories.map((category) => {
+            category.open = false;
+            return category;
+          })
+        )
+    );
+  }, []);
+
   return (
     <div className="Navbar">
       <div className="top">
@@ -117,37 +133,41 @@ function Navbar({ handleCart }) {
             <User />
           </a>
           <a onClick={() => handleCart()}>
-            Your Bag
+            Shopping Cart
             <ShoppingBag />
           </a>
         </div>
       </div>
       <div className="bottom">
-        {dropDown.map((item, id) => (
+        <a href={`/`}>Home</a>
+        <a href={`/products/what's-new`}>What's new</a>
+        {categories.map((item, id) => (
           <a
             href={`/products/${item.name}`}
             onMouseOver={() => {
-              var arr = [...dropDown];
+              var arr = [...categories];
               arr[id].open = true;
-              setdropDown(arr);
+              setCategories(arr);
             }}
             onMouseLeave={() => {
-              var arr = [...dropDown];
+              var arr = [...categories];
               arr[id].open = false;
-              setdropDown(arr);
+              setCategories(arr);
             }}
           >
             {item.name}
             <NavDropDown
               open={item.open}
-              links={item.links}
+              links={item.subcategories}
               p={item.p}
-              image={item.image}
-              drop={item.drop}
+              image={image1}
+              drop={item.subcategories?.length}
               name={item.name}
             />
           </a>
         ))}
+        <a href={`/products/sold`}>Sold</a>
+        <a href={`/nutuyu`}>#Nutuyu</a>
       </div>
     </div>
   );

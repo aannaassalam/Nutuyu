@@ -1,0 +1,66 @@
+import React, { useState } from "react";
+import "./perComment.css";
+import profile from "../../../../../assets/user-profile.png";
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
+import moment from "moment";
+
+export default function PerComment({ comment, post }) {
+  const [replies, setReplies] = useState(false);
+  const [replyId, setReplyId] = useState("");
+
+  const actions = (replies_action, date) => {
+    return (
+      <div className="actions">
+        <span
+          onClick={() => {
+            // setDelete_modal(true);
+            // replyId && setReplyId(replyId);
+          }}
+        >
+          Reply
+        </span>
+        {replies_action && (
+          <span onClick={() => setReplies(!replies)}>
+            {replies ? "Hide" : "View"} replies
+          </span>
+        )}
+        <span>{moment(date).fromNow()}</span>
+      </div>
+    );
+  };
+
+  return (
+    <div className="per_comment">
+      <div className="user-image">
+        <img src={profile} alt="" />
+      </div>
+      <div className="comment">
+        <span className="comment_text">
+          <span className="username">harry_potter</span>
+          {comment.comment}
+        </span>
+        {actions(comment.replies.length > 0, comment.date.toDate())}
+        {replies && (
+          <div className="replies">
+            {comment.replies.map((reply) => {
+              return (
+                <div style={{ display: "flex" }} key={reply.id}>
+                  <div className="user-image">
+                    <img src={profile} alt="" />
+                  </div>
+                  <div className="comment">
+                    <span className="comment_text">
+                      <span className="username">harry_potter</span>
+                      {reply.comment}
+                    </span>
+                    {actions(false, reply.date.toDate())}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

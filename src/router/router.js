@@ -17,6 +17,11 @@ const routes = [
     Component: lazy(() => import("../layout/pages/profile/profile.jsx")),
   },
   {
+    route: "/products/sold",
+    id: "product sold",
+    Component: lazy(() => import("../layout/pages/sold/sold.jsx")),
+  },
+  {
     route: "/products/:category",
     id: "category",
     Component: lazy(() => import("../layout/pages/products/products.jsx")),
@@ -32,6 +37,11 @@ const routes = [
     Component: lazy(() =>
       import("../layout/pages/product-details/product-details.jsx")
     ),
+  },
+  {
+    route: "/nutuyu",
+    id: "#nutuyu",
+    Component: lazy(() => import("../layout/pages/nutuyu/nutuyu.jsx")),
   },
   {
     route: "/checkout",

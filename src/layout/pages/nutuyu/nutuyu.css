@@ -1,0 +1,42 @@
+.nutuyu {
+  padding: 1.4rem 1.75rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.nutuyu .breadCrumb {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.nutuyu .breadCrumb a {
+  text-decoration: none;
+  color: #121212;
+  font-size: 16px;
+  margin: 0 10px;
+  text-transform: capitalize;
+}
+
+.nutuyu h1.displayName {
+  font-size: 3.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: 20px 0 5px;
+}
+
+.nutuyu > p {
+  margin-bottom: 40px;
+}
+
+.nutuyu .posts {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}

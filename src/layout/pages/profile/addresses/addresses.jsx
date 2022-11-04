@@ -15,7 +15,7 @@ function Addresses() {
           <h2>Addresses</h2>
           <div className="addressList">
             <div className="address">
-              <h3>Deafult Address</h3>
+              <h3>Shipping Address</h3>
               <p>Salsaal</p>
               <p style={{ marginTop: "10px" }}>Address 1</p>
               <p>Address 2</p>
@@ -33,7 +33,7 @@ function Addresses() {
               </div>
             </div>
             <div className="address">
-              <h3>Alternate Address</h3>
+              <h3>Billing Address</h3>
               <p>Salsaal</p>
               <p style={{ marginTop: "10px" }}>Address 1</p>
               <p>Address 2</p>

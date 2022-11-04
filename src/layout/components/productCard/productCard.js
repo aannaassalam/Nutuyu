@@ -5,31 +5,23 @@ import blacktee from "../../../assets/Black-tee.jpg";
 import blacktee2 from "../../../assets/black-tee2.jpg";
 import whitetee from "../../../assets/white-tee.jpg";
 import whitetee2 from "../../../assets/white-tee2.jpg";
+import { ShoppingBag } from "react-feather";
 
-export default function ProductCard({ a, even }) {
+export default function ProductCard({ a, even, sold }) {
   // Just testing comments for firebase
   return (
     <a href="/product/123" className="product-card">
+      {sold && <span className="sold">Sold</span>}
       <img src={even ? blacktee : whitetee} alt="" className="main-img" />
       <img src={even ? blacktee2 : whitetee2} alt="" className="hover-img" />
       {/* <div className="data-sec"> */}
       <div className="data-sec">
-        <div className="quick-add">
-          <p>
-            <strong>Quick Add +</strong>
-          </p>
-          <ul className="sizes">
-            <li>XXS</li>
-            <li>XS</li>
-            <li>S</li>
-            <li>M</li>
-            <li>L</li>
-            <li>XL</li>
-            <li>XXL</li>
-            <li>XXXL</li>
-            <li>XXXXL</li>
-          </ul>
-        </div>
+        {!sold && (
+          <div className="quick-add">
+            <ShoppingBag size={20} />
+            <strong>Add to Shopping Cart</strong>
+          </div>
+        )}
         <div className="title">
           <p>The Day Dream Pant - Midnight</p>
         </div>

@@ -15,7 +15,7 @@ function NavDropDown({ open, links, p, image, drop, name }) {
             <h4>Products</h4>
             <div>
               {links?.map((item) => (
-                <a href={`/products/${name}/${item}`}>{item}</a>
+                <a href={`/products/${name}/${item.name}`}>{item.name}</a>
               ))}
             </div>
           </div>

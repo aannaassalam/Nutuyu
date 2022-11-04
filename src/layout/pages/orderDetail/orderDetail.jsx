@@ -34,7 +34,7 @@ function OrderDetail() {
               Order# FJS545KLDG54654 <span>(1 item)</span>
             </p>
             <p>Order Placed On 26th October 2022</p>
-            <p>Paid by cash on deivery</p>
+            <p>Paid by Card via PayPal</p>
           </div>
           <div className="bottom">
             <h3>
@@ -52,7 +52,17 @@ function OrderDetail() {
           </div>
         </div>
         <div className="addressInfo">
-          <span>Deliver to</span>
+          <span>Shipping to</span>
+          <h3>John Doe</h3>
+          <p>98/8 Timtoun street </p>
+          <p>south 24 parganas, West Bengal</p>
+          <p>India - 700039</p>
+          <p>
+            phone : <strong>8335974849</strong>
+          </p>
+        </div>
+        <div className="addressInfo">
+          <span>Billing to</span>
           <h3>John Doe</h3>
           <p>98/8 Timtoun street </p>
           <p>south 24 parganas, West Bengal</p>
