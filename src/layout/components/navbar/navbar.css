@@ -62,3 +62,69 @@
 .Navbar .bottom > a {
   padding: 20px 30px;
 }
+.Navbar .menu {
+  display: none;
+}
+@media (max-width: 1340px) {
+  .Navbar .bottom {
+    width: 95%;
+  }
+}
+@media (max-width: 1125px) {
+  .Navbar .bottom > a {
+    padding: 20px;
+  }
+}
+@media (max-width: 970px) {
+  .Navbar .menu {
+    display: block;
+  }
+  .Navbar .menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .Navbar .menu span {
+    font-size: 17px;
+  }
+  .Navbar .top {
+    padding: 20px;
+  }
+  .Navbar .top .search svg {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+  }
+  .Navbar .top .accCart a {
+    margin: 0 5px;
+  }
+  .Navbar .hide {
+    display: none;
+  }
+  .Navbar .bottom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: red;
+    height: 100vh;
+    width: 300px;
+    overflow-y: auto;
+    flex-direction: column;
+    padding: 0 20px;
+  }
+  .Navbar .bottom > a {
+    padding: 20px 0px;
+  }
+}
+@media (max-width: 468px) {
+  .Navbar .menu span {
+    display: none;
+  }
+  .Navbar .top {
+    padding: 8px;
+  }
+
+  .Navbar .top .accCart a {
+    margin: 0 2px;
+  }
+}

@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavDropDown from "../navDropDown/navDropDown";
-import { Search, ShoppingBag, ShoppingCart, User } from "react-feather";
+import {
+  Menu,
+  PlusCircle,
+  Search,
+  ShoppingBag,
+  ShoppingCart,
+  User,
+} from "react-feather";
 import image1 from "../../../assets/image1.png";
 import image2 from "../../../assets/image2.png";
 import image3 from "../../../assets/image3.png";
 
 import "./navbar.css";
 function Navbar({ handleCart }) {
+  const [width, setwidth] = useState(window.innerWidth);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setwidth(window.innerWidth);
+    });
+  }, []);
+
   const [dropDown, setdropDown] = useState([
     {
       name: "Menu 1",
@@ -101,8 +115,16 @@ function Navbar({ handleCart }) {
     <div className="Navbar">
       <div className="top">
         <div className="search">
-          <Search />
-          <input type="text" placeholder="Type here to search" />
+          <span className="menu">
+            <Menu />
+            <span>Menu</span>
+          </span>
+          <Search className="hide" />
+          <input
+            type="text"
+            className="hide"
+            placeholder="Type here to search"
+          />
         </div>
         <h1
           className="logo"
@@ -113,41 +135,54 @@ function Navbar({ handleCart }) {
         </h1>
         <div className="accCart">
           <a href="/profile">
-            Account
+            <span className="hide">Account</span>
             <User />
           </a>
           <a onClick={() => handleCart()}>
-            Your Bag
+            <span className="hide">Your Bag</span>
             <ShoppingBag />
           </a>
         </div>
       </div>
       <div className="bottom">
-        {dropDown.map((item, id) => (
-          <a
-            href={`/products/${item.name}`}
-            onMouseOver={() => {
-              var arr = [...dropDown];
-              arr[id].open = true;
-              setdropDown(arr);
-            }}
-            onMouseLeave={() => {
-              var arr = [...dropDown];
-              arr[id].open = false;
-              setdropDown(arr);
-            }}
-          >
-            {item.name}
-            <NavDropDown
-              open={item.open}
-              links={item.links}
-              p={item.p}
-              image={item.image}
-              drop={item.drop}
-              name={item.name}
-            />
-          </a>
-        ))}
+        {width > 970 ? (
+          <>
+            {dropDown.map((item, id) => (
+              <a
+                href={`/products/${item.name}`}
+                onMouseOver={() => {
+                  var arr = [...dropDown];
+                  arr[id].open = true;
+                  setdropDown(arr);
+                }}
+                onMouseLeave={() => {
+                  var arr = [...dropDown];
+                  arr[id].open = false;
+                  setdropDown(arr);
+                }}
+              >
+                {item.name}
+                <NavDropDown
+                  open={item.open}
+                  links={item.links}
+                  p={item.p}
+                  image={item.image}
+                  drop={item.drop}
+                  name={item.name}
+                />
+              </a>
+            ))}
+          </>
+        ) : (
+          <>
+            {dropDown.map((item, id) => (
+              <a href={`/products/${item.name}`}>
+                {item.name}
+                {item.link ? <PlusCircle /> : null}
+              </a>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
