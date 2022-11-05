@@ -10,6 +10,7 @@
 
 .fabric-sec img {
   width: 100%;
+  height: 100%;
 }
 
 .fabric-sec .containers .details {
@@ -50,4 +51,21 @@
   padding: 10px 1rem;
   color: #000 !important;
   background: #fff;
+}
+@media (max-width: 1080px) {
+  .fabric-sec .containers .details h2 {
+    font-size: 2.75rem;
+  }
+  .fabric-sec .containers .details {
+    bottom: 1.5rem;
+  }
+}
+@media (max-width: 933px) {
+  .fabric-sec {
+    grid-template-columns: 1fr;
+  }
+  .fabric-sec .containers .details {
+    left: 1.5rem;
+    bottom: 1rem;
+  }
 }

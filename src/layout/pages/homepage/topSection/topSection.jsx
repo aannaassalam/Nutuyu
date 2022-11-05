@@ -59,7 +59,7 @@ function TopSection() {
   ]);
   return (
     <div className="TopSection">
-      <Swiper
+      {/* <Swiper
         className="slider"
         effect="fade"
         loop={true}
@@ -69,21 +69,18 @@ function TopSection() {
         allowTouchMove={false}
         // autoplay={{ delay: 3000 }}
         // pagination={{ clickable: true }}
-      >
-        {data.map((item, index) => (
-          <SwiperSlide key={index}>
-            <div className="slide" style={{ backgroundColor: item.background }}>
-              <div className="content">
-                <p>{item.name}</p>
-                <h1>{item.name}</h1>
-                <p>{item.content}</p>
-                <button>Shop Now</button>
-              </div>
-              <img src={item.image} alt="" />
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      > */}
+      {data.map((item, index) => (
+        <div className="slide" style={{ backgroundColor: item.background }}>
+          <div className="content">
+            <p>{item.name}</p>
+            <h1>{item.name}</h1>
+            <p>{item.content}</p>
+            <button>Shop Now</button>
+          </div>
+          <img src={item.image} alt="" />
+        </div>
+      ))}
     </div>
   );
 }

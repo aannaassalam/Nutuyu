@@ -31,9 +31,8 @@ export default function FabricSec() {
             Fabric
           </h2>
           <p>
-            Engineered for increased performance and durability through
-            movement. Featuring a smooth, compressive feel plus a silky
-            performance-style finish.
+            Buttery soft, sweat-wicking brushed fabric with a second-skin feel,
+            designed to be worn anywhere, anytime.
           </p>
           <a href="#">Shop Now</a>
         </div>

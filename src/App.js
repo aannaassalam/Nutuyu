@@ -16,7 +16,7 @@ function App() {
       {location.pathname !== "/checkout" && (
         <Navbar handleCart={() => setcart(true)} />
       )}
-      {/* <Routes>
+      <Routes>
         {routes.map((Item, key) => {
           return (
             <Route
@@ -27,7 +27,7 @@ function App() {
             />
           );
         })}
-      </Routes> */}
+      </Routes>
       {location.pathname !== "/checkout" && (
         <Cart open={cart} handleCart={() => setcart(!cart)} />
       )}

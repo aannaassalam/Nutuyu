@@ -24,6 +24,20 @@ function Slider({ heading }) {
         slidesPerView={4}
         // autoplay={{ delay: 3000 }}
         pagination={{ clickable: true }}
+        breakpoints={{
+          0: {
+            slidesPerView: 1.5,
+          },
+          480: {
+            slidesPerView: 2.5,
+          },
+          670: {
+            slidesPerView: 3,
+          },
+          1080: {
+            slidesPerView: 4,
+          },
+        }}
       >
         {data.map((item, index) => (
           <SwiperSlide key={index}>
