@@ -184,6 +184,7 @@ function Navbar({ handleCart }) {
               image={image1}
               drop={item.subcategories?.length}
               name={item.name}
+              types={item.types}
             />
           </a>
         ))}

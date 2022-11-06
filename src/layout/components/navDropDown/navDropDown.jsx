@@ -1,7 +1,25 @@
 import React, { useState } from "react";
 import "./navDropDown.css";
-function NavDropDown({ open, links, p, image, drop, name }) {
+function NavDropDown({ open, links, p, image, drop, name, types }) {
   const [dropDown, setdropDown] = useState(false);
+
+  const mapSubcategories = (type) => {
+    return (
+      <div>
+        {links
+          ?.filter((link) => link.type === type)
+          .map((item) => (
+            <a
+              href={`/products/${name}/${item.type ? item.type + "/" : ""}${
+                item.name
+              }`}
+            >
+              {item.name}
+            </a>
+          ))}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -11,14 +29,33 @@ function NavDropDown({ open, links, p, image, drop, name }) {
           onMouseOver={() => setdropDown(true)}
           onMouseLeave={() => setdropDown(false)}
         >
-          <div className="productList">
-            <h4>Products</h4>
-            <div>
-              {links?.map((item) => (
-                <a href={`/products/${name}/${item.name}`}>{item.name}</a>
-              ))}
+          {types.length > 0 ? (
+            types.map((type) => {
+              return (
+                type && (
+                  <div className="productList">
+                    <h4>{type}</h4>
+                    {mapSubcategories(type)}
+                  </div>
+                )
+              );
+            })
+          ) : (
+            <div className="productList">
+              <h4>Products</h4>
+              <div>
+                {links?.map((item) => (
+                  <a
+                    href={`/products/${name}/${
+                      item.type ? item.type + "/" : ""
+                    }${item.name}`}
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           <div className="imageSide">
             <img src={image ? image : null} alt="" />
             {p?.map((item) => (

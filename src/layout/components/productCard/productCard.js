@@ -7,13 +7,13 @@ import whitetee from "../../../assets/white-tee.jpg";
 import whitetee2 from "../../../assets/white-tee2.jpg";
 import { ShoppingBag } from "react-feather";
 
-export default function ProductCard({ a, even, sold }) {
+export default function ProductCard({ product, sold }) {
   // Just testing comments for firebase
   return (
-    <a href="/product/123" className="product-card">
+    <a href={`/product/${product.id}`} className="product-card">
       {sold && <span className="sold">Sold</span>}
-      <img src={even ? blacktee : whitetee} alt="" className="main-img" />
-      <img src={even ? blacktee2 : whitetee2} alt="" className="hover-img" />
+      <img src={product.images[0].image} alt="" className="main-img" />
+      <img src={product.images[1].image} alt="" className="hover-img" />
       {/* <div className="data-sec"> */}
       <div className="data-sec">
         {!sold && (
@@ -23,17 +23,17 @@ export default function ProductCard({ a, even, sold }) {
           </div>
         )}
         <div className="title">
-          <p>The Day Dream Pant - Midnight</p>
+          <p>{product.name}</p>
         </div>
         <div className="pricing">
-          <p className="selling-price">₹8,000</p>
-          <p className="marked-price">₹8,0000</p>
+          <p className="selling-price">${product.price}</p>
+          {/* <p className="marked-price">₹8,0000</p> */}
         </div>
       </div>
-      <div className="ratings">
+      {/* <div className="ratings">
         <StyledRating value={4} precision={0.5} readOnly size="small" />
         <span className="reviews">231 Reviews</span>
-      </div>
+      </div> */}
       {/* </div> */}
     </a>
   );

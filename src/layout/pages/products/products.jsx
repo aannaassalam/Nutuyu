@@ -1,15 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./products.css";
 import ProductCard from "../../components/productCard/productCard";
 import { Plus } from "react-feather";
 import { useParams } from "react-router-dom";
+import { collection, getFirestore, onSnapshot } from "firebase/firestore";
 function Products(props) {
-  const arr = [1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-  const [state, setstate] = useState({
+  const [state, setState] = useState({
     filterOptions: false,
     sortOptions: false,
+    products: [],
+    loading: true,
   });
   const params = useParams();
+
+  useEffect(() => {
+    onSnapshot(collection(getFirestore(), "products"), (snapshot) => {
+      setState((prev) => ({ ...prev, products: [] }));
+      snapshot.docs.forEach((doc) => {
+        setState((prev) => ({
+          ...prev,
+          products: [...prev.products, { ...doc.data(), id: doc.id }],
+        }));
+      });
+      setState((prev) => ({ ...prev, loading: false }));
+    });
+  }, []);
 
   return (
     <div className="Products">
@@ -17,6 +32,12 @@ function Products(props) {
         <a href="/">Home</a>
         {">"}
         <a href={`/products/${params.category}`}>{params.category}</a>
+        {params.type && (
+          <>
+            {">"}
+            <a href={`/products/${params.type}`}>{params.type}</a>
+          </>
+        )}
         {params.subcategory && (
           <>
             {">"}
@@ -28,7 +49,7 @@ function Products(props) {
       <div className="filterSection">
         <button
           onClick={() =>
-            setstate({ ...state, filterOptions: !state.filterOptions })
+            setState({ ...state, filterOptions: !state.filterOptions })
           }
         >
           <Plus />
@@ -36,7 +57,7 @@ function Products(props) {
         </button>
         <button
           onClick={() =>
-            setstate({ ...state, sortOptions: !state.sortOptions })
+            setState({ ...state, sortOptions: !state.sortOptions })
           }
         >
           <span>Sort By</span>
@@ -145,9 +166,20 @@ function Products(props) {
             state.filterOptions ? "productListing threefr" : "productListing"
           }
         >
-          {arr.map((item, id) => (
-            <ProductCard key={id} even={id % 2} />
-          ))}
+          {state.loading
+            ? "loading..."
+            : params.subcategory
+            ? state.products
+                .filter((product) => product.category === params.category)
+                .filter(
+                  (product) =>
+                    product.subcategory.name === params.subcategory &&
+                    params.type === product.subcategory.type
+                )
+                .map((item) => <ProductCard key={item.id} product={item} />)
+            : state.products
+                .filter((product) => product.category === params.category)
+                .map((item) => <ProductCard key={item.id} product={item} />)}
         </div>
       </div>
     </div>
