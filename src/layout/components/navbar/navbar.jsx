@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import NavDropDown from "../navDropDown/navDropDown";
 import {
+  Crosshair,
   Menu,
+  Minus,
+  MinusCircle,
+  Plus,
   PlusCircle,
   Search,
   ShoppingBag,
   ShoppingCart,
   User,
+  X,
 } from "react-feather";
 import image1 from "../../../assets/image1.png";
 import image2 from "../../../assets/image2.png";
@@ -16,6 +21,7 @@ import { getDoc, doc, getFirestore } from "firebase/firestore";
 
 function Navbar({ handleCart }) {
   const [categories, setCategories] = useState([]);
+  const [nav, setnav] = useState(false);
   const [width, setwidth] = useState(window.innerWidth);
   useEffect(() => {
     window.addEventListener("resize", () => {
@@ -23,96 +29,7 @@ function Navbar({ handleCart }) {
     });
   }, []);
 
-  const [dropDown, setdropDown] = useState([
-    {
-      name: "Menu 1",
-      open: false,
-      links: [
-        "All Clothing",
-        "Clothes",
-        "Dresses",
-        "Coats",
-        "Jeans",
-        "Jackets",
-        "Jumpsuits",
-        "Tops",
-        "Trousers",
-        "Shorts",
-        "Shirts",
-      ],
-      p: [
-        "ANNA'S PRODUCT OF THE WEEK",
-        "EA Cho Tailored Blazer in Off White",
-        "£359.00",
-      ],
-      image: image1,
-    },
-    {
-      name: "Menu 2",
-
-      open: false,
-      links: [
-        "All Clothing",
-        "Bags",
-        "Dresses",
-        "Beauty",
-        "Belts",
-        "Gifts",
-        "Hats",
-        "Jewellery",
-        "Sunglasses",
-      ],
-      p: [
-        "ANNA'S FAVOURITE ACCESSORY",
-        "R&P Hipke Scarf in Natural Check",
-        "£35.00",
-      ],
-      image: image2,
-    },
-    {
-      name: "Menu 3",
-      open: false,
-
-      links: [
-        "All Shoes",
-        "Boots",
-        "Evening Shoes",
-        "Heals",
-        "Sandles",
-        "Trainers",
-      ],
-      p: [
-        "ANNA'S TOP SHOES",
-        "SLF Fasta Chelsea Boot in Black",
-        "£145.00 Sold Out",
-      ],
-      image: image3,
-    },
-    {
-      name: "Menu 4",
-      drop: false,
-    },
-    {
-      name: "Menu 5",
-      drop: false,
-    },
-    {
-      name: "Menu 6",
-      drop: false,
-    },
-    {
-      name: "Menu 7",
-      drop: false,
-    },
-    {
-      name: "Menu 8",
-      drop: false,
-    },
-    {
-      name: "Menu 9",
-      drop: false,
-    },
-  ]);
+  const [dropDown, setdropDown] = useState([]);
 
   useEffect(() => {
     getDoc(doc(getFirestore(), "settings", "dMsgyXwanQY5tnH075J0")).then(
@@ -124,13 +41,21 @@ function Navbar({ handleCart }) {
           })
         )
     );
+    window.addEventListener("resize", () => {
+      setwidth(window.innerWidth);
+    });
   }, []);
 
   return (
     <div className="Navbar">
       <div className="top">
         <div className="search">
-          <span className="menu">
+          <span
+            className="menu"
+            onClick={() => {
+              setnav(true);
+            }}
+          >
             <Menu />
             <span>Menu</span>
           </span>
@@ -154,39 +79,83 @@ function Navbar({ handleCart }) {
             <User />
           </a>
           <a onClick={() => handleCart()}>
-            Shopping Cart
+            <span className="hide">Shopping Cart</span>
             <ShoppingBag />
           </a>
         </div>
       </div>
-      <div className="bottom">
+      <div className={nav ? "visibleBottom bottom" : "bottom"}>
+        {width > 970 ? null : (
+          <span
+            className="crossIcon"
+            onClick={() => {
+              setnav(false);
+            }}
+          >
+            <X />
+          </span>
+        )}
         <a href={`/`}>Home</a>
         <a href={`/products/what's-new`}>What's new</a>
         {categories.map((item, id) => (
-          <a
-            href={`/products/${item.name}`}
-            onMouseOver={() => {
-              var arr = [...categories];
-              arr[id].open = true;
-              setCategories(arr);
-            }}
-            onMouseLeave={() => {
-              var arr = [...categories];
-              arr[id].open = false;
-              setCategories(arr);
-            }}
-          >
-            {item.name}
-            <NavDropDown
-              open={item.open}
-              links={item.subcategories}
-              p={item.p}
-              image={image1}
-              drop={item.subcategories?.length}
-              name={item.name}
-              types={item.types}
-            />
-          </a>
+          <>
+            {width > 970 ? (
+              <a
+                href={`/products/${item.name}`}
+                onMouseOver={() => {
+                  var arr = [...categories];
+                  arr[id].open = true;
+                  setCategories(arr);
+                }}
+                onMouseLeave={() => {
+                  var arr = [...categories];
+                  arr[id].open = false;
+                  setCategories(arr);
+                }}
+              >
+                {item.name}
+                <NavDropDown
+                  open={item.open}
+                  links={item.subcategories}
+                  p={item.p}
+                  image={image1}
+                  drop={item.subcategories?.length}
+                  name={item.name}
+                  types={item.types}
+                />
+              </a>
+            ) : (
+              <>
+                <a href={`/products/${item.name}`} className="fullWidth">
+                  {item.name}{" "}
+                  <span
+                    onClick={(e) => {
+                      e.preventDefault();
+                      var check = dropDown.includes(id);
+                      if (check)
+                        setdropDown(dropDown.filter((el) => el !== id));
+                      else setdropDown([...dropDown, id]);
+                    }}
+                  >
+                    {dropDown.includes(id) ? <Minus /> : <Plus />}
+                  </span>{" "}
+                </a>
+                {dropDown.includes(id) ? (
+                  <>
+                    {" "}
+                    {item.subcategories.map((sub) => (
+                      <a
+                        className="innerItem"
+                        href={`/products/${item.name}/${sub.name}`}
+                      >
+                        {sub.name}
+                      </a>
+                    ))}
+                  </>
+                ) : null}
+              </>
+            )}
+          </>
         ))}
         <a href={`/products/sold`}>Sold</a>
         <a href={`/nutuyu`}>#Nutuyu</a>

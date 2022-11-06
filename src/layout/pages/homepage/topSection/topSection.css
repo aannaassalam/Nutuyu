@@ -102,3 +102,30 @@
     opacity: 1;
   }
 }
+@media (max-width: 1080px) {
+  .TopSection {
+    height: max-content;
+  }
+  .TopSection .slide {
+    flex-direction: column;
+  }
+  .TopSection div.slide img {
+    position: static;
+    margin: 0px auto;
+    margin-bottom: 40px;
+    height: auto;
+    width: 80%;
+    transform: translateY(50px);
+  }
+  .TopSection .slide .content {
+    align-items: center;
+    padding: 0 30px;
+  }
+
+  .TopSection .slide .content p {
+    max-width: 100%;
+  }
+  .TopSection .slide .content p:first-child {
+    margin-top: 30px;
+  }
+}

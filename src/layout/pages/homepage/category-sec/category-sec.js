@@ -16,7 +16,9 @@ export default function CategorySec() {
       </div>
       <div>
         <img src={half_sleeve} alt="" />
-        <h2>Shop Men's</h2>
+        <h2>
+          Shop <br /> Men's
+        </h2>
       </div>
       <div>
         <img src={hoodie} alt="" />

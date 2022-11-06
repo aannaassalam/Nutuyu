@@ -4,10 +4,16 @@ import slider1 from "../../../../assets/slider1.png";
 import slider2 from "../../../../assets/slider2.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, EffectFade, Autoplay } from "swiper";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-fade";
-import "swiper/css";
+// import "swiper/css/navigation";
+// import "swiper/css/pagination";
+// import "swiper/css/effect-fade";
+// import "swiper/css";
+import "swiper/swiper.min.css"; // core Swiper
+// import "swiper/css/navigation"; // Navigation module
+// import "swiper/modules/pagination/pagination.scss";
+// import "swiper/swiper.min.css";
+// import "swiper/modules/pagination/pagination.min.css";
+
 function TopSection() {
   const [data, setdata] = useState([
     // {
@@ -53,7 +59,7 @@ function TopSection() {
   ]);
   return (
     <div className="TopSection">
-      <Swiper
+      {/* <Swiper
         className="slider"
         effect="fade"
         loop={true}
@@ -63,21 +69,18 @@ function TopSection() {
         allowTouchMove={false}
         // autoplay={{ delay: 3000 }}
         // pagination={{ clickable: true }}
-      >
-        {data.map((item, index) => (
-          <SwiperSlide key={index}>
-            <div className="slide" style={{ backgroundColor: item.background }}>
-              <div className="content">
-                <p>{item.name}</p>
-                <h1>{item.name}</h1>
-                <p>{item.content}</p>
-                <button>Shop Now</button>
-              </div>
-              <img src={item.image} alt="" />
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      > */}
+      {data.map((item, index) => (
+        <div className="slide" style={{ backgroundColor: item.background }}>
+          <div className="content">
+            <p>{item.name}</p>
+            <h1>{item.name}</h1>
+            <p>{item.content}</p>
+            <button>Shop Now</button>
+          </div>
+          <img src={item.image} alt="" />
+        </div>
+      ))}
     </div>
   );
 }
