@@ -1,19 +1,130 @@
-import { TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./login.css";
+import { TextField } from "@mui/material";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { useAuth } from "../../hooks/useAuth";
+import { redirect, useNavigate } from "react-router-dom";
+
 function Login() {
-  const [handleSection, setHandleSection] = useState(2);
+  const [handleSection, setHandleSection] = useState(0);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone_number, setPhone_number] = useState("");
+
+  const user = useAuth();
+  const navigate = useNavigate();
+
+  const createAccount = () => {
+    if (
+      email.trim().length > 0 &&
+      email.includes("@") &&
+      password.trim().length > 7 &&
+      phone_number.length > 6
+    ) {
+      const q = query(
+        collection(getFirestore(), "users"),
+        where("email", "==", email)
+      );
+      getDocs(q)
+        .then((snapshot) => {
+          if (snapshot.size > 0) {
+            console.log("User already exists!!!");
+          } else {
+            createUserWithEmailAndPassword(getAuth(), email, password)
+              .then((userCredential) => {
+                const user = userCredential.user;
+                setDoc(doc(getFirestore(), "users", user.uid), {
+                  full_name: name,
+                  email: email,
+                  phone_number: phone_number,
+                  cart: [],
+                  shipping_addresses: [],
+                  billing_addresses: [],
+                  date: new Date(),
+                  orders: [],
+                })
+                  .then(() => console.log("User created"))
+                  .catch((err) => console.log(err));
+              })
+              .catch((err) => console.log(err));
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+    }
+  };
+
+  const login = () => {
+    if (
+      email.trim().length > 0 &&
+      email.includes("@") &&
+      password.trim().length > 7
+    ) {
+      const q = query(
+        collection(getFirestore(), "users"),
+        where("email", "==", email)
+      );
+      getDocs(q).then((snapshot) => {
+        if (snapshot.size > 0) {
+          signInWithEmailAndPassword(getAuth(), email, password)
+            .then((user) => {
+              console.log("logged In!!");
+              window.location.href = "/products/clothing";
+            })
+            .catch((err) => console.log(err));
+        } else {
+          console.log("User doesn't exists!!!");
+        }
+      });
+    } else {
+    }
+  };
+
+  if (user) {
+    return navigate("/products/clothing");
+  }
+
   return (
     <div className="Login">
       {handleSection === 0 ? (
         <>
           <h1>Log in</h1>
-          <TextField id="standard-basic" label="Email" variant="standard" />
-          <TextField id="standard-basic" label="Password" variant="standard" />
+          <TextField
+            id="standard-basic"
+            label="Email"
+            variant="standard"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            id="standard-basic"
+            label="Password"
+            variant="standard"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <p className="forgot" onClick={() => setHandleSection(1)}>
             Forgot Password
           </p>
-          <button>LogIn</button>
+          <button type="button" onClick={login}>
+            LogIn
+          </button>
           <p>Don't Have an account?</p>
           <button className="lastButton" onClick={() => setHandleSection(2)}>
             Create an account
@@ -35,18 +146,41 @@ function Login() {
       ) : (
         <>
           <h1>Create An Account</h1>
-          <TextField id="standard-basic" label="Full Name" variant="standard" />
-
-          <TextField id="standard-basic" label="Email" variant="standard" />
-
-          <TextField id="standard-basic" label="Password" variant="standard" />
           <TextField
             id="standard-basic"
-            label="Confirm Password"
+            label="Full Name"
             variant="standard"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
 
-          <button>Create account</button>
+          <TextField
+            id="standard-basic"
+            label="Email"
+            variant="standard"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <TextField
+            id="standard-basic"
+            label="Phone Number"
+            variant="standard"
+            value={phone_number}
+            onChange={(e) => setPhone_number(e.target.value)}
+          />
+
+          <TextField
+            id="standard-basic"
+            label="Password"
+            variant="standard"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button type="button" onClick={createAccount}>
+            Create account
+          </button>
           <p>Already Have an account?</p>
           <button className="lastButton" onClick={() => setHandleSection(0)}>
             login

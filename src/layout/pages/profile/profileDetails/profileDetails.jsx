@@ -1,38 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./profileDetails.css";
 import { Button, TextField } from "@mui/material";
+import { useAuth } from "../../../hooks/useAuth";
+
 function ProfileDetails() {
+  const user = useAuth();
+
+  const [state, setState] = useState({
+    full_name: "",
+    password: "",
+    email: "",
+    phone_number: "",
+  });
+
+  useEffect(() => {
+    if (user) {
+      setState({
+        full_name: user.full_name,
+        password: user.password,
+        email: user.email,
+        phone_number: user.phone_number,
+      });
+    }
+  }, [user]);
+
   return (
     <div className="ProfileDetails">
       <h2>Profile Details</h2>
       <div className="inputs">
         <TextField
-          id="standard-basic"
           label="Full Name"
           variant="standard"
-          value="John Doe"
-          type="text"
+          type="email"
+          value={state.full_name}
         />
         <TextField
-          id="standard-basic"
           label="Email"
           variant="standard"
           type="email"
-          value={"johndoe@example.com"}
+          value={state.email}
+          disabled
         />
         <TextField
-          id="standard-basic"
           label="Phone"
           variant="standard"
           type="number"
-          value={1234567890}
+          value={state.phone_number}
         />
         <TextField
-          id="standard-basic"
           label="Password"
           variant="standard"
           type="password"
-          value={12134}
+          value={state.password}
         />
         <Button>Submit</Button>
       </div>

@@ -1,35 +1,24 @@
 import React, { useEffect, useState } from "react";
 import NavDropDown from "../navDropDown/navDropDown";
-import {
-  Crosshair,
-  Menu,
-  Minus,
-  MinusCircle,
-  Plus,
-  PlusCircle,
-  Search,
-  ShoppingBag,
-  ShoppingCart,
-  User,
-  X,
-} from "react-feather";
+import { Menu, Minus, Plus, Search, ShoppingBag, User, X } from "react-feather";
 import image1 from "../../../assets/image1.png";
-import image2 from "../../../assets/image2.png";
-import image3 from "../../../assets/image3.png";
 import "./navbar.css";
 import { getDoc, doc, getFirestore } from "firebase/firestore";
+import { useAuth } from "../../hooks/useAuth";
 
 function Navbar({ handleCart }) {
   const [categories, setCategories] = useState([]);
   const [nav, setnav] = useState(false);
   const [width, setwidth] = useState(window.innerWidth);
+  const [dropDown, setdropDown] = useState([]);
+
+  const user = useAuth();
+
   useEffect(() => {
     window.addEventListener("resize", () => {
       setwidth(window.innerWidth);
     });
   }, []);
-
-  const [dropDown, setdropDown] = useState([]);
 
   useEffect(() => {
     getDoc(doc(getFirestore(), "settings", "dMsgyXwanQY5tnH075J0")).then(
@@ -74,8 +63,8 @@ function Navbar({ handleCart }) {
           NuTuYu72
         </h1>
         <div className="accCart">
-          <a href="/profile">
-            <span className="hide">Account</span>
+          <a href={user ? "/profile" : "/login"}>
+            <span className="hide">{user ? "Account" : "Login/Register"}</span>
             <User />
           </a>
           <a onClick={() => handleCart()}>
