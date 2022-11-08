@@ -14,7 +14,7 @@ import "swiper/swiper.min.css"; // core Swiper
 // import "swiper/swiper.min.css";
 // import "swiper/modules/pagination/pagination.min.css";
 
-function TopSection() {
+function TopSection({ banner }) {
   const [data, setdata] = useState([
     // {
     //   name: "Anna's Picks",
@@ -78,7 +78,7 @@ function TopSection() {
             <p>{item.content}</p>
             <button>Shop Now</button>
           </div>
-          <img src={item.image} alt="" />
+          <img src={banner} alt="" />
         </div>
       ))}
     </div>
