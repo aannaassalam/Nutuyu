@@ -4,9 +4,19 @@ import ProfileDetails from "./profileDetails/profileDetails";
 import OrderHsitory from "./orders/orders";
 import { getAuth, signOut } from "firebase/auth";
 import Addresses from "./addresses/addresses";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router";
 
 function Profile() {
   const [tabs, settabs] = useState(0);
+
+  const user = useAuth();
+  const navigate = useNavigate();
+
+  if (user) {
+    return navigate("/products/clothing");
+  }
+
   return (
     <div className="Profile">
       <h1 className="welcome">WELCOME BACK, JOHN</h1>
