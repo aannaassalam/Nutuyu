@@ -90,6 +90,11 @@
   margin: 30px 0;
 }
 
+.product-details .right .note {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
 .product-details .right .details {
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);

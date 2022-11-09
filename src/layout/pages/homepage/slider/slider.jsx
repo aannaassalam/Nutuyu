@@ -16,15 +16,16 @@ function Slider({ slider, heading, products }) {
       setdata(p);
     } else {
       const p = products
-        .filter((product) => product.category === slider.category)
+        ?.filter((product) => product.category === slider.category)
         .filter((product) => product.subcategory.name === slider.subcategory);
       setdata(p);
     }
   }, []);
+  console.log(data);
 
   return (
     <>
-      {data.length > 0 ? (
+      {data?.length > 0 ? (
         <div className="Slider">
           <h1>{heading}</h1>
           <Swiper
@@ -53,7 +54,7 @@ function Slider({ slider, heading, products }) {
           >
             {data.map((item, index) => (
               <SwiperSlide key={index}>
-                <ProductCard a={item} />
+                <ProductCard product={item} />
               </SwiperSlide>
             ))}
           </Swiper>

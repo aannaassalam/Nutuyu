@@ -5,12 +5,25 @@ import girl2 from "../../../assets/girl2.jpg";
 import girl3 from "../../../assets/girl3.jpg";
 import girl4 from "../../../assets/girl4.jpg";
 import girl5 from "../../../assets/girl5.jpg";
+import { useParams } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import {
+  doc,
+  getDoc,
+  getFirestore,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 
 export default function ProductDetails() {
-  const [details, setDetails] = useState([]);
-  const [previewImage, setPreviewImage] = useState(0);
+  const [details, setDetails] = useState(false);
+  const [previewImage, setPreviewImage] = useState(1);
   const [imageChange, setImageChange] = useState(false);
-  const images = [girl1, girl2, girl3, girl4, girl5];
+  const [product, setProduct] = useState({});
+  const [found, setfound] = useState(false);
+  const [loading, setloading] = useState(true);
+  const params = useParams();
+  const user = useAuth();
 
   useEffect(() => {
     if (imageChange) {
@@ -20,79 +33,130 @@ export default function ProductDetails() {
     }
   }, [imageChange]);
 
-  return (
-    <div className="product-details">
-      <div className="left">
-        <div className="thumbnail-images">
-          {images.map((image, idx) => (
-            <img
-              src={image}
-              alt="girl"
-              className={previewImage === idx && "active"}
-              onClick={() => {
-                setPreviewImage(idx);
-                setImageChange(true);
-              }}
-              key={idx}
-            />
-          ))}
-        </div>
-        <img
-          src={!imageChange && images[previewImage]}
-          alt=""
-          className={imageChange ? "preview-image fade" : "preview-image"}
-        />
-      </div>
-      <div className="right">
-        <h3>The Day Dream Pant - Midnight</h3>
-        <h3>$1300</h3>
-        <button>Buy Now</button>
-        <button>Add to Bag</button>
+  useEffect(() => {
+    onSnapshot(doc(getFirestore(), "products", params.id), (doc) => {
+      setProduct({ ...doc.data(), id: doc.id });
+      user?.cart.forEach((item) => {
+        if (item === product.id) setfound(true);
+      });
+    });
+    setloading(false);
+  }, [user]);
+  const addToCart = async () => {
+    if (user) {
+      if (!found) {
+        const cart1 = user.cart;
+        const obj = product.id;
+        cart1.push(obj);
+        const docref = doc(getFirestore(), "users", user.id);
+        const doc1 = await getDoc(docref);
+        console.log(doc1.data());
+        console.log(cart1);
+        updateDoc(docref, {
+          cart: cart1,
+        }).then(() => {
+          setfound(true);
+          console.log("added");
+        });
+      } else {
+        console.log("go bag");
+      }
+    } else {
+      window.location.pathname = "/profile";
+    }
+  };
 
-        <div className="description">
-          <p>
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout. The point
-            of using Lorem Ipsum is that it has a more-or-less normal
-            distribution of letters, as opposed to using 'Content here, content
-            here', making it look like readable English. Many desktop publishing
-            packages and web page editors now use Lorem Ipsum as their default
-            model text, and a search for 'lorem ipsum' will uncover many web
-            sites still in their infancy. Various versions have evolved over the
-            years, sometimes by accident, sometimes on purpose (injected humour
-            and the like).
-          </p>
-        </div>
-        <div
-          className={details.includes(1) ? "details open" : "details"}
-          onClick={() =>
-            setDetails((prev) =>
-              prev.includes(1) ? prev.filter((p) => p !== 1) : [...prev, 1]
-            )
-          }
-        >
-          <div className="details-header">
-            <h5>Details</h5>
-            <i className="fa-solid fa-plus"></i>
-          </div>
-          <div className="details-body">
-            <div className="detail-row">
-              <div className="detail-title">
-                <i className="fa-solid fa-circle"></i>
-                <p>Size</p>
-              </div>
-              <div className="detail-text">its for people of 5'11"</div>
+  return (
+    <>
+      {loading ? (
+        "loading...."
+      ) : (
+        <div className="product-details">
+          <div className="left">
+            <div className="thumbnail-images">
+              {product.images?.map((image, idx) => (
+                <img
+                  src={image.image}
+                  alt="girl"
+                  className={previewImage === image.id && "active"}
+                  onClick={() => {
+                    setPreviewImage(image.id);
+                    // setImageChange(true);
+                  }}
+                  key={idx}
+                />
+              ))}
             </div>
-            <div className="detail-row">
-              <div className="detail-title">
-                <i className="fa-solid fa-circle"></i>
-                <p>Size</p>
+            <img
+              src={
+                product.images?.find((image) => image.id === previewImage).image
+              }
+              alt=""
+              className={imageChange ? "preview-image fade" : "preview-image"}
+            />
+          </div>
+          <div className="right">
+            <h3>{product.name}</h3>
+            <h3>${product.price}</h3>
+            <button>Buy Now</button>
+            <button
+              onClick={() => {
+                addToCart();
+              }}
+            >
+              {found ? "Go To Bag" : "Add to Bag"}{" "}
+            </button>
+
+            <div className="description">
+              <p>{product.description}</p>
+            </div>
+            {product.note?.trim().length > 0 && (
+              <div className="note">
+                <p>
+                  <strong>[NOTE: </strong>
+                  {product.note}]
+                </p>
               </div>
-              <div className="detail-text">its for people of 5'11"</div>
+            )}
+            <div
+              className={details ? "details open" : "details"}
+              onClick={() => setDetails(!details)}
+            >
+              <div className="details-header">
+                <h5>Details</h5>
+                <i className="fa-solid fa-plus"></i>
+              </div>
+              <div className="details-body">
+                {product.highlights?.map((highlight) => {
+                  return (
+                    <div className="detail-row">
+                      <div className="detail-title">
+                        <i className="fa-solid fa-circle"></i>
+                        <p>{highlight.key}</p>
+                      </div>
+                      <div className="detail-text">{highlight.value}</div>
+                    </div>
+                  );
+                })}
+                {/* <div className="detail-row">
+                <div className="detail-title">
+                  <i className="fa-solid fa-circle"></i>
+                  <p>Size</p>
+                </div>
+                <div className="detail-text">its for people of 5'11"</div>
+              </div>
+              <div className="detail-row">
+                <div className="detail-title">
+                  <i className="fa-solid fa-circle"></i>
+                  <p>Size</p>
+                </div>
+                <div className="detail-text">its for people of 5'11"</div>
+              </div> */}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
