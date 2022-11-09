@@ -69,7 +69,7 @@ function Navbar({ handleCart }) {
             </span>
             <User />
           </a>
-          <a onClick={() => handleCart()}>
+          <a onClick={handleCart}>
             <span className="hide">Shopping Cart</span>
             <ShoppingBag />
           </a>

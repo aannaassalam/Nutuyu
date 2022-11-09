@@ -23,7 +23,7 @@ function App() {
       {!user.loading && !products.loading && (
         <>
           {location.pathname !== "/checkout" && (
-            <Navbar handleCart={() => setcart(true)} />
+            <Navbar handleCart={() => setcart((prev) => !prev)} />
           )}
           <Routes>
             {routes.map((Item, key) => {

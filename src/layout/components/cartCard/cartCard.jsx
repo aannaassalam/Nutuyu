@@ -2,40 +2,47 @@ import React, { useState, useEffect } from "react";
 import "./cartCard.css";
 import image from "../../../assets/Black-tee.jpg";
 import { getDoc, doc, getFirestore, onSnapshot } from "firebase/firestore";
-function CartCard({ product, sendProduct, handleDelete }) {
+import { useProducts } from "../../hooks/useProducts";
+function CartCard({ product, setPrice, handleDelete }) {
   const [card, setcard] = useState();
+
+  const products = useProducts().products;
+  const cart_product = products.find((p) => p.id === product);
   useEffect(() => {
-    onSnapshot(doc(getFirestore(), "products", product), (doc) => {
-      setcard({ ...doc.data(), id: doc.id });
-      sendProduct(doc.data());
-    });
+    setPrice((prev) => prev + cart_product.price);
+
+    return () => {
+      setPrice((prev) => prev - cart_product.price);
+    };
   }, []);
 
-  console.log(card);
+  // useEffect(() => {
+  //   onSnapshot(doc(getFirestore(), "products", product), (doc) => {
+  //     setcard({ ...doc.data(), id: doc.id });
+  //     sendProduct(doc.data());
+  //   });
+  // }, []);
+
   return (
     <div className="CartCard">
-      <img src={card?.images[0]?.image} alt="" />
+      <img src={cart_product?.images[0]?.image} alt="" />
       <div className="details">
         <div>
-          <a href={`/product/${card?.id}`}>{card?.name}</a>
-          <p>{card?.price}</p>
+          <a href={`/product/${cart_product?.id}`}>{cart_product?.name}</a>
+          <p>${cart_product?.price}</p>
         </div>
         <p>
-          {card?.highlights[0].key} : {card?.highlights[0].value}
+          {cart_product?.highlights[0].key} :{" "}
+          {cart_product?.highlights[0].value}
         </p>
         <p>
-          {card?.highlights[1].key} : {card?.highlights[1].value}
+          {cart_product?.highlights[1].key} :{" "}
+          {cart_product?.highlights[1].value}
         </p>
 
         <div className="counterDiv">
           <div className="counter"></div>
-          <p
-            onClick={() => {
-              handleDelete(card?.id);
-            }}
-          >
-            Remove
-          </p>
+          <p onClick={handleDelete}>Remove</p>
         </div>
       </div>
     </div>
