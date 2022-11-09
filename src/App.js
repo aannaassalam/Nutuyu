@@ -6,15 +6,20 @@ import Footer from "./layout/components/footer/footer";
 import { Routes, Route, useLocation } from "react-router-dom";
 import routes from "./router/router";
 import Cart from "./layout/components/cart/cart";
-import AuthProvider from "./layout/hooks/useAuth";
+import AuthProvider, { useAuth } from "./layout/hooks/useAuth";
+import Loader from "./layout/components/loader/loader";
+import { CookiesProvider } from "react-cookie";
 
 function App() {
   const [cart, setcart] = useState(false);
   const location = useLocation();
 
+  const user = useAuth();
+
   return (
     <div className="App">
-      <AuthProvider>
+      <CookiesProvider>
+        <Loader loading={user.loading} />
         {location.pathname !== "/checkout" && (
           <Navbar handleCart={() => setcart(true)} />
         )}
@@ -34,7 +39,7 @@ function App() {
           <Cart open={cart} handleCart={() => setcart(!cart)} />
         )}
         {location.pathname !== "/checkout" && <Footer />}
-      </AuthProvider>
+      </CookiesProvider>
     </div>
   );
 }

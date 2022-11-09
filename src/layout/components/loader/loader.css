@@ -1,0 +1,79 @@
+.loader {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader.fade {
+  left: 100%;
+  opacity: 0;
+  transition: left 0.5s linear, opacity 0.3s;
+}
+
+.loader.snap {
+  display: none;
+}
+
+.loader .loader-div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.loader .loader-div p {
+  font-size: 20px;
+  margin: 8px;
+}
+
+.loader .company-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader span {
+  font-weight: 500;
+  margin: 0 5px;
+  opacity: 0;
+  color: #121212;
+  font-size: 80px;
+  animation: loading 1s forwards;
+}
+
+@keyframes loading {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.loader span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loader span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.loader span:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.loader span:nth-child(5) {
+  animation-delay: 0.8s;
+}
+.loader span:nth-child(6) {
+  animation-delay: 1s;
+}
+.loader span:nth-child(7) {
+  animation-delay: 1.2s;
+}
+.loader span:nth-child(8) {
+  animation-delay: 1.4s;
+}

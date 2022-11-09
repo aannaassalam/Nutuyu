@@ -63,8 +63,10 @@ function Navbar({ handleCart }) {
           NuTuYu72
         </h1>
         <div className="accCart">
-          <a href={user ? "/profile" : "/login"}>
-            <span className="hide">{user ? "Account" : "Login/Register"}</span>
+          <a href={user.user ? "/profile" : "/login"}>
+            <span className="hide">
+              {user.user ? "Account" : "Login/Register"}
+            </span>
             <User />
           </a>
           <a onClick={() => handleCart()}>

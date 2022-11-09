@@ -16,6 +16,14 @@
   width: 100%;
   margin-bottom: 20px;
 }
+
+.ProfileDetails .inputs div button {
+  margin-left: 10px;
+  width: 40%;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
 .ProfileDetails button {
   padding: 10px;
   display: flex;

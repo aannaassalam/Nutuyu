@@ -18,7 +18,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useAuth } from "../../hooks/useAuth";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [handleSection, setHandleSection] = useState(0);
@@ -46,13 +46,17 @@ function Login() {
           if (snapshot.size > 0) {
             console.log("User already exists!!!");
           } else {
-            createUserWithEmailAndPassword(getAuth(), email, password)
+            createUserWithEmailAndPassword(
+              getAuth(),
+              email.trim(),
+              password.trim()
+            )
               .then((userCredential) => {
                 const user = userCredential.user;
                 setDoc(doc(getFirestore(), "users", user.uid), {
-                  full_name: name,
-                  email: email,
-                  phone_number: phone_number,
+                  full_name: name.trim(),
+                  email: email.trim(),
+                  phone_number: phone_number.trim(),
                   cart: [],
                   shipping_addresses: [],
                   billing_addresses: [],
@@ -96,7 +100,7 @@ function Login() {
     }
   };
 
-  if (user) {
+  if (!user.loading && user.user) {
     return navigate("/products/clothing");
   }
 

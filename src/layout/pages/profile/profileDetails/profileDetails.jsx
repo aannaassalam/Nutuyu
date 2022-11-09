@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./profileDetails.css";
 import { Button, TextField } from "@mui/material";
 import { useAuth } from "../../../hooks/useAuth";
+import { getAuth, updatePassword } from "firebase/auth";
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
 
 function ProfileDetails() {
   const user = useAuth();
@@ -14,15 +16,29 @@ function ProfileDetails() {
   });
 
   useEffect(() => {
-    if (user) {
+    if (!user.loading && user.user) {
       setState({
-        full_name: user.full_name,
-        password: user.password,
-        email: user.email,
-        phone_number: user.phone_number,
+        full_name: user.user.full_name,
+        email: user.user.email,
+        phone_number: user.user.phone_number,
       });
     }
   }, [user]);
+
+  const handleUpdate = () => {
+    if (
+      state.full_name.trim().length > 0 &&
+      state.phone_number.trim().length > 8
+    ) {
+      console.log("in");
+      updateDoc(doc(getFirestore(), "users", user.user.id), {
+        full_name: state.full_name.trim(),
+        phone_number: state.phone_number.trim(),
+      })
+        .then(() => console.log("updated"))
+        .catch((err) => console.log(err));
+    }
+  };
 
   return (
     <div className="ProfileDetails">
@@ -33,6 +49,9 @@ function ProfileDetails() {
           variant="standard"
           type="email"
           value={state.full_name}
+          onChange={(e) =>
+            setState((prev) => ({ ...prev, full_name: e.target.value }))
+          }
         />
         <TextField
           label="Email"
@@ -46,14 +65,42 @@ function ProfileDetails() {
           variant="standard"
           type="number"
           value={state.phone_number}
+          onChange={(e) =>
+            setState((prev) => ({ ...prev, phone_number: e.target.value }))
+          }
         />
-        <TextField
-          label="Password"
-          variant="standard"
-          type="password"
-          value={state.password}
-        />
-        <Button>Submit</Button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "stretch",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <TextField
+            label="Password"
+            variant="standard"
+            type="password"
+            value={state.password}
+            sx={{ width: "100%" }}
+            onChange={(e) =>
+              setState((prev) => ({ ...prev, password: e.target.value }))
+            }
+          />
+          <Button
+            size="small"
+            onClick={() => {
+              if (state.password.trim().length > 7) {
+                updatePassword(getAuth().currentUser, state.password)
+                  .then(() => setState((prev) => ({ ...prev, password: "" })))
+                  .catch((err) => console.log(err));
+              }
+            }}
+          >
+            Change Password
+          </Button>
+        </div>
+        <Button onClick={handleUpdate}>Submit</Button>
       </div>
     </div>
   );

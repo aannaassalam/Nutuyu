@@ -11,6 +11,7 @@ export function useAuth() {
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     onAuthStateChanged(
@@ -20,8 +21,14 @@ export default function AuthProvider({ children }) {
         if (user) {
           onSnapshot(
             doc(getFirestore(), "users", user.uid),
-            (doc) => setUser({ ...doc.data(), id: doc.id }),
-            (err) => console.log(err)
+            (doc) => {
+              setUser({ ...doc.data(), ...user, id: doc.id });
+              setLoading(false);
+            },
+            (err) => {
+              console.log(err);
+              setLoading(false);
+            }
           );
         } else {
           setUser(null);
@@ -31,5 +38,9 @@ export default function AuthProvider({ children }) {
     );
   }, []);
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ loading, user }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
