@@ -7,39 +7,42 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import routes from "./router/router";
 import Cart from "./layout/components/cart/cart";
 import AuthProvider, { useAuth } from "./layout/hooks/useAuth";
+import ProductsProvider, { useProducts } from "./layout/hooks/useProducts";
 import Loader from "./layout/components/loader/loader";
-import { CookiesProvider } from "react-cookie";
 
 function App() {
   const [cart, setcart] = useState(false);
   const location = useLocation();
 
   const user = useAuth();
+  const products = useProducts();
 
   return (
     <div className="App">
-      <CookiesProvider>
-        <Loader loading={user.loading} />
-        {location.pathname !== "/checkout" && (
-          <Navbar handleCart={() => setcart(true)} />
-        )}
-        <Routes>
-          {routes.map((Item, key) => {
-            return (
-              <Route
-                exact
-                path={Item.route}
-                key={key}
-                element={<Item.Component />}
-              />
-            );
-          })}
-        </Routes>
-        {location.pathname !== "/checkout" && (
-          <Cart open={cart} handleCart={() => setcart(!cart)} />
-        )}
-        {location.pathname !== "/checkout" && <Footer />}
-      </CookiesProvider>
+      <Loader loading={user.loading || products.loading} />
+      {!user.loading && !products.loading && (
+        <>
+          {location.pathname !== "/checkout" && (
+            <Navbar handleCart={() => setcart(true)} />
+          )}
+          <Routes>
+            {routes.map((Item, key) => {
+              return (
+                <Route
+                  exact
+                  path={Item.route}
+                  key={key}
+                  element={<Item.Component />}
+                />
+              );
+            })}
+          </Routes>
+          {location.pathname !== "/checkout" && (
+            <Cart open={cart} handleCart={() => setcart(!cart)} />
+          )}
+          {location.pathname !== "/checkout" && <Footer />}
+        </>
+      )}
     </div>
   );
 }

@@ -21,6 +21,7 @@
   width: 80px;
   display: flex;
   flex-direction: column;
+  min-height: 790px;
 }
 
 .product-details .left .thumbnail-images img {
@@ -28,6 +29,7 @@
   object-fit: contain;
   margin-bottom: 20px;
   cursor: pointer;
+  min-height: 118px;
 }
 
 .product-details .left .thumbnail-images img.active {

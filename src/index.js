@@ -7,12 +7,15 @@ import { BrowserRouter } from "react-router-dom";
 
 import firebase from "./config";
 import AuthProvider from "./layout/hooks/useAuth";
+import ProductsProvider from "./layout/hooks/useProducts";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <AuthProvider>
-      <App />
+      <ProductsProvider>
+        <App />
+      </ProductsProvider>
     </AuthProvider>
   </BrowserRouter>
 );

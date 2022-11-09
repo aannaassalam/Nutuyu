@@ -1,23 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./slider.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "../../../components/productCard/productCard";
 import { Navigation, Pagination, EffectFade, Autoplay } from "swiper";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
-// import "swiper/css/effect-fade";
-// import "swiper/css";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
+import { useProducts } from "../../../hooks/useProducts";
 
-function Slider({ heading }) {
-  const [data, setdata] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
+function Slider({ slider = { name: "", category: "" } }) {
+  const [data, setdata] = useState([]);
+  const products = useProducts().products;
+  // useEffect(() => {
+  //   if (slider.subcategory === undefined) {
+  //     const p = products.filter(
+  //       (product) => product.category === slider.category
+  //     );
+  //     setdata(p);
+  //   } else {
+  //     const p = products
+  //       ?.filter((product) => product.category === slider.category)
+  //       .filter((product) => product.subcategory.name === slider.subcategory);
+  //     setdata(p);
+  //   }
+  // }, []);
+
   return (
     <div className="Slider">
-      <h1>{heading}</h1>
+      <h1>{slider.name}</h1>
       <Swiper
         className="slider"
-        loop={true}
+        // loop={true}
         navigation
         modules={[Autoplay, Navigation]}
         spaceBetween={0}
@@ -39,13 +51,35 @@ function Slider({ heading }) {
           },
         }}
       >
-        {data.map((item, index) => (
-          <SwiperSlide key={index}>
-            <ProductCard a={item} even={item % 2} />
-          </SwiperSlide>
-        ))}
+        {slider.subcategory
+          ? products
+              .filter(
+                (product) =>
+                  product.category === slider.category &&
+                  product.subcategory.name === slider.subcategory
+              )
+              .map((item, index) => (
+                <SwiperSlide key={index}>
+                  <ProductCard product={item} />
+                </SwiperSlide>
+              ))
+          : products
+              .filter((product) => product.category === slider.category)
+              .map((item, index) => (
+                <SwiperSlide key={index}>
+                  <ProductCard product={item} />
+                </SwiperSlide>
+              ))}
       </Swiper>
-      <button>View All {heading}</button>
+      <button
+        onClick={() => {
+          window.location.pathname = slider.subcategory
+            ? `/products/${slider.category}/${slider.subcategory}`
+            : `/products/${slider.category}`;
+        }}
+      >
+        View All {slider.name}
+      </button>
     </div>
   );
 }

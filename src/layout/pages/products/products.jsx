@@ -4,28 +4,20 @@ import ProductCard from "../../components/productCard/productCard";
 import { Plus } from "react-feather";
 import { useParams } from "react-router-dom";
 import { collection, getFirestore, onSnapshot } from "firebase/firestore";
+import { useProducts } from "../../hooks/useProducts";
+
 function Products(props) {
+  const products = useProducts().products;
   const [state, setState] = useState({
     filterOptions: false,
     sortOptions: false,
-    products: [],
+    // products: [],
     loading: true,
   });
   const params = useParams();
-
-  useEffect(() => {
-    onSnapshot(collection(getFirestore(), "products"), (snapshot) => {
-      setState((prev) => ({ ...prev, products: [] }));
-      snapshot.docs.forEach((doc) => {
-        setState((prev) => ({
-          ...prev,
-          products: [...prev.products, { ...doc.data(), id: doc.id }],
-        }));
-      });
-      setState((prev) => ({ ...prev, loading: false }));
-    });
-  }, []);
-
+  // useEffect(() => {
+  //   setState((prev) => ({ ...prev, products: p, loading: false }));
+  // }, [p]);
   return (
     <div className="Products">
       <div className="breadCrumb">
@@ -166,19 +158,17 @@ function Products(props) {
             state.filterOptions ? "productListing threefr" : "productListing"
           }
         >
-          {state.loading
-            ? "loading..."
-            : params.subcategory
-            ? state.products
-                .filter((product) => product.category === params.category)
-                .filter(
+          {params.subcategory
+            ? products
+                ?.filter(
                   (product) =>
+                    product.category === params.category &&
                     product.subcategory.name === params.subcategory &&
                     params.type === product.subcategory.type
                 )
                 .map((item) => <ProductCard key={item.id} product={item} />)
-            : state.products
-                .filter((product) => product.category === params.category)
+            : products
+                ?.filter((product) => product.category === params.category)
                 .map((item) => <ProductCard key={item.id} product={item} />)}
         </div>
       </div>
