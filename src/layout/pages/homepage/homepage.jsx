@@ -8,6 +8,7 @@ import Footer from "../../components/footer/footer";
 import CategorySec from "./category-sec/category-sec";
 import FabricSec from "./Fabric-sec/fabric-sec";
 import { useProducts } from "../../hooks/useProducts";
+// import {   } from "modern-toaster"
 
 import {
   getFirestore,
@@ -49,6 +50,7 @@ function Homepage() {
 
   return (
     <div className="Homepage">
+      {/* <Toaster */}
       <TopSection banner={banner} />
       <Slider slider={sliders[0]} />
       <CategorySec />
