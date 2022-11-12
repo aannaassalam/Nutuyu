@@ -14,10 +14,8 @@ function Cart({ open, handleCart }) {
   const [price, setPrice] = useState(0);
   const user = useAuth().user;
   const handleDelete = (id) => {
-    console.log(id);
     const docref = doc(getFirestore(), "users", user.id);
     var updatedCart = user.cart.filter((item) => item !== id);
-    console.log(updatedCart);
     updateDoc(docref, {
       cart: updatedCart,
     });
@@ -27,7 +25,6 @@ function Cart({ open, handleCart }) {
       console.error("Your bag contains items which are sold");
     } else window.location.href = "/checkout";
   };
-  console.log(cartItems);
   return (
     <>
       {/* {loading ? (
