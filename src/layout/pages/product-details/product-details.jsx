@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./product-details.css";
-import girl1 from "../../../assets/girl1.jpg";
-import girl2 from "../../../assets/girl2.jpg";
-import girl3 from "../../../assets/girl3.jpg";
-import girl4 from "../../../assets/girl4.jpg";
-import girl5 from "../../../assets/girl5.jpg";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useProducts } from "../../hooks/useProducts";
@@ -44,7 +39,7 @@ export default function ProductDetails() {
     // });
     const local_product = products.find((product) => product.id === params.id);
     setProduct(local_product);
-    if (user.cart.includes(params.id)) {
+    if (user && user.cart.includes(params.id)) {
       setFound(true);
     } else {
       setFound(false);

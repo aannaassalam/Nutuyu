@@ -3,8 +3,27 @@
   padding: 10px 0;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-
+  position: relative;
   display: flex;
+}
+.CartCard .layer {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+.CartCard .sold {
+  width: 80px;
+  position: absolute;
+  top: 27px;
+  left: -2px;
+  font-weight: bold;
+  transform: rotate(-31deg);
+  background-color: red;
+  color: #fff;
+  text-align: center;
+  z-index: 0;
 }
 .CartCard img {
   width: 150px;
@@ -41,6 +60,7 @@
   font-size: 16px;
   text-decoration: underline;
   cursor: pointer;
+  z-index: 2;
 }
 .CartCard .details .counterDiv .counter {
   display: flex;

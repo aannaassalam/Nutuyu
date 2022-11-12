@@ -51,11 +51,27 @@
   width: 100%;
 }
 .Cart .cartCards {
-  height: 350px;
+  height: -webkit-fill-available;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   overflow-y: auto;
+  padding-right: 10px;
+  width: 100%;
+}
+.Cart .bottom {
+  margin-top: auto;
+  width: 100%;
+}
+
+.Cart .cartCards::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  scroll-behavior: smooth;
+}
+.Cart .cartCards::-webkit-scrollbar-thumb {
+  background-color: rgb(114, 107, 107);
+  border-radius: 10px;
 }
 .Cart .total {
   display: flex;
@@ -71,7 +87,7 @@
   text-decoration: underline;
   font-weight: 600;
 }
-.Cart .cartDiv button {
+.Cart button {
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -94,4 +110,12 @@
 .Cart .cartDiv .lastButton {
   background-color: #121212;
   color: #fff;
+}
+.Cart .emptyCart {
+  height: -webkit-fill-available;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
 }

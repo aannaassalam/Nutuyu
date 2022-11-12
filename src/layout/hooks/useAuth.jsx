@@ -24,6 +24,7 @@ export default function AuthProvider({ children }) {
             (doc) => {
               setUser({ ...doc.data(), ...user, id: doc.id });
               setLoading(false);
+              console.log("object");
             },
             (err) => {
               console.log(err);
@@ -31,6 +32,7 @@ export default function AuthProvider({ children }) {
             }
           );
         } else {
+          setLoading(false);
           setUser(null);
         }
       },
