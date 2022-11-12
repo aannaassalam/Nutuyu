@@ -89,7 +89,7 @@ function Login() {
           signInWithEmailAndPassword(getAuth(), email, password)
             .then((user) => {
               console.log("logged In!!");
-              window.location.href = "/products/clothing";
+              window.location.href = "/";
             })
             .catch((err) => console.log(err));
         } else {
