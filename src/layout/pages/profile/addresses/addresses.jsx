@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./addresses.css";
 import { useAuth } from "../../../hooks/useAuth";
 import { getFirestore, collection, updateDoc, doc } from "firebase/firestore";
+import Toaster from "../../../components/toaster/toaster";
 function Addresses() {
   const [state, setstate] = useState({
     addAddress: false,
@@ -10,6 +11,7 @@ function Addresses() {
     updateItem: "",
     selectedId: null,
   });
+  const [message, setmessage] = useState(null);
   const initialValue = {
     name: "dd",
     address1: "ukss",
@@ -71,7 +73,7 @@ function Addresses() {
             setvalues(initialValue);
           });
         } else {
-          console.error("address exists");
+          setmessage("Address Already Exists");
         }
       } else {
         if (
@@ -110,6 +112,18 @@ function Addresses() {
           console.error("address exists");
         }
       }
+    } else if (!values.name) {
+      setmessage("Please Enter Name");
+    } else if (!values.address1) {
+      setmessage("Please Enter address1");
+    } else if (!values.state) {
+      setmessage("Please Enter state");
+    } else if (!values.city) {
+      setmessage("Please Enter city");
+    } else if (!values.zipcode) {
+      setmessage("Please Enter zipcode");
+    } else if (!values.phone) {
+      setmessage("Please Enter phone");
     }
   };
   const deletAddress = (updateItem, id) => {
@@ -122,8 +136,10 @@ function Addresses() {
       console.log("done");
     });
   };
+  console.log(message);
   return (
     <div className="Addresses">
+      <Toaster message={message} />
       {!state.addAddress ? (
         <>
           <h2>Addresses</h2>
