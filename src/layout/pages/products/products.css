@@ -142,3 +142,12 @@
 .Products .filterOptions .optionList label:hover {
   background-color: #eee;
 }
+.noProductAvailable {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  grid-column-start: 1;
+  grid-column-end: 12;
+}

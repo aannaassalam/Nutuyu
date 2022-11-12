@@ -16,11 +16,16 @@ const routes = [
     id: "profile",
     Component: lazy(() => import("../layout/pages/profile/profile.jsx")),
   },
-  {
-    route: "/products/sold",
-    id: "product sold",
-    Component: lazy(() => import("../layout/pages/sold/sold.jsx")),
-  },
+  // {
+  //   route: "/products/sold",
+  //   id: "product sold",
+  //   Component: lazy(() => import("../layout/pages/products/products.jsx")),
+  // },
+  // {
+  //   route: "/products/:what's_new",
+  //   id: "what's new",
+  //   Component: lazy(() => import("../layout/pages/products/products.jsx")),
+  // },
   {
     route: "/products/:category",
     id: "category",

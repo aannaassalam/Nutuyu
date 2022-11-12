@@ -3,28 +3,25 @@ import "./cartCard.css";
 import image from "../../../assets/Black-tee.jpg";
 import { getDoc, doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { useProducts } from "../../hooks/useProducts";
-function CartCard({ product, setPrice, handleDelete }) {
+function CartCard({ product, setPrice, handleDelete, setsold }) {
   const [card, setcard] = useState();
 
   const products = useProducts().products;
   const cart_product = products.find((p) => p.id === product);
   useEffect(() => {
-    setPrice((prev) => prev + cart_product.price);
-
-    return () => {
-      setPrice((prev) => prev - cart_product.price);
-    };
+    console.log(cart_product.sold);
+    if (!cart_product.sold) {
+      setPrice((prev) => prev + parseInt(cart_product.price));
+      return () => {
+        setPrice((prev) => prev - cart_product.price);
+      };
+    } else setsold(true);
   }, []);
-
-  // useEffect(() => {
-  //   onSnapshot(doc(getFirestore(), "products", product), (doc) => {
-  //     setcard({ ...doc.data(), id: doc.id });
-  //     sendProduct(doc.data());
-  //   });
-  // }, []);
 
   return (
     <div className="CartCard">
+      {cart_product?.sold && <span className="sold">Sold</span>}
+      {cart_product?.sold && <div className="layer"></div>}
       <img src={cart_product?.images[0]?.image} alt="" />
       <div className="details">
         <div>

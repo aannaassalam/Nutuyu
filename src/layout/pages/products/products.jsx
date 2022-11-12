@@ -1,23 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { createElement, useEffect, useRef, useState } from "react";
 import "./products.css";
 import ProductCard from "../../components/productCard/productCard";
 import { Plus } from "react-feather";
 import { useParams } from "react-router-dom";
+import Lottie from "react-lottie";
+import ProductJson from "../../../assets/product.json";
 import { collection, getFirestore, onSnapshot } from "firebase/firestore";
 import { useProducts } from "../../hooks/useProducts";
 
 function Products(props) {
   const products = useProducts().products;
+  const listing = useRef();
   const [state, setState] = useState({
     filterOptions: false,
     sortOptions: false,
-    // products: [],
+    whatsNew: false,
+    sold: false,
     loading: true,
   });
   const params = useParams();
-  // useEffect(() => {
-  //   setState((prev) => ({ ...prev, products: p, loading: false }));
-  // }, [p]);
+  console.log(params);
+  useEffect(() => {
+    if (params.category === "what's-new") {
+      setState({ ...state, whatsNew: true });
+    }
+    if (params.category === "sold") {
+      setState({ ...state, sold: true });
+    }
+  }, []);
+
+  const NoProductsAvailable = () => {
+    return (
+      <div className="noProductAvailable">
+        <Lottie
+          options={{
+            animationData: ProductJson,
+            rendererSettings: {
+              preserveAspectRatio: "xMidYMid slice",
+            },
+          }}
+          height={200}
+          width={200}
+        />
+        <h1>Sorry No Products Available</h1>
+      </div>
+    );
+  };
+
   return (
     <div className="Products">
       <div className="breadCrumb">
@@ -158,18 +187,38 @@ function Products(props) {
             state.filterOptions ? "productListing threefr" : "productListing"
           }
         >
-          {params.subcategory
-            ? products
-                ?.filter(
-                  (product) =>
-                    product.category === params.category &&
-                    product.subcategory.name === params.subcategory &&
-                    params.type === product.subcategory.type
-                )
-                .map((item) => <ProductCard key={item.id} product={item} />)
-            : products
-                ?.filter((product) => product.category === params.category)
-                .map((item) => <ProductCard key={item.id} product={item} />)}
+          {state.whatsNew ? (
+            products
+              .sort((a, b) =>
+                a.date.nanoseconds > b.date.nanoseconds ? 1 : -1
+              )
+              .slice(0, 20)
+              .map((item) => <ProductCard key={item.id} product={item} />)
+          ) : state.sold ? (
+            products
+              ?.filter((product) => product.sold === true)
+
+              .map((item) => (
+                <ProductCard key={item.id} product={item} sold={true} />
+              ))
+          ) : (
+            <>
+              {params.subcategory
+                ? products
+                    ?.filter(
+                      (product) =>
+                        product.category === params.category &&
+                        product.subcategory.name === params.subcategory &&
+                        params.type === product.subcategory.type
+                    )
+                    .map((item) => <ProductCard key={item.id} product={item} />)
+                : products
+                    ?.filter((product) => product.category === params.category)
+                    .map((item) => (
+                      <ProductCard key={item.id} product={item} />
+                    ))}
+            </>
+          )}
         </div>
       </div>
     </div>
