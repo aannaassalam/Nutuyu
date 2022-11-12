@@ -61,7 +61,10 @@
 }
 .Cart .bottom {
   margin-top: auto;
+  padding-top: 20px;
   width: 100%;
+  border-top: 1px solid #ddd;
+  /* box-shadow: 0 -3px 20px #cccccc75; */
 }
 
 .Cart .cartCards::-webkit-scrollbar {

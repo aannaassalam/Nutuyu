@@ -59,6 +59,11 @@ const routes = [
     Component: lazy(() => import("../layout/pages/checkout/checkout.jsx")),
   },
   {
+    route: "/checkout/:id",
+    id: "checkout",
+    Component: lazy(() => import("../layout/pages/checkout/checkout.jsx")),
+  },
+  {
     route: "/orderDetail/:id",
     id: "orderDetail",
     Component: lazy(() =>

@@ -12,7 +12,7 @@ function Profile() {
   const user = useAuth();
 
   if (!user.loading && !user.user) {
-    window.location.href = "/products/clothing";
+    window.location.href = "/";
   }
 
   return (

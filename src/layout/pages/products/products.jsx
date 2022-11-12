@@ -10,16 +10,24 @@ import { useProducts } from "../../hooks/useProducts";
 
 function Products(props) {
   const products = useProducts().products;
-  const listing = useRef();
+  const params = useParams();
+
   const [state, setState] = useState({
     filterOptions: false,
     sortOptions: false,
     whatsNew: false,
     sold: false,
     loading: true,
+    filter: {
+      types: [],
+      selectedTypes: [],
+      subcategories: [],
+      selectedSubcategory: params.subcategory ? [params.subcategory] : [],
+      priceRange: [],
+    },
+    categories: [],
   });
-  const params = useParams();
-  console.log(params);
+
   useEffect(() => {
     if (params.category === "what's-new") {
       setState({ ...state, whatsNew: true });
@@ -28,6 +36,32 @@ function Products(props) {
       setState({ ...state, sold: true });
     }
   }, []);
+
+  useEffect(() => {
+    onSnapshot(collection(getFirestore(), "settings"), (snapshot) => {
+      const categories = snapshot.docs[0].data().categories;
+      const category = categories.find((cat) => cat.name === params.category);
+      if (category && !params.subcategory) {
+        setState((prev) => ({
+          ...prev,
+          filter: {
+            ...prev.filter,
+            types: category?.types,
+          },
+        }));
+      } else if (category) {
+        setState((prev) => ({
+          ...prev,
+          filter: {
+            ...prev.filter,
+            subcategories: category.subcategories.filter(
+              (sub) => sub.type === params.type
+            ),
+          },
+        }));
+      }
+    });
+  }, [params]);
 
   const NoProductsAvailable = () => {
     return (
@@ -103,45 +137,79 @@ function Products(props) {
       >
         {state.filterOptions ? (
           <div className="filterOptions">
-            <div className="optionList">
-              <h3>Gender</h3>
-              <label>
-                <input type="checkbox" />
-                Male
-              </label>
-              <label>
-                <input type="checkbox" />
-                Female
-              </label>
-            </div>
-            <div className="optionList">
-              <h3>Styles</h3>
-              <label>
-                <input type="checkbox" />
-                Tanks
-              </label>
-              <label>
-                <input type="checkbox" />
-                Shirts
-              </label>
-              <label>
-                <input type="checkbox" />
-                Shorts
-              </label>{" "}
-              <label>
-                <input type="checkbox" />
-                Joggers
-              </label>{" "}
-              <label>
-                <input type="checkbox" />
-                Hoodies
-              </label>{" "}
-              <label>
-                <input type="checkbox" />
-                Jackets
-              </label>
-            </div>
-            <div className="optionList">
+            {state.filter.types.length > 0 && (
+              <div className="optionList">
+                <h3>Types</h3>
+
+                {state.filter.types.map((type) => {
+                  return (
+                    type && (
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={state.filter.selectedTypes.includes(type)}
+                          onChange={(e) =>
+                            setState((prev) => ({
+                              ...prev,
+                              filter: {
+                                ...prev.filter,
+                                selectedTypes:
+                                  prev.filter.selectedTypes.includes(type)
+                                    ? prev.filter.selectedTypes.filter(
+                                        (t) => t !== type
+                                      )
+                                    : [...prev.filter.selectedTypes, type],
+                              },
+                            }))
+                          }
+                        />
+                        {type}
+                      </label>
+                    )
+                  );
+                })}
+              </div>
+            )}
+            {state.filter.subcategories.length > 0 && (
+              <div className="optionList">
+                <h3>Subcategories</h3>
+                {state.filter.subcategories?.map((subcategory) => {
+                  return (
+                    subcategory.name && (
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={state.filter.selectedSubcategory.includes(
+                            subcategory.name
+                          )}
+                          onChange={(e) =>
+                            setState((prev) => ({
+                              ...prev,
+                              filter: {
+                                ...prev.filter,
+                                selectedSubcategory:
+                                  prev.filter.selectedSubcategory.includes(
+                                    subcategory.name
+                                  )
+                                    ? prev.filter.selectedSubcategory.filter(
+                                        (s) => s !== subcategory.name
+                                      )
+                                    : [
+                                        ...prev.filter.selectedSubcategory,
+                                        subcategory.name,
+                                      ],
+                              },
+                            }))
+                          }
+                        />
+                        {subcategory.name}
+                      </label>
+                    )
+                  );
+                })}
+              </div>
+            )}
+            {/* <div className="optionList">
               <h3>Color</h3>
               <label>
                 <input type="checkbox" />
@@ -179,7 +247,7 @@ function Products(props) {
                 <input type="checkbox" />
                 Violet
               </label>
-            </div>
+            </div> */}
           </div>
         ) : null}
         <div
@@ -187,38 +255,58 @@ function Products(props) {
             state.filterOptions ? "productListing threefr" : "productListing"
           }
         >
-          {state.whatsNew ? (
-            products
-              .sort((a, b) =>
-                a.date.nanoseconds > b.date.nanoseconds ? 1 : -1
-              )
-              .slice(0, 20)
-              .map((item) => <ProductCard key={item.id} product={item} />)
-          ) : state.sold ? (
-            products
-              ?.filter((product) => product.sold === true)
+          {state.whatsNew
+            ? products
+                .sort((a, b) =>
+                  a.date.nanoseconds > b.date.nanoseconds ? 1 : -1
+                )
+                .slice(0, 20)
+                .map((item) => <ProductCard key={item.id} product={item} />)
+            : state.sold
+            ? products
+                ?.filter((product) => product.sold === true)
 
-              .map((item) => (
-                <ProductCard key={item.id} product={item} sold={true} />
-              ))
-          ) : (
-            <>
-              {params.subcategory
-                ? products
-                    ?.filter(
-                      (product) =>
-                        product.category === params.category &&
-                        product.subcategory.name === params.subcategory &&
-                        params.type === product.subcategory.type
+                .map((item) => (
+                  <ProductCard key={item.id} product={item} sold={true} />
+                ))
+            : params.subcategory
+            ? state.filter.selectedSubcategory.length
+              ? products
+                  ?.filter(
+                    (product) =>
+                      product.category === params.category &&
+                      params.type === product.subcategory.type &&
+                      state.filter.selectedSubcategory.includes(
+                        product.subcategory.name
+                      )
+                  )
+                  .map((item) => <ProductCard key={item.id} product={item} />)
+              : products
+                  ?.filter((product) => {
+                    if (
+                      product.category === params.category &&
+                      product.subcategory.name === params.subcategory
+                    ) {
+                      if (!params.type) return product;
+                      if (params.type !== product.subcategory.type)
+                        return false;
+                      return product;
+                    }
+                  })
+                  .map((item) => <ProductCard key={item.id} product={item} />)
+            : state.filter.selectedTypes.length
+            ? products
+                ?.filter(
+                  (product) =>
+                    product.category === params.category &&
+                    state.filter.selectedTypes.includes(
+                      product.subcategory.type
                     )
-                    .map((item) => <ProductCard key={item.id} product={item} />)
-                : products
-                    ?.filter((product) => product.category === params.category)
-                    .map((item) => (
-                      <ProductCard key={item.id} product={item} />
-                    ))}
-            </>
-          )}
+                )
+                .map((item) => <ProductCard key={item.id} product={item} />)
+            : products
+                ?.filter((product) => product.category === params.category)
+                .map((item) => <ProductCard key={item.id} product={item} />)}
         </div>
       </div>
     </div>

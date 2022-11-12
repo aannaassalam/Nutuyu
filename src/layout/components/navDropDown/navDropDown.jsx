@@ -30,10 +30,10 @@ function NavDropDown({ open, links, p, image, drop, name, types }) {
           onMouseLeave={() => setdropDown(false)}
         >
           {types.length > 0 ? (
-            types.map((type) => {
+            types.map((type, idx) => {
               return (
                 type && (
-                  <div className="productList">
+                  <div className="productList" key={idx}>
                     <h4>{type}</h4>
                     {mapSubcategories(type)}
                   </div>
@@ -44,11 +44,12 @@ function NavDropDown({ open, links, p, image, drop, name, types }) {
             <div className="productList">
               <h4>Products</h4>
               <div>
-                {links?.map((item) => (
+                {links?.map((item, idx) => (
                   <a
                     href={`/products/${name}/${
                       item.type ? item.type + "/" : ""
                     }${item.name}`}
+                    key={idx}
                   >
                     {item.name}
                   </a>

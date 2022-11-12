@@ -90,7 +90,13 @@ export default function ProductDetails() {
       <div className="right">
         <h3>{product.name}</h3>
         <h3>${product.price}</h3>
-        <button>Buy Now</button>
+        <button
+          onClick={() =>
+            (window.location.href = `/checkout/${btoa(params.id)}`)
+          }
+        >
+          Buy Now
+        </button>
         <button
           onClick={() => {
             addToCart();

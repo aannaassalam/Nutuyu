@@ -22,7 +22,7 @@ function App() {
       <Loader loading={user.loading || products.loading} />
       {!user.loading && !products.loading && (
         <>
-          {location.pathname !== "/checkout" && (
+          {!location.pathname.startsWith("/checkout") && (
             <Navbar handleCart={() => setcart((prev) => !prev)} />
           )}
           <Routes>
@@ -37,10 +37,10 @@ function App() {
               );
             })}
           </Routes>
-          {location.pathname !== "/checkout" && (
+          {!location.pathname.startsWith("/checkout") && (
             <Cart open={cart} handleCart={() => setcart(!cart)} />
           )}
-          {location.pathname !== "/checkout" && <Footer />}
+          {!location.pathname.startsWith("/checkout") && <Footer />}
         </>
       )}
     </div>
