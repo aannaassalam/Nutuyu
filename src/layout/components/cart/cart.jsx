@@ -57,7 +57,11 @@ function Cart({ open, handleCart }) {
                 <p>${price}</p>
               </div>
               <p>Taxes and shipping calculated at checkout</p>
-              <button className="lastButton" onClick={() => goCheckout()}>
+              <button
+                className="lastButton"
+                onClick={() => goCheckout()}
+                disabled={user.cart.length === 0}
+              >
                 checkout
               </button>
             </div>
@@ -80,22 +84,23 @@ function Cart({ open, handleCart }) {
             </button>
           </div>
         )}
+        {/* <div className="total">
+          <p>SUB TOTAL</p>
+          <p>${price}</p>
+        </div>
+        <p>Taxes and shipping calculated at checkout</p>
+        <p>
+          <span>Earn $24.00 credit</span> by paying with{" "}
+          <strong>CATCH ⓘ</strong>
+        </p>
+        <button>go to cart</button>
+        <button
+          className="lastButton"
+          onClick={() => (window.location.href = "/checkout")}
+        >
+          checkout
+        </button> */}
       </div>
-      <div className="total">
-        <p>SUB TOTAL</p>
-        <p>${price}</p>
-      </div>
-      <p>Taxes and shipping calculated at checkout</p>
-      <p>
-        <span>Earn $24.00 credit</span> by paying with <strong>CATCH ⓘ</strong>
-      </p>
-      <button>go to cart</button>
-      <button
-        className="lastButton"
-        onClick={() => (window.location.href = "/checkout")}
-      >
-        checkout
-      </button>
     </div>
   );
 }

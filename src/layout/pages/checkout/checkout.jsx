@@ -1,19 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./checkout.css";
 import image from "../../../assets/white-tee.jpg";
 import visa from "../../../assets/visa.png";
 import paypal from "../../../assets/paypal.png";
+import { useAuth } from "../../hooks/useAuth";
+import { useProducts } from "../../hooks/useProducts";
+import { useParams } from "react-router";
 
 export default function Checkout() {
-  const orderSummaryCard = () => {
+  const user = useAuth().user;
+  const products = useProducts().products;
+  const params = useParams();
+
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    if (
+      (user.cart.length === 0 && params.id) ||
+      (user.cart.length > 0 && !params.id) ||
+      (user.cart.length > 0 && params.id)
+    )
+      user.cart.forEach((item) => {
+        setTotalPrice(
+          (prev) => prev + products.find((product) => product.id === item).price
+        );
+      });
+    else {
+      window.location.href = "/";
+    }
+  }, []);
+
+  const orderSummaryCard = (item) => {
+    const product = products.find((prod) => prod.id === item);
     return (
       <div className="summary-card">
         <div className="summary">
-          <img src={image} alt="" />
-          <p>The Cloud Pant - Midnight Static</p>
+          <img src={product.images[0].image} alt="" />
+          <p>{product.name}</p>
         </div>
-        <p className="price">$56</p>
-        <p className="total">$56</p>
+        <p className="price">${product.price}</p>
+        <p className="total">${product.price}</p>
       </div>
     );
   };
@@ -51,10 +77,10 @@ export default function Checkout() {
           <span>Price</span>
           <span>Total</span>
         </h3>
-        {[1, 2].map((item) => orderSummaryCard())}
+        {user.cart.map((item) => orderSummaryCard(item))}
         <div className="total-sec">
           <span>Items total</span>
-          <span>$112</span>
+          <span>${totalPrice}</span>
         </div>
       </div>
       <div className="addresses">
@@ -105,12 +131,12 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-      <div className="shipping">
+      {/* <div className="shipping">
         <h3>
           <span>Shipping</span>
         </h3>
         <div className="shipping-body">{shippingCard()}</div>
-      </div>
+      </div> */}
       <div className="payment-container">
         <div className="payment">
           <h3>
@@ -200,7 +226,7 @@ export default function Checkout() {
           <div className="billing-body">
             <div className="billing-row">
               <span>Items total</span>
-              <strong>$112.00</strong>
+              <strong>${totalPrice.toFixed(2)}</strong>
             </div>
             <div className="billing-row">
               <span>Shipping</span>
@@ -208,7 +234,7 @@ export default function Checkout() {
             </div>
             <div className="total-bill">
               <span>Total For Your Order</span>
-              <strong>$112.00</strong>
+              <strong>${totalPrice.toFixed(2)}</strong>
             </div>
             <p>
               All applicable duties, taxes and fees are included in the total

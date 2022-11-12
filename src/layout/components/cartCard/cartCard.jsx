@@ -9,7 +9,6 @@ function CartCard({ product, setPrice, handleDelete, setsold }) {
   const products = useProducts().products;
   const cart_product = products.find((p) => p.id === product);
   useEffect(() => {
-    console.log(cart_product.sold);
     if (!cart_product.sold) {
       setPrice((prev) => prev + parseInt(cart_product.price));
       return () => {
