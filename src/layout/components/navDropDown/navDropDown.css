@@ -26,7 +26,7 @@
 
 .NavDropDown .productList {
   display: flex;
-  padding: 0 100px;
+  padding: 0 60px;
   margin-top: 10px;
   border-left: 1px solid rgba(0, 0, 0, 0.05);
   flex-direction: column;
