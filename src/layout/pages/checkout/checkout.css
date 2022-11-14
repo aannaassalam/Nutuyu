@@ -81,19 +81,37 @@
 .address-container .address-card {
   padding: 0 10px 5px;
   margin-bottom: 10px;
+  cursor: pointer;
   border-bottom: 1px dashed #d0d0d0;
 }
-
+.address-container .address-card.active {
+  background: #121212;
+  color: #fff;
+}
+.address-container .address-card.disable {
+  position: relative;
+}
+.address-container .address-card.disable :after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
 .address-container .address-card p:first-child {
   font-weight: 300;
   margin-bottom: 3px;
 }
 
-.address-container .saved-address {
+.address-container .saved-addresses {
   height: 550px;
   overflow-y: auto;
 }
-
+.address-container .saved-addresses h3 {
+  margin-bottom: 20px;
+}
 .address-container .new-address {
   border-left: 1px solid #d0d0d0;
   padding-left: 15px;
@@ -265,7 +283,9 @@
   margin-left: 10px;
   margin-top: 30px;
 }
-
+.checkout-page button:hover {
+  background-color: #f77f00;
+}
 .checkout-page > h3 {
   display: flex;
   justify-content: center;
@@ -277,11 +297,18 @@
   cursor: pointer;
 }
 
-input {
+.checkout-page input {
   padding: 5px 10px;
 }
-
-a {
+.checkout-page label {
+  padding: 0 10px 20px;
+  user-select: none;
+}
+.checkout-page input[type="checkbox"] {
+  margin-right: 10px;
+  accent-color: #121212;
+}
+.checkout-page a {
   color: #121212;
   text-decoration: none;
 }

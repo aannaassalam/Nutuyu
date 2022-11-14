@@ -76,7 +76,7 @@ function Navbar({ handleCart }) {
         </div>
       </div>
       <div className={nav ? "visibleBottom bottom" : "bottom"}>
-        {width > 970 ? null : (
+        {width > 1080 ? null : (
           <span
             className="crossIcon"
             onClick={() => {
@@ -90,7 +90,7 @@ function Navbar({ handleCart }) {
         <a href={`/products/what's-new`}>What's new</a>
         {categories.map((item, id) => (
           <>
-            {width > 970 ? (
+            {width > 1080 ? (
               <a
                 href={`/products/${item.name}`}
                 onMouseOver={() => {

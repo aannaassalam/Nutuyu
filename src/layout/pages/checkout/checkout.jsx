@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./checkout.css";
 import image from "../../../assets/white-tee.jpg";
 import visa from "../../../assets/visa.png";
@@ -6,17 +6,43 @@ import paypal from "../../../assets/paypal.png";
 import { useAuth } from "../../hooks/useAuth";
 import { useProducts } from "../../hooks/useProducts";
 import { useParams } from "react-router";
-import { addDoc, collection, doc, getFirestore } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getFirestore,
+  updateDoc,
+} from "firebase/firestore";
+import { Button } from "@mui/material";
 
 export default function Checkout() {
   const user = useAuth().user;
   const products = useProducts().products;
   const params = useParams();
-
+  const checkRef = useRef();
+  const [state, setstate] = useState({
+    billing: false,
+    shipping: false,
+    checkbox: false,
+    selectedShipping: {},
+    selectedBilling: {},
+  });
+  const [message, setmessage] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const initialValue = {
+    name: "",
+    address1: "",
+    address2: "",
+    state: "",
+    city: "",
+    zipcode: null,
+    phone: null,
+  };
+  const [values, setvalues] = useState(initialValue);
+  const [values2, setvalues2] = useState(initialValue);
 
   useEffect(() => {
-    console.log(params.id);
+    console.log(atob(params.id));
     if (
       (user?.cart.length === 0 && params.id) ||
       (user?.cart.length > 0 && !params.id) ||
@@ -37,6 +63,137 @@ export default function Checkout() {
     }
   }, []);
 
+  const handleChange = (name, value, changeItemType) => {
+    if (changeItemType === "billingChange")
+      setvalues2({ ...values2, [name]: value });
+    else setvalues({ ...values, [name]: value });
+  };
+  const placeOrder = () => {
+    if (
+      (state.selectedBilling.address1 && state.selectedShipping.address1) ||
+      (state.selectedShipping.address1 && checkRef.current.checked)
+    ) {
+      addDoc(collection(getFirestore(), "orders"), {
+        date: new Date(),
+        items: params.id
+          ? products.find((prod) => prod.id === atob(params.id))
+          : user.cart.map((item) => products.find((prod) => prod.id === item)),
+        user: {
+          user_id: user.id,
+          user_email: user.email,
+          user_phone: user.phone_number,
+        },
+        shipping_address: state.selectedShipping,
+        billing_address: checkRef.current.checked
+          ? state.selectedShipping
+          : state.selectedBilling,
+        total: totalPrice,
+        paid: true,
+      }).then((docRef) => {
+        updateDoc(doc(getFirestore(), "users", user.id), {
+          orders: [...user.orders, docRef.id],
+        }).then(() => {
+          console.log(96);
+          params.id
+            ? updateDoc(
+                doc(getFirestore(), "products", atob(params.id), {
+                  sold: true,
+                })
+              ).then(() => {
+                console.log("added");
+                window.location.pathname = `orderDetail/${docRef.id}`;
+              })
+            : user.cart.forEach((item) => {
+                updateDoc(doc(getFirestore(), "products", item), {
+                  sold: true,
+                }).then(() => {
+                  updateDoc(doc(getFirestore(), "users", user.id), {
+                    cart: [],
+                  }).then(() => {
+                    console.log("added");
+                    window.location.pathname = `orderDetail/${docRef.id}`;
+                  });
+                });
+              });
+        });
+      });
+    } else if (!state.selectedBilling.address1) {
+      setmessage("Select Billing Address");
+    } else if (!state.selectedShipping.address1) {
+      setmessage("Select Shipping Address");
+    }
+  };
+  const AddAddress = (updateItem) => {
+    const localValues = updateItem === "shipping_addresses" ? values : values2;
+    console.log(localValues);
+    if (
+      localValues.name &&
+      localValues.address1 &&
+      localValues.state &&
+      localValues.city &&
+      localValues.zipcode &&
+      localValues.phone
+    ) {
+      console.log(2);
+      if (
+        !user[updateItem].find((item) => item.address1 === localValues.address1)
+      ) {
+        var idName = updateItem === "shipping_addresses" ? "ship" : "bill";
+        const localAddresss = {
+          name: localValues.name,
+          address1: localValues.address1,
+          address2: localValues.address2,
+          state: localValues.state,
+          city: localValues.city,
+          zipcode: localValues.zipcode,
+          phone: localValues.phone,
+          id:
+            user[updateItem].length > 0
+              ? `${idName}${
+                  parseInt(
+                    user[updateItem][user[updateItem].length - 1].id.substring(
+                      4
+                    )
+                  ) + 1
+                }`
+              : idName + 1,
+        };
+        updateDoc(doc(getFirestore(), "users", user.id), {
+          [updateItem]: [...user[updateItem], localAddresss],
+        }).then(() => {
+          if (updateItem === "shipping_addresses") {
+            setstate({
+              ...state,
+              shipping: false,
+            });
+            setvalues(initialValue);
+          } else {
+            setstate({
+              ...state,
+              billing: false,
+            });
+            setvalues2(initialValue);
+          }
+          console.log("added");
+        });
+      } else {
+        setmessage("Address Already Exists");
+      }
+    } else if (!localValues.name) {
+      setmessage("Please Enter Name");
+    } else if (!localValues.address1) {
+      setmessage("Please Enter address1");
+    } else if (!localValues.state) {
+      setmessage("Please Enter state");
+    } else if (!localValues.city) {
+      setmessage("Please Enter city");
+    } else if (!localValues.zipcode) {
+      setmessage("Please Enter zipcode");
+    } else if (!localValues.phone) {
+      setmessage("Please Enter phone");
+    }
+  };
+
   const orderSummaryCard = (item) => {
     const product = products.find((prod) => prod.id === item);
     return (
@@ -51,11 +208,25 @@ export default function Checkout() {
     );
   };
 
-  const addressCard = () => {
+  const addressCard = (item, updateItem) => {
     return (
-      <div className="address-card">
-        <p>John Doe</p>
-        <p>123, XYZ streeet, 123 456</p>
+      <div
+        onClick={() => {
+          if (!checkRef?.current?.checked) {
+            setstate({ ...state, [updateItem]: item });
+          } else if (updateItem === "selectedShipping")
+            setstate({ ...state, [updateItem]: item });
+        }}
+        className={
+          checkRef?.current?.checked && updateItem === "selectedBilling"
+            ? "address-card disable"
+            : state[updateItem].address1 === item.address1
+            ? "address-card active"
+            : "address-card"
+        }
+      >
+        <p>{item.name}</p>
+        <p>{item.address1}</p>
       </div>
     );
   };
@@ -72,25 +243,7 @@ export default function Checkout() {
       </div>
     );
   };
-
-  const placeOrder = () => {
-    addDoc(collection(getFirestore(), "orders"), {
-      date: new Date(),
-      items: params.id
-        ? products.find((prod) => prod.id === atob(params.id))
-        : user.cart.map((item) => products.find((prod) => prod.id === item)),
-      user: {
-        user_id: user.id,
-        user_email: user.email,
-        user_phone: user.phone,
-      },
-      shipping_address: {},
-      billing_address: {},
-      total: totalPrice,
-      paid: true,
-    });
-  };
-
+  console.log(checkRef?.current?.checked);
   return (
     <div className="checkout-page">
       {totalPrice && (
@@ -118,54 +271,241 @@ export default function Checkout() {
             </h3>
             <div className="address-container">
               <div className="saved-addresses">
-                {[1, 2].map((item) => addressCard())}
+                <h3>Shipping Address</h3>
+                {!state.shipping ? (
+                  <>
+                    {user?.shipping_addresses.map((item) =>
+                      addressCard(item, "selectedShipping")
+                    )}
+                    <Button
+                      onClick={() => {
+                        setstate({ ...state, shipping: true });
+                      }}
+                    >
+                      Add New Address
+                    </Button>
+                  </>
+                ) : (
+                  <div className="new-address">
+                    <div>
+                      <p>First Name</p>
+                      <input
+                        type="text"
+                        value={values.name}
+                        onChange={(e) => {
+                          handleChange("name", e.target.value);
+                        }}
+                      />
+                    </div>
+
+                    <div>
+                      <p>Address Line 1</p>
+                      <input
+                        type="text"
+                        value={values.address1}
+                        onChange={(e) => {
+                          handleChange("address1", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p>Address Line 2</p>
+                      <input
+                        type="text"
+                        value={values.address2}
+                        onChange={(e) => {
+                          handleChange("address2", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p>State</p>
+                      <input
+                        type="text"
+                        value={values.state}
+                        onChange={(e) => {
+                          handleChange("state", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p>City</p>
+                      <input
+                        type="text"
+                        value={values.city}
+                        onChange={(e) => {
+                          handleChange("city", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p>Zip / Postcode</p>
+                      <input
+                        type="number"
+                        value={values.zipcode}
+                        onChange={(e) => {
+                          handleChange("zipcode", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p>Mobile Phone</p>
+                      <input
+                        type="number"
+                        value={values.phone}
+                        onChange={(e) => {
+                          handleChange("phone", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <Button
+                      onClick={() => {
+                        setstate({ ...state, shipping: false });
+                        setvalues(initialValue);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button onClick={() => AddAddress("shipping_addresses")}>
+                      Add Address
+                    </Button>
+                  </div>
+                )}
               </div>
-              <div className="new-address">
-                <div>
-                  <p>First Name</p>
-                  <input type="text" />
-                </div>
-                <div>
-                  <p>Last Name</p>
-                  <input type="text" />
-                </div>
-                <div>
-                  <p>Email</p>
-                  <input type="text" />
-                </div>
-                <div>
-                  <p>Country</p>
-                  <input type="text" />
-                </div>
-                <div>
-                  <p>Address Line 1</p>
-                  <input type="text" />
-                </div>
-                <div>
-                  <p>Address Line 2</p>
-                  <input type="text" />
-                </div>
-                <div>
-                  <p>City</p>
-                  <input type="text" />
-                </div>
-                <div>
-                  <p>Zip / Postcode</p>
-                  <input type="text" />
-                </div>
-                <div>
-                  <p>Mobile Phone</p>
-                  <input type="text" />
-                </div>
+              {/* billing */}
+              <div className="saved-addresses">
+                <h3>Billing Address</h3>
+                <label
+                  onClick={() => {
+                    setstate({ ...state });
+                  }}
+                >
+                  <input type="checkbox" ref={checkRef} />
+                  Select As Shipping Address
+                </label>
+                {!state.billing ? (
+                  <>
+                    {user?.billing_addresses.map((item) =>
+                      addressCard(item, "selectedBilling")
+                    )}
+                    <Button
+                      onClick={() => {
+                        setstate({ ...state, billing: true });
+                      }}
+                    >
+                      Add New Address
+                    </Button>
+                  </>
+                ) : (
+                  <div className="new-address">
+                    <div>
+                      <p>First Name</p>
+                      <input
+                        type="text"
+                        value={values2.name}
+                        onChange={(e) => {
+                          handleChange("name", e.target.value, "billingChange");
+                        }}
+                      />
+                    </div>
+
+                    <div>
+                      <p>Address Line 1</p>
+                      <input
+                        type="text"
+                        value={values2.address1}
+                        onChange={(e) => {
+                          handleChange(
+                            "address1",
+                            e.target.value,
+                            "billingChange"
+                          );
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p>Address Line 2</p>
+                      <input
+                        type="text"
+                        value={values2.address2}
+                        onChange={(e) => {
+                          handleChange(
+                            "address2",
+                            e.target.value,
+                            "billingChange"
+                          );
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p>State</p>
+                      <input
+                        type="text"
+                        value={values2.state}
+                        onChange={(e) => {
+                          handleChange(
+                            "state",
+                            e.target.value,
+                            "billingChange"
+                          );
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p>City</p>
+                      <input
+                        type="text"
+                        value={values2.city}
+                        onChange={(e) => {
+                          handleChange("city", e.target.value, "billingChange");
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p>Zip / Postcode</p>
+                      <input
+                        type="number"
+                        value={values2.zipcode}
+                        onChange={(e) => {
+                          handleChange(
+                            "zipcode",
+                            e.target.value,
+                            "billingChange"
+                          );
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p>Mobile Phone</p>
+                      <input
+                        type="number"
+                        value={values2.phone}
+                        onChange={(e) => {
+                          handleChange(
+                            "phone",
+                            e.target.value,
+                            "billingChange"
+                          );
+                        }}
+                      />
+                    </div>
+                    <Button
+                      onClick={() => {
+                        setstate({ ...state, billing: false });
+                        setvalues2(initialValue);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button onClick={() => AddAddress("billing_addresses")}>
+                      Add Address
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-          {/* <div className="shipping">
-        <h3>
-          <span>Shipping</span>
-        </h3>
-        <div className="shipping-body">{shippingCard()}</div>
-      </div> */}
+
           <div className="payment-container">
             <div className="payment">
               <h3>
@@ -274,7 +614,9 @@ export default function Checkout() {
               </div>
             </div>
           </div>
-          <button type="button">Pay and place order</button>
+          <button type="button" onClick={() => placeOrder()}>
+            Pay and place order
+          </button>
           <h3>
             <span>Contact Us | Help | Terms & conditions | Privacy Policy</span>
           </h3>

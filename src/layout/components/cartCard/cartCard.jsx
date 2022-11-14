@@ -3,7 +3,7 @@ import "./cartCard.css";
 import image from "../../../assets/Black-tee.jpg";
 import { getDoc, doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { useProducts } from "../../hooks/useProducts";
-function CartCard({ product, setPrice, handleDelete, setsold }) {
+function CartCard({ product, setPrice, handleDelete }) {
   const [card, setcard] = useState();
 
   const products = useProducts().products;
@@ -14,7 +14,7 @@ function CartCard({ product, setPrice, handleDelete, setsold }) {
       return () => {
         setPrice((prev) => prev - cart_product.price);
       };
-    } else setsold(true);
+    }
   }, []);
 
   return (

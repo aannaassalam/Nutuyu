@@ -261,7 +261,9 @@ function Products(props) {
                   a.date.nanoseconds > b.date.nanoseconds ? 1 : -1
                 )
                 .slice(0, 20)
-                .map((item) => <ProductCard key={item.id} product={item} />)
+                .map((item) => (
+                  <ProductCard key={item.id} product={item} sold={item.sold} />
+                ))
             : state.sold
             ? products
                 ?.filter((product) => product.sold === true)
@@ -280,7 +282,13 @@ function Products(props) {
                         product.subcategory.name
                       )
                   )
-                  .map((item) => <ProductCard key={item.id} product={item} />)
+                  .map((item) => (
+                    <ProductCard
+                      key={item.id}
+                      product={item}
+                      sold={item.sold}
+                    />
+                  ))
               : products
                   ?.filter((product) => {
                     if (
@@ -293,7 +301,13 @@ function Products(props) {
                       return product;
                     }
                   })
-                  .map((item) => <ProductCard key={item.id} product={item} />)
+                  .map((item) => (
+                    <ProductCard
+                      key={item.id}
+                      product={item}
+                      sold={item.sold}
+                    />
+                  ))
             : state.filter.selectedTypes.length
             ? products
                 ?.filter(
@@ -303,10 +317,14 @@ function Products(props) {
                       product.subcategory.type
                     )
                 )
-                .map((item) => <ProductCard key={item.id} product={item} />)
+                .map((item) => (
+                  <ProductCard key={item.id} product={item} sold={item.sold} />
+                ))
             : products
                 ?.filter((product) => product.category === params.category)
-                .map((item) => <ProductCard key={item.id} product={item} />)}
+                .map((item) => (
+                  <ProductCard key={item.id} product={item} sold={item.sold} />
+                ))}
         </div>
       </div>
     </div>

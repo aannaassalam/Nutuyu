@@ -13,13 +13,13 @@ function Addresses() {
   });
   const [message, setmessage] = useState(null);
   const initialValue = {
-    name: "dd",
-    address1: "ukss",
-    address2: "a",
-    state: "aa",
-    city: "aaa",
-    zipcode: 8,
-    phone: 8,
+    name: "",
+    address1: "",
+    address2: "",
+    state: "",
+    city: "",
+    zipcode: null,
+    phone: null,
   };
   const [values, setvalues] = useState(initialValue);
   const user = useAuth().user;

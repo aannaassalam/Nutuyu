@@ -6,10 +6,11 @@ import { useAuth } from "../../hooks/useAuth";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import Lottie from "react-lottie";
 import empty from "../../../assets/629-empty-box.json";
+import { useProducts } from "../../hooks/useProducts";
 function Cart({ open, handleCart }) {
-  const [sold, setsold] = useState(false);
   const [price, setPrice] = useState(0);
   const user = useAuth().user;
+  const products = useProducts().products;
 
   const handleDelete = (id) => {
     const docref = doc(getFirestore(), "users", user.id);
@@ -20,7 +21,11 @@ function Cart({ open, handleCart }) {
   };
 
   const goCheckout = () => {
-    if (sold) {
+    const prods = [];
+    user.cart.forEach((Cartitem) => {
+      prods.push(products.find((item) => item.id === Cartitem));
+    });
+    if (prods.find((item) => item.sold === true)) {
       console.error("Your bag contains items which are sold");
     } else window.location.href = "/checkout";
   };
@@ -47,7 +52,6 @@ function Cart({ open, handleCart }) {
                   key={product}
                   setPrice={setPrice}
                   handleDelete={() => handleDelete(product)}
-                  setsold={setsold}
                 />
               ))}
             </div>

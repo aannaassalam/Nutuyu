@@ -45,6 +45,7 @@ export default function ProductCard({ product, sold }) {
       });
     }
   };
+  console.log(sold);
   return (
     <a href={`/product/${product.id}`} className="product-card">
       {sold && <span className="sold">Sold</span>}
