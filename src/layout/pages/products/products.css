@@ -152,3 +152,33 @@
   grid-column-start: 1;
   grid-column-end: 12;
 }
+@media (max-width: 845px) {
+  .Products .productListingWrapper .productListing {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .Products .breadCrumb,
+  .Products .filterSection {
+    padding: 0 20px;
+  }
+  .Products .productListingWrapper .productListing.threefr {
+    grid-template-columns: 1fr 1fr;
+  }
+  .Products .productListingWrapper.fourfr {
+    grid-template-columns: 2fr 3fr;
+  }
+}
+@media (max-width: 550px) {
+  .Products .productListingWrapper .productListing {
+    grid-template-columns: 1fr 1fr;
+  }
+  .Products .productListingWrapper.fourfr {
+    grid-template-columns: 1fr 1fr;
+  }
+  .Products .productListingWrapper .productListing.threefr {
+    grid-template-columns: 1fr;
+  }
+  .Products h1.displayName {
+    font-size: 1.75rem;
+    margin: 20px;
+  }
+}

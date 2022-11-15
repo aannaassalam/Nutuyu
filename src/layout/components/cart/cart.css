@@ -122,3 +122,26 @@
   flex-direction: column;
   margin: auto;
 }
+@media (max-width: 1080px) {
+  .Cart .cartDiv {
+    width: 80%;
+  }
+}
+@media (max-width: 680px) {
+  .Cart .cartDiv {
+    width: 100%;
+    /* height: 90vh; */
+  }
+  .Cart button {
+    margin-bottom: 35px;
+  }
+  .Cart .cartDiv h1 {
+    font-size: 30px;
+  }
+  .Cart .cartDiv .top {
+    padding: 10px 0;
+  }
+  .Cart .bottom > p {
+    font-size: 14px;
+  }
+}

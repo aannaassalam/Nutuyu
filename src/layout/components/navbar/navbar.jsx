@@ -34,7 +34,7 @@ function Navbar({ handleCart }) {
       setwidth(window.innerWidth);
     });
   }, []);
-
+  console.log(categories);
   return (
     <div className="Navbar">
       <div className="top">
@@ -134,14 +134,51 @@ function Navbar({ handleCart }) {
                 {dropDown.includes(id) ? (
                   <>
                     {" "}
-                    {item.subcategories.map((sub) => (
+                    {item.types.length > 0 ? (
+                      <>
+                        {item.types.map((type) => (
+                          <>
+                            <p
+                              style={{
+                                fontWeight: "bold",
+                                padding: "5px 10px",
+                              }}
+                            >
+                              {type}
+                            </p>
+                            {item.subcategories
+                              .filter((subItem) => type === subItem.type)
+                              .map((sub) => (
+                                <a
+                                  className="innerItem"
+                                  href={`/products/${item.name}/${type}/${sub.name}`}
+                                >
+                                  {sub.name}
+                                </a>
+                              ))}
+                          </>
+                        ))}
+                      </>
+                    ) : (
+                      <>
+                        {item.subcategories.map((sub) => (
+                          <a
+                            className="innerItem"
+                            href={`/products/${item.name}/${sub.name}`}
+                          >
+                            {sub.name}
+                          </a>
+                        ))}
+                      </>
+                    )}
+                    {/* {item.subcategories.map((sub) => (
                       <a
                         className="innerItem"
                         href={`/products/${item.name}/${sub.name}`}
                       >
                         {sub.name}
                       </a>
-                    ))}
+                    ))} */}
                   </>
                 ) : null}
               </>

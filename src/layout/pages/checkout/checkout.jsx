@@ -243,7 +243,7 @@ export default function Checkout() {
       </div>
     );
   };
-  console.log(checkRef?.current?.checked);
+  console.log(atob(params.id));
   return (
     <div className="checkout-page">
       {totalPrice && (
