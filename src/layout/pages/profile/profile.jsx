@@ -7,7 +7,7 @@ import Addresses from "./addresses/addresses";
 import { useAuth } from "../../hooks/useAuth";
 
 function Profile() {
-  const [tabs, settabs] = useState(2);
+  const [tabs, settabs] = useState(1);
 
   const user = useAuth();
 

@@ -31,12 +31,6 @@ export default function ProductDetails() {
   }, [imageChange]);
 
   useEffect(() => {
-    // onSnapshot(doc(getFirestore(), "products", params.id), (doc) => {
-    //   setProduct({ ...doc.data(), id: doc.id });
-    //   user?.cart.forEach((item) => {
-    //     if (item === product.id) setFound(true);
-    //   });
-    // });
     const local_product = products.find((product) => product.id === params.id);
     setProduct(local_product);
     if (user && user.cart.includes(params.id)) {
@@ -90,20 +84,26 @@ export default function ProductDetails() {
       <div className="right">
         <h3>{product.name}</h3>
         <h3>${product.price}</h3>
-        <button
-          onClick={() =>
-            (window.location.href = `/checkout/${btoa(params.id)}`)
-          }
-        >
-          Buy Now
-        </button>
-        <button
-          onClick={() => {
-            addToCart();
-          }}
-        >
-          {found ? "Go To Bag" : "Add to Bag"}{" "}
-        </button>
+        {product.sold ? (
+          <h1 style={{ color: "red", textAlign: "center" }}>Sold Out</h1>
+        ) : (
+          <>
+            <button
+              onClick={() =>
+                (window.location.href = `/checkout/${btoa(params.id)}`)
+              }
+            >
+              Buy Now
+            </button>
+            <button
+              onClick={() => {
+                addToCart();
+              }}
+            >
+              {found ? "Go To Bag" : "Add to Bag"}{" "}
+            </button>
+          </>
+        )}
 
         <div className="description">
           <p>{product.description}</p>

@@ -1,78 +1,106 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./orderDetail.css";
 import bag from "../../../assets/bag.png";
 import image from "../../../assets/Black-tee.jpg";
 import { Button } from "@mui/material";
+import { useParams } from "react-router";
+import { doc, getFirestore, onSnapshot } from "firebase/firestore";
+import moment from "moment";
 function OrderDetail() {
+  const [order, setorder] = useState({});
+  const [loading, setloading] = useState(true);
+  const params = useParams();
+  useEffect(() => {
+    onSnapshot(doc(getFirestore(), "orders", params.id), (doc) => {
+      setorder(doc.data());
+      setloading(false);
+    });
+  }, []);
+  console.log(order);
   return (
-    <div className="OrderDetail">
-      <div className="orderCard">
-        <h3>
-          <img src={bag} alt="" />
-          Confirmed
-        </h3>
-        <div className="details">
-          <img src={image} alt="" />
-          <div>
-            {" "}
-            <p>
-              <span>DENNISLINGO PREMIUM ATTIRE - Striped Slim Shirt </span>
-              <Button>Cancel Item</Button>
-            </p>
-            <strong>$899.00</strong>
-            <p>
-              size <strong>XL</strong>
-            </p>
-            <p>Estimated Delivery : 02 November</p>
-          </div>
-        </div>
-      </div>
-      <div className="priceDetails">
-        <div>
-          <div className="top">
-            <p>
-              Order# FJS545KLDG54654 <span>(1 item)</span>
-            </p>
-            <p>Order Placed On 26th October 2022</p>
-            <p>Paid by Card via PayPal</p>
-          </div>
-          <div className="bottom">
+    <>
+      {loading ? null : (
+        <div className="OrderDetail">
+          <div className="orderCards">
             <h3>
-              Total Price <span>$800.99</span>
+              <img src={bag} alt="" />
+              Confirmed
             </h3>
-            <p>
-              bag total <span>$99</span>
-            </p>
-            <p>
-              bag discount <span>$99</span>
-            </p>
-            <p>
-              convinience fee<span>$99</span>
-            </p>
+            {order?.items?.map((item, id) => (
+              <div className="details">
+                <img src={item.images[0].image} alt="" />
+                <div>
+                  {" "}
+                  <p>
+                    <span>{item.name} </span>
+                  </p>
+                  <strong>${item.price.toFixed(2)}</strong>
+                  <p>
+                    {item.highlights[0].key}{" "}
+                    <strong>{item.highlights[0].value}</strong>
+                  </p>
+                  <p>Estimated Delivery : 02 November</p>
+                </div>
+              </div>
+            ))}
+
+            <Button>Cancel order</Button>
+          </div>
+          <div className="priceDetails">
+            <div>
+              <div className="top">
+                <p>
+                  Order# {params.id} <span>({order.items.length} items)</span>
+                </p>
+                <p>
+                  Order Placed On{" "}
+                  {moment(order.date.toDate()).format("MMM Do YY")}
+                </p>
+                <p>Paid by Card via PayPal</p>
+              </div>
+              <div className="bottom">
+                <h3>
+                  Total Price <span>${order.total.toFixed(2)}</span>
+                </h3>
+                <p>
+                  bag total <span>${order.total.toFixed(2)}</span>
+                </p>
+                <p>
+                  bag discount <span>$0.00</span>
+                </p>
+                <p>
+                  convinience fee<span>$0.00</span>
+                </p>
+              </div>
+            </div>
+            <div className="addressInfo">
+              <span>Shipping to</span>
+              <h3>{order.shipping_address.name}</h3>
+              <p>{order.shipping_address.address1}</p>
+              <p>
+                {order.shipping_address.city} , {order.shipping_address.state}
+              </p>
+              <p>USA - {order.shipping_address.zipcode}</p>
+              <p>
+                phone : <strong>{order.user.user_phone}</strong>
+              </p>
+            </div>
+            <div className="addressInfo">
+              <span>Billing to</span>
+              <h3>{order.billing_address.name}</h3>
+              <p>{order.billing_address.address1}</p>
+              <p>
+                {order.billing_address.city} , {order.billing_address.state}
+              </p>
+              <p>USA - {order.billing_address.zipcode}</p>
+              <p>
+                phone : <strong>{order.user.user_phone}</strong>
+              </p>
+            </div>
           </div>
         </div>
-        <div className="addressInfo">
-          <span>Shipping to</span>
-          <h3>John Doe</h3>
-          <p>98/8 Timtoun street </p>
-          <p>south 24 parganas, West Bengal</p>
-          <p>India - 700039</p>
-          <p>
-            phone : <strong>8335974849</strong>
-          </p>
-        </div>
-        <div className="addressInfo">
-          <span>Billing to</span>
-          <h3>John Doe</h3>
-          <p>98/8 Timtoun street </p>
-          <p>south 24 parganas, West Bengal</p>
-          <p>India - 700039</p>
-          <p>
-            phone : <strong>8335974849</strong>
-          </p>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

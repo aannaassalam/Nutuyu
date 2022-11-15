@@ -42,7 +42,6 @@ export default function Checkout() {
   const [values2, setvalues2] = useState(initialValue);
 
   useEffect(() => {
-    console.log(atob(params.id));
     if (
       (user?.cart.length === 0 && params.id) ||
       (user?.cart.length > 0 && !params.id) ||
@@ -76,7 +75,7 @@ export default function Checkout() {
       addDoc(collection(getFirestore(), "orders"), {
         date: new Date(),
         items: params.id
-          ? products.find((prod) => prod.id === atob(params.id))
+          ? [products.find((prod) => prod.id === atob(params.id))]
           : user.cart.map((item) => products.find((prod) => prod.id === item)),
         user: {
           user_id: user.id,
@@ -87,7 +86,7 @@ export default function Checkout() {
         billing_address: checkRef.current.checked
           ? state.selectedShipping
           : state.selectedBilling,
-        total: totalPrice,
+        total: parseInt(totalPrice),
         paid: true,
       }).then((docRef) => {
         updateDoc(doc(getFirestore(), "users", user.id), {
@@ -193,6 +192,7 @@ export default function Checkout() {
       setmessage("Please Enter phone");
     }
   };
+  console.log(totalPrice);
 
   const orderSummaryCard = (item) => {
     const product = products.find((prod) => prod.id === item);
@@ -596,7 +596,7 @@ export default function Checkout() {
               <div className="billing-body">
                 <div className="billing-row">
                   <span>Items total</span>
-                  <strong>${totalPrice.toFixed(2)}</strong>
+                  <strong>${Number(totalPrice).toFixed(2)}</strong>
                 </div>
                 <div className="billing-row">
                   <span>Shipping</span>
@@ -604,7 +604,7 @@ export default function Checkout() {
                 </div>
                 <div className="total-bill">
                   <span>Total For Your Order</span>
-                  <strong>${totalPrice.toFixed(2)}</strong>
+                  <strong>${Number(totalPrice).toFixed(2)}</strong>
                 </div>
                 <p>
                   All applicable duties, taxes and fees are included in the
