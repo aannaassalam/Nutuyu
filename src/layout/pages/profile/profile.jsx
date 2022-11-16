@@ -9,20 +9,22 @@ import { useAuth } from "../../hooks/useAuth";
 function Profile() {
   const [tabs, settabs] = useState(1);
 
-  const user = useAuth();
-
-  if (!user.loading && !user.user) {
-    window.location.href = "/";
-  }
+  const user = useAuth().user;
 
   return (
     <div className="Profile">
-      <h1 className="welcome">WELCOME BACK, JOHN</h1>
+      <h1 className="welcome">WELCOME BACK, {user?.full_name}</h1>
       <div className="container">
         <div className="left">
-          <p onClick={() => settabs(0)}>profile </p>
-          <p onClick={() => settabs(1)}>orders</p>
-          <p onClick={() => settabs(2)}>addresses</p>
+          <p onClick={() => settabs(0)} className={tabs === 0 ? "active" : ""}>
+            profile{" "}
+          </p>
+          <p onClick={() => settabs(1)} className={tabs === 1 ? "active" : ""}>
+            orders
+          </p>
+          <p onClick={() => settabs(2)} className={tabs === 2 ? "active" : ""}>
+            addresses
+          </p>
           <p
             onClick={() =>
               signOut(getAuth())

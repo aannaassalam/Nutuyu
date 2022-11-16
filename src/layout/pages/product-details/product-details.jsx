@@ -90,14 +90,16 @@ export default function ProductDetails() {
           <>
             <button
               onClick={() =>
-                (window.location.href = `/checkout/${btoa(params.id)}`)
+                user
+                  ? (window.location.href = `/checkout/${btoa(params.id)}`)
+                  : (window.location.pathname = "./login")
               }
             >
               Buy Now
             </button>
             <button
               onClick={() => {
-                addToCart();
+                user ? addToCart() : (window.location.pathname = "./login");
               }}
             >
               {found ? "Go To Bag" : "Add to Bag"}{" "}

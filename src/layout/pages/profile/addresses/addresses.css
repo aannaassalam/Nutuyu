@@ -100,3 +100,11 @@
   text-decoration: underline;
   cursor: pointer;
 }
+@media (max-width: 850px) {
+  .Addresses .addressCategory {
+    grid-template-columns: 1fr;
+  }
+  .Addresses .inputs {
+    width: 100%;
+  }
+}

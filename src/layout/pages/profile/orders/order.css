@@ -25,7 +25,7 @@
   color: #000;
 }
 .Orders .orderList .part1 {
-  width: 20%;
+  width: 15%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -34,6 +34,8 @@
 }
 .Orders .orderList .part1 img {
   height: 70%;
+  width: 70%;
+  object-fit: cover;
   margin-right: 10px;
 }
 .Orders .orderList .part1 .deliveryState {
@@ -94,63 +96,48 @@
 .Orders .orderList .part3 .order-info span.cod {
   display: none;
 }
-
-@media (max-width: 680px) {
+@media (max-width: 850px) {
+  .Orders .orderList .part1 img {
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+  }
   .Orders .orderList {
-    justify-content: space-between;
-    padding-right: 0;
-  }
-  .Orders .orderList .left {
-    width: 75%;
-  }
-
-  .Orders .orderList .part3 .order-info span,
-  .Orders .orderList .left .part2 span {
-    color: #707070;
-    font-weight: 500;
-    width: 70px;
-    text-transform: capitalize;
-    width: auto;
+    padding: 0.5rem 0;
   }
 }
-@media (max-width: 548px) {
-  .Orders .orderList .part3 .order-info:first-child {
-    display: none;
-  }
-}
-@media (max-width: 468px) {
+@media (max-width: 500px) {
   .Orders .orderList .part1 {
-    width: 15%;
-    /* align-items: center; */
-  }
-}
-
-@media (max-width: 380px) {
-  .Order .orderList .left .part2 span.date1 {
-    display: none;
-  }
-  .Orders .orderList .left .part2 span.date2 {
-    display: block;
-    letter-spacing: 1px;
-  }
-  .Orders .orderList .part3 .order-info span.cod {
-    display: block;
-  }
-  .Orders .orderList .part3 .order-info span.cod2 {
-    display: none;
-  }
-}
-
-@media (max-width: 360px) {
-  .Orders .orderList .left .part2 {
-    width: 100%;
+    width: 25%;
   }
   .Orders .orderList .part1 img {
-    height: 60%;
+    width: 90%;
   }
-  .Orders .orderList .part2 h4,
-  .Orders .orderList .part1 .deliveryState,
-  .Orders .orderList .part3 .order-info h4 {
-    font-size: 12px;
+  .Orders .orderList {
+    justify-content: space-between;
+    height: auto;
+  }
+  .Orders .orderList .left {
+    width: 70%;
+  }
+  .Orders .orderList .part3 .order-info:last-child {
+    display: none;
+  }
+  .Orders .orderList .part3 .order-info:nth-child(2) {
+    align-items: flex-end;
+  }
+  .Orders .orderList .part3 .order-info {
+    margin-top: 10px;
+  }
+  .Orders .orderList .left .part2 span {
+    font-size: 14px;
+  }
+  .Orders .orderList .part2 h4 {
+    width: 65%;
+    font-size: 14px;
+  }
+  .Profile .container .left p {
+    padding: 10px;
+    font-size: 14px;
   }
 }

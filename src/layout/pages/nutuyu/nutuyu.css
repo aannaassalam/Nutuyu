@@ -12,7 +12,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 50px;
+  padding: 0 10px;
 }
 
 .nutuyu .breadCrumb a {
@@ -39,4 +39,31 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+}
+@media (max-width: 550px) {
+  .nutuyu {
+    padding: 30px 10px;
+  }
+  .nutuyu .posts {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .nutuyu-card {
+    display: flex;
+    justify-content: center;
+    align-items: c;
+  }
+  .nutuyu-card img {
+    width: 100%;
+    object-fit: cover !important;
+  }
+  .nutuyu .breadCrumb {
+    padding: 0;
+  }
+  .nutuyu h1.displayName {
+    font-size: 2.75rem;
+  }
+  .nutuyu > p {
+    margin-bottom: 20px;
+  }
 }

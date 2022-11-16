@@ -28,10 +28,50 @@
 .Profile .container .left p {
   text-transform: uppercase;
   cursor: pointer;
-  margin: 30px 0;
+  user-select: none;
+  padding: 20px 10px;
   font-size: 18px;
 }
 .Profile .container .right {
   width: 80%;
   padding: 0 80px;
+}
+.Profile .container .left p.active {
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #bdb7b7;
+}
+@media (max-width: 1080px) {
+  .Profile .container .right {
+    padding: 0 20px;
+    width: 83%;
+  }
+  .Profile .container > .left {
+    width: 17%;
+  }
+}
+@media (max-width: 850px) {
+  .Profile .container {
+    flex-direction: column;
+  }
+  .Profile .container .right {
+    width: 100%;
+  }
+  .Profile .container > .left {
+    position: static;
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-top: 10px;
+    padding: 0;
+  }
+  .Profile .container .left p {
+    margin: 0;
+    text-align: center;
+    padding: 15px;
+  }
+  .Profile .welcome {
+    padding: 50px 0;
+    font-size: 30px;
+  }
 }

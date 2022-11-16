@@ -1,7 +1,7 @@
 .OrderDetail {
   width: 100%;
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 3fr 1.5fr;
   padding: 50px;
   grid-gap: 30px;
   background-color: #f7f7f7;
@@ -108,4 +108,19 @@
 }
 .OrderDetail .priceDetails .addressInfo p {
   font-size: 14px;
+}
+@media (max-width: 900px) {
+  .OrderDetail {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+}
+@media (max-width: 550px) {
+  .OrderDetail .orderCards .details img {
+    width: 80px;
+    margin-right: 20px;
+  }
+  .OrderDetail .changeFont {
+    font-size: 14px;
+  }
 }

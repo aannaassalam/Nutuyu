@@ -32,14 +32,16 @@ function OrderDetail() {
                 <div>
                   {" "}
                   <p>
-                    <span>{item.name} </span>
+                    <span className="changeFont">{item.name} </span>
                   </p>
-                  <strong>${item.price.toFixed(2)}</strong>
-                  <p>
+                  <strong className="changeFont">
+                    ${item.price.toFixed(2)}
+                  </strong>
+                  <p className="changeFont">
                     {item.highlights[0].key}{" "}
                     <strong>{item.highlights[0].value}</strong>
                   </p>
-                  <p>Estimated Delivery : 02 November</p>
+                  <p className="changeFont">Estimated Delivery : 02 November</p>
                 </div>
               </div>
             ))}

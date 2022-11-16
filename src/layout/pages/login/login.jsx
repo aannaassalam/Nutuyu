@@ -108,7 +108,7 @@ function Login() {
     <div className="Login">
       {handleSection === 0 ? (
         <>
-          <h1>Log in</h1>
+          <h1>Login</h1>
           <TextField
             id="standard-basic"
             label="Email"

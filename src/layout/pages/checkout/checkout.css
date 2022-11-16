@@ -106,7 +106,7 @@
 }
 
 .address-container .saved-addresses {
-  height: 550px;
+  max-height: 550px;
   overflow-y: auto;
 }
 .address-container .saved-addresses h3 {
@@ -311,4 +311,47 @@
 .checkout-page a {
   color: #121212;
   text-decoration: none;
+}
+@media (max-width: 1080px) {
+  .checkout-page {
+    width: 95%;
+  }
+  .summary-card .summary img {
+    margin-left: 5px;
+  }
+}
+@media (max-width: 720px) {
+  .payment-container,
+  .address-container {
+    flex-direction: column;
+  }
+  .address-container > div,
+  .payment-container > div {
+    width: 100%;
+    padding: 0;
+  }
+  .address-container .new-address {
+    border: none;
+  }
+  .summary-card .summary img {
+    width: 60px;
+    margin-right: 20px;
+  }
+  .summary-card > p {
+    text-align: center;
+  }
+  .checkout-page h3 span:first-child {
+    text-align: left;
+  }
+  .checkout-page h3 span {
+    text-align: end;
+  }
+  .checkout-page button {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+  .checkout-page .order-summary .total-sec span:last-child {
+    text-align: center;
+    margin-left: 0;
+  }
 }

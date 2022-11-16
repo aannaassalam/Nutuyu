@@ -54,7 +54,8 @@ export default function Checkout() {
         : user.cart.forEach((item) => {
             setTotalPrice(
               (prev) =>
-                prev + products.find((product) => product.id === item).price
+                prev +
+                parseInt(products.find((product) => product.id === item).price)
             );
           });
     else {
@@ -243,7 +244,6 @@ export default function Checkout() {
       </div>
     );
   };
-  console.log(atob(params.id));
   return (
     <div className="checkout-page">
       {totalPrice && (
@@ -383,6 +383,7 @@ export default function Checkout() {
                   <input type="checkbox" ref={checkRef} />
                   Select As Shipping Address
                 </label>
+                <br />
                 {!state.billing ? (
                   <>
                     {user?.billing_addresses.map((item) =>
