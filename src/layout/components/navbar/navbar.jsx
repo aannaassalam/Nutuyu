@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from "react";
 import NavDropDown from "../navDropDown/navDropDown";
-import { Menu, Minus, Plus, Search, ShoppingBag, User, X } from "react-feather";
+import {
+  ArrowUpRight,
+  Menu,
+  Minus,
+  Plus,
+  Search,
+  ShoppingBag,
+  User,
+  X,
+} from "react-feather";
 import image1 from "../../../assets/image1.png";
 import "./navbar.css";
 import { getDoc, doc, getFirestore } from "firebase/firestore";
 import { useAuth } from "../../hooks/useAuth";
+import { useProducts } from "../../hooks/useProducts";
 
 function Navbar({ handleCart }) {
   const [categories, setCategories] = useState([]);
   const [nav, setnav] = useState(false);
   const [width, setwidth] = useState(window.innerWidth);
   const [dropDown, setdropDown] = useState([]);
-
+  const [searchValue, setsearchValue] = useState("");
   const user = useAuth();
-
+  const products = useProducts().products;
   useEffect(() => {
     window.addEventListener("resize", () => {
       setwidth(window.innerWidth);
@@ -34,7 +44,7 @@ function Navbar({ handleCart }) {
       setwidth(window.innerWidth);
     });
   }, []);
-  console.log(categories);
+
   return (
     <div className="Navbar">
       <div className="top">
@@ -53,7 +63,25 @@ function Navbar({ handleCart }) {
             type="text"
             className="hide"
             placeholder="Type here to search"
+            value={searchValue}
+            onChange={(e) => {
+              setsearchValue(e.target.value);
+            }}
           />
+          {searchValue ? (
+            <div className="searchList hide">
+              <p>Search Results</p>
+              {products
+                .filter((item) =>
+                  item.name.toLowerCase().includes(searchValue.toLowerCase())
+                )
+                .map((prod) => (
+                  <a href={`/product/${prod.id}`}>
+                    {prod.name} <ArrowUpRight />
+                  </a>
+                ))}
+            </div>
+          ) : null}
         </div>
         <h1
           className="logo"
@@ -81,6 +109,7 @@ function Navbar({ handleCart }) {
             className="crossIcon"
             onClick={() => {
               setnav(false);
+              setsearchValue("");
             }}
           >
             <X />
@@ -171,14 +200,6 @@ function Navbar({ handleCart }) {
                         ))}
                       </>
                     )}
-                    {/* {item.subcategories.map((sub) => (
-                      <a
-                        className="innerItem"
-                        href={`/products/${item.name}/${sub.name}`}
-                      >
-                        {sub.name}
-                      </a>
-                    ))} */}
                   </>
                 ) : null}
               </>
@@ -187,7 +208,33 @@ function Navbar({ handleCart }) {
         ))}
         <a href={`/products/sold`}>Sold</a>
         <a href={`/nutuyu`}>#Nutuyu</a>
+        <div className="search">
+          <Search className="" />
+          <input
+            type="text"
+            className="responsiveInput"
+            placeholder="Type here to search"
+            value={searchValue}
+            onChange={(e) => {
+              setsearchValue(e.target.value);
+            }}
+          />
+        </div>
       </div>
+      {searchValue ? (
+        <div className="searchList">
+          <p>Search Results</p>
+          {products
+            .filter((item) =>
+              item.name.toLowerCase().includes(searchValue.toLowerCase())
+            )
+            .map((prod) => (
+              <a href={`/product/${prod.id}`}>
+                {prod.name} <ArrowUpRight />
+              </a>
+            ))}
+        </div>
+      ) : null}
     </div>
   );
 }

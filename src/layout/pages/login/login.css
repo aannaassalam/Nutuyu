@@ -14,7 +14,8 @@
   text-align: center;
   letter-spacing: 4px;
 }
-.Login .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+.Login .css-1u3bzj6-MuiFormControl-root-MuiTextField-root,
+.Login .css-i44wyl {
   width: 100%;
   margin-bottom: 20px;
 }
