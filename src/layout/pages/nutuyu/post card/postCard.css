@@ -123,6 +123,13 @@
   border-top: 1px solid rgb(239, 239, 239);
 }
 
+.post_modal .comments-container .add-comment i {
+  align-self: center;
+  padding-left: 15px;
+  color: #555;
+  cursor: pointer;
+}
+
 .post_modal .comments-container .add-comment input {
   all: unset;
   flex: 1;

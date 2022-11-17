@@ -19,14 +19,58 @@
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
 }
-.Navbar .top .search {
+.Navbar .search {
   display: flex;
   align-items: center;
+  position: relative;
 }
-.Navbar .top .search svg {
+
+.Navbar .bottom .search {
+  display: none;
+}
+.Navbar .searchList {
+  background-color: #fff;
+  position: absolute;
+  top: 200%;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  left: 0px;
+  width: 400px;
+  height: max-content;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.Navbar .searchList::-webkit-scrollbar {
+  width: 5px;
+}
+.Navbar .searchList::-webkit-scrollbar-thumb {
+  background-color: #919191;
+}
+.Navbar .searchList p {
+  font-weight: 600;
+  padding: 15px 10px;
+  border-bottom: 1px solid #121212;
+}
+.Navbar .searchList a {
+  text-decoration: none;
+  color: #121212;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  transition: 0.2s;
+  justify-content: space-between;
+}
+.Navbar .searchList a:hover {
+  background-color: #d6d6d6;
+}
+.Navbar .search svg {
   width: 22px;
 }
-.Navbar .top .search input {
+.Navbar .search input {
   outline: none;
   border: none;
   color: #999;
@@ -82,6 +126,20 @@
   }
 }
 @media (max-width: 1080px) {
+  .Navbar .search {
+    background-color: #fff;
+    padding: 10px;
+    margin-top: 20px;
+  }
+  .Navbar .searchList {
+    position: fixed;
+    top: 5%;
+    width: 95vw;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 500px;
+    max-height: 500px;
+  }
   .Navbar .menu {
     display: block;
   }
@@ -95,6 +153,9 @@
   }
   .Navbar .top {
     padding: 20px;
+  }
+  .Navbar .bottom .search {
+    display: flex;
   }
   .Navbar .top .search svg {
     width: 25px;
@@ -137,11 +198,17 @@
   .Navbar .bottom .fullWidth span {
     position: absolute;
     top: 50%;
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
     right: 0px;
     transform: translateY(-50%);
   }
+  .Navbar .bottom .fullWidth span svg {
+    width: 15px;
+  }
   .Navbar .bottom > a {
-    border-bottom: 2px solid #fff;
+    border-bottom: 1px solid #fff;
     padding: 20px 0px;
   }
   .Navbar .bottom .innerItem {

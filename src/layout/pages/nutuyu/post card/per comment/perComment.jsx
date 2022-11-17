@@ -4,9 +4,13 @@ import profile from "../../../../../assets/user-profile.png";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import moment from "moment";
 
-export default function PerComment({ comment, post }) {
+export default function PerComment({
+  comment,
+  post,
+  setReply_name,
+  setReplyId,
+}) {
   const [replies, setReplies] = useState(false);
-  const [replyId, setReplyId] = useState("");
 
   const actions = (replies_action, date) => {
     return (
@@ -15,6 +19,8 @@ export default function PerComment({ comment, post }) {
           onClick={() => {
             // setDelete_modal(true);
             // replyId && setReplyId(replyId);
+            setReply_name("harry");
+            setReplyId(comment.id);
           }}
         >
           Reply
@@ -31,9 +37,9 @@ export default function PerComment({ comment, post }) {
 
   return (
     <div className="per_comment">
-      <div className="user-image">
+      {/* <div className="user-image">
         <img src={profile} alt="" />
-      </div>
+      </div> */}
       <div className="comment">
         <span className="comment_text">
           <span className="username">harry_potter</span>
@@ -44,10 +50,13 @@ export default function PerComment({ comment, post }) {
           <div className="replies">
             {comment.replies.map((reply) => {
               return (
-                <div style={{ display: "flex" }} key={reply.id}>
-                  <div className="user-image">
+                <div
+                  style={{ display: "flex", padding: "0 15px" }}
+                  key={reply.id}
+                >
+                  {/* <div className="user-image">
                     <img src={profile} alt="" />
-                  </div>
+                  </div> */}
                   <div className="comment">
                     <span className="comment_text">
                       <span className="username">harry_potter</span>

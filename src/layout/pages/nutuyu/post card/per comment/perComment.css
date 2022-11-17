@@ -1,7 +1,8 @@
 .per_comment {
   display: flex;
   align-items: flex-start;
-  padding: 5px 0;
+  /* padding: 0px 10px; */
+  margin-bottom: 10px;
   /* align-items: center; */
 }
 
@@ -18,7 +19,7 @@
 }
 
 .per_comment .comment {
-  width: calc(100% - 40px);
+  padding: 0px 10px;
 }
 
 .per_comment .comment span.comment_text {
@@ -27,8 +28,8 @@
 }
 
 .per_comment .comment span.comment_text span.username {
-  font-weight: 500;
-  margin-right: 5px;
+  font-weight: 700;
+  margin-right: 10px;
 }
 
 .per_comment .comment .actions {
