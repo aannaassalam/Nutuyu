@@ -81,9 +81,6 @@ function Addresses() {
             .length < 1 ||
           user[updateItem][state.selectedId].address1 === values.address1
         ) {
-          console.log(
-            user[updateItem].filter((item) => item.address1 === values.address1)
-          );
           const updatableAddresss = {
             name: values.name,
             address1: values.address1,
@@ -127,16 +124,13 @@ function Addresses() {
     }
   };
   const deletAddress = (updateItem, id) => {
-    console.log(state.selectedId);
     const localAddresses = user[updateItem].filter((item, idx) => id !== idx);
-    console.log(localAddresses);
     updateDoc(doc(getFirestore(), "users", user.id), {
       [updateItem]: localAddresses,
     }).then(() => {
       console.log("done");
     });
   };
-  console.log(message);
   return (
     <div className="Addresses">
       <Toaster message={message} />

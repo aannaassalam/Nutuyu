@@ -31,7 +31,6 @@ function ProfileDetails() {
       state.phone_number.trim().length > 8 &&
       state.password.trim().length > 7
     ) {
-      console.log("in");
       updateDoc(doc(getFirestore(), "users", user.user.id), {
         full_name: state.full_name.trim(),
         phone_number: state.phone_number.trim(),

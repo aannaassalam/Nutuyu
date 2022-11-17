@@ -73,10 +73,11 @@ export default function Checkout() {
       (state.selectedBilling.address1 && state.selectedShipping.address1) ||
       (state.selectedShipping.address1 && checkRef.current.checked)
     ) {
+      const paramsProductID = atob(params.id) || null;
       addDoc(collection(getFirestore(), "orders"), {
         date: new Date(),
         items: params.id
-          ? [products.find((prod) => prod.id === atob(params.id))]
+          ? [products.find((prod) => prod.id === paramsProductID)]
           : user.cart.map((item) => products.find((prod) => prod.id === item)),
         user: {
           user_id: user.id,
@@ -93,16 +94,15 @@ export default function Checkout() {
         updateDoc(doc(getFirestore(), "users", user.id), {
           orders: [...user.orders, docRef.id],
         }).then(() => {
-          console.log(96);
-          params.id
-            ? updateDoc(
-                doc(getFirestore(), "products", atob(params.id), {
-                  sold: true,
-                })
-              ).then(() => {
-                console.log("added");
-                window.location.pathname = `orderDetail/${docRef.id}`;
+          paramsProductID
+            ? updateDoc(doc(getFirestore(), "products", paramsProductID), {
+                sold: true,
               })
+                .then(() => {
+                  console.log("added");
+                  window.location.pathname = `orderDetail/${docRef.id}`;
+                })
+                .catch((err) => console.log(err))
             : user.cart.forEach((item) => {
                 updateDoc(doc(getFirestore(), "products", item), {
                   sold: true,
@@ -125,7 +125,6 @@ export default function Checkout() {
   };
   const AddAddress = (updateItem) => {
     const localValues = updateItem === "shipping_addresses" ? values : values2;
-    console.log(localValues);
     if (
       localValues.name &&
       localValues.address1 &&
@@ -134,7 +133,6 @@ export default function Checkout() {
       localValues.zipcode &&
       localValues.phone
     ) {
-      console.log(2);
       if (
         !user[updateItem].find((item) => item.address1 === localValues.address1)
       ) {
@@ -193,7 +191,6 @@ export default function Checkout() {
       setmessage("Please Enter phone");
     }
   };
-  console.log(totalPrice);
 
   const orderSummaryCard = (item) => {
     const product = products.find((prod) => prod.id === item);
@@ -265,245 +262,232 @@ export default function Checkout() {
               <span>${totalPrice}</span>
             </div>
           </div>
-          <div className="addresses">
-            <h3>
-              <span>Delivery Address</span>
-            </h3>
-            <div className="address-container">
-              <div className="saved-addresses">
-                <h3>Shipping Address</h3>
-                {!state.shipping ? (
-                  <>
-                    {user?.shipping_addresses.map((item) =>
-                      addressCard(item, "selectedShipping")
-                    )}
-                    <Button
-                      onClick={() => {
-                        setstate({ ...state, shipping: true });
+          <div className="address-container">
+            <div className="saved-addresses">
+              <h3>Shipping Address</h3>
+              {!state.shipping ? (
+                <>
+                  {user?.shipping_addresses.map((item) =>
+                    addressCard(item, "selectedShipping")
+                  )}
+                  <Button
+                    onClick={() => {
+                      setstate({ ...state, shipping: true });
+                    }}
+                  >
+                    Add New Address
+                  </Button>
+                </>
+              ) : (
+                <div className="new-address">
+                  <div>
+                    <p>First Name</p>
+                    <input
+                      type="text"
+                      value={values.name}
+                      onChange={(e) => {
+                        handleChange("name", e.target.value);
                       }}
-                    >
-                      Add New Address
-                    </Button>
-                  </>
-                ) : (
-                  <div className="new-address">
-                    <div>
-                      <p>First Name</p>
-                      <input
-                        type="text"
-                        value={values.name}
-                        onChange={(e) => {
-                          handleChange("name", e.target.value);
-                        }}
-                      />
-                    </div>
-
-                    <div>
-                      <p>Address Line 1</p>
-                      <input
-                        type="text"
-                        value={values.address1}
-                        onChange={(e) => {
-                          handleChange("address1", e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <p>Address Line 2</p>
-                      <input
-                        type="text"
-                        value={values.address2}
-                        onChange={(e) => {
-                          handleChange("address2", e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <p>State</p>
-                      <input
-                        type="text"
-                        value={values.state}
-                        onChange={(e) => {
-                          handleChange("state", e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <p>City</p>
-                      <input
-                        type="text"
-                        value={values.city}
-                        onChange={(e) => {
-                          handleChange("city", e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <p>Zip / Postcode</p>
-                      <input
-                        type="number"
-                        value={values.zipcode}
-                        onChange={(e) => {
-                          handleChange("zipcode", e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <p>Mobile Phone</p>
-                      <input
-                        type="number"
-                        value={values.phone}
-                        onChange={(e) => {
-                          handleChange("phone", e.target.value);
-                        }}
-                      />
-                    </div>
-                    <Button
-                      onClick={() => {
-                        setstate({ ...state, shipping: false });
-                        setvalues(initialValue);
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button onClick={() => AddAddress("shipping_addresses")}>
-                      Add Address
-                    </Button>
+                    />
                   </div>
-                )}
-              </div>
-              {/* billing */}
-              <div className="saved-addresses">
-                <h3>Billing Address</h3>
-                <label
-                  onClick={() => {
-                    setstate({ ...state });
-                  }}
-                >
-                  <input type="checkbox" ref={checkRef} />
-                  Select As Shipping Address
-                </label>
-                <br />
-                {!state.billing ? (
-                  <>
-                    {user?.billing_addresses.map((item) =>
-                      addressCard(item, "selectedBilling")
-                    )}
-                    <Button
-                      onClick={() => {
-                        setstate({ ...state, billing: true });
-                      }}
-                    >
-                      Add New Address
-                    </Button>
-                  </>
-                ) : (
-                  <div className="new-address">
-                    <div>
-                      <p>First Name</p>
-                      <input
-                        type="text"
-                        value={values2.name}
-                        onChange={(e) => {
-                          handleChange("name", e.target.value, "billingChange");
-                        }}
-                      />
-                    </div>
 
-                    <div>
-                      <p>Address Line 1</p>
-                      <input
-                        type="text"
-                        value={values2.address1}
-                        onChange={(e) => {
-                          handleChange(
-                            "address1",
-                            e.target.value,
-                            "billingChange"
-                          );
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <p>Address Line 2</p>
-                      <input
-                        type="text"
-                        value={values2.address2}
-                        onChange={(e) => {
-                          handleChange(
-                            "address2",
-                            e.target.value,
-                            "billingChange"
-                          );
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <p>State</p>
-                      <input
-                        type="text"
-                        value={values2.state}
-                        onChange={(e) => {
-                          handleChange(
-                            "state",
-                            e.target.value,
-                            "billingChange"
-                          );
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <p>City</p>
-                      <input
-                        type="text"
-                        value={values2.city}
-                        onChange={(e) => {
-                          handleChange("city", e.target.value, "billingChange");
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <p>Zip / Postcode</p>
-                      <input
-                        type="number"
-                        value={values2.zipcode}
-                        onChange={(e) => {
-                          handleChange(
-                            "zipcode",
-                            e.target.value,
-                            "billingChange"
-                          );
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <p>Mobile Phone</p>
-                      <input
-                        type="number"
-                        value={values2.phone}
-                        onChange={(e) => {
-                          handleChange(
-                            "phone",
-                            e.target.value,
-                            "billingChange"
-                          );
-                        }}
-                      />
-                    </div>
-                    <Button
-                      onClick={() => {
-                        setstate({ ...state, billing: false });
-                        setvalues2(initialValue);
+                  <div>
+                    <p>Address Line 1</p>
+                    <input
+                      type="text"
+                      value={values.address1}
+                      onChange={(e) => {
+                        handleChange("address1", e.target.value);
                       }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button onClick={() => AddAddress("billing_addresses")}>
-                      Add Address
-                    </Button>
+                    />
                   </div>
-                )}
-              </div>
+                  <div>
+                    <p>Address Line 2</p>
+                    <input
+                      type="text"
+                      value={values.address2}
+                      onChange={(e) => {
+                        handleChange("address2", e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>State</p>
+                    <input
+                      type="text"
+                      value={values.state}
+                      onChange={(e) => {
+                        handleChange("state", e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>City</p>
+                    <input
+                      type="text"
+                      value={values.city}
+                      onChange={(e) => {
+                        handleChange("city", e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>Zip / Postcode</p>
+                    <input
+                      type="number"
+                      value={values.zipcode}
+                      onChange={(e) => {
+                        handleChange("zipcode", e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>Mobile Phone</p>
+                    <input
+                      type="number"
+                      value={values.phone}
+                      onChange={(e) => {
+                        handleChange("phone", e.target.value);
+                      }}
+                    />
+                  </div>
+                  <Button
+                    onClick={() => {
+                      setstate({ ...state, shipping: false });
+                      setvalues(initialValue);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button onClick={() => AddAddress("shipping_addresses")}>
+                    Add Address
+                  </Button>
+                </div>
+              )}
+            </div>
+            {/* billing */}
+            <div className="saved-addresses">
+              <h3>Billing Address</h3>
+              <label
+                onClick={() => {
+                  setstate({ ...state });
+                }}
+              >
+                <input type="checkbox" ref={checkRef} />
+                Select As Shipping Address
+              </label>
+              <br />
+              {!state.billing ? (
+                <>
+                  {user?.billing_addresses.map((item) =>
+                    addressCard(item, "selectedBilling")
+                  )}
+                  <Button
+                    onClick={() => {
+                      setstate({ ...state, billing: true });
+                    }}
+                  >
+                    Add New Address
+                  </Button>
+                </>
+              ) : (
+                <div className="new-address">
+                  <div>
+                    <p>First Name</p>
+                    <input
+                      type="text"
+                      value={values2.name}
+                      onChange={(e) => {
+                        handleChange("name", e.target.value, "billingChange");
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <p>Address Line 1</p>
+                    <input
+                      type="text"
+                      value={values2.address1}
+                      onChange={(e) => {
+                        handleChange(
+                          "address1",
+                          e.target.value,
+                          "billingChange"
+                        );
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>Address Line 2</p>
+                    <input
+                      type="text"
+                      value={values2.address2}
+                      onChange={(e) => {
+                        handleChange(
+                          "address2",
+                          e.target.value,
+                          "billingChange"
+                        );
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>State</p>
+                    <input
+                      type="text"
+                      value={values2.state}
+                      onChange={(e) => {
+                        handleChange("state", e.target.value, "billingChange");
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>City</p>
+                    <input
+                      type="text"
+                      value={values2.city}
+                      onChange={(e) => {
+                        handleChange("city", e.target.value, "billingChange");
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>Zip / Postcode</p>
+                    <input
+                      type="number"
+                      value={values2.zipcode}
+                      onChange={(e) => {
+                        handleChange(
+                          "zipcode",
+                          e.target.value,
+                          "billingChange"
+                        );
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>Mobile Phone</p>
+                    <input
+                      type="number"
+                      value={values2.phone}
+                      onChange={(e) => {
+                        handleChange("phone", e.target.value, "billingChange");
+                      }}
+                    />
+                  </div>
+                  <Button
+                    onClick={() => {
+                      setstate({ ...state, billing: false });
+                      setvalues2(initialValue);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button onClick={() => AddAddress("billing_addresses")}>
+                    Add Address
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
 

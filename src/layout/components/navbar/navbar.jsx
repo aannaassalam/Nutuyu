@@ -34,7 +34,6 @@ function Navbar({ handleCart }) {
       setwidth(window.innerWidth);
     });
   }, []);
-  console.log(categories);
   return (
     <div className="Navbar">
       <div className="top">

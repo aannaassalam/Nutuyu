@@ -39,13 +39,11 @@ export default function ProductCard({ product, sold }) {
     } else {
       const docref = doc(getFirestore(), "users", user.id);
       var updatedCart = user.cart.filter((item) => item !== product.id);
-      console.log(updatedCart);
       updateDoc(docref, {
         cart: updatedCart,
       });
     }
   };
-  console.log(sold);
   return (
     <a href={`/product/${product.id}`} className="product-card">
       {sold && <span className="sold">Sold</span>}

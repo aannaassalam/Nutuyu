@@ -16,7 +16,6 @@ function OrderDetail() {
       setloading(false);
     });
   }, []);
-  console.log(order);
   return (
     <>
       {loading ? null : (

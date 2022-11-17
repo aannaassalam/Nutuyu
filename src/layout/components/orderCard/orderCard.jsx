@@ -8,14 +8,12 @@ function OrderCard({ Orderid }) {
   const user = useAuth().user;
   const [orderCard, setorderCard] = useState({});
   const [loading, setloading] = useState(true);
-  console.log(Orderid);
   useEffect(() => {
     onSnapshot(doc(getFirestore(), "orders", Orderid), (doc) => {
       setorderCard(doc.data());
       setloading(false);
     });
   }, []);
-  console.log(orderCard);
   return (
     <>
       {loading ? null : (

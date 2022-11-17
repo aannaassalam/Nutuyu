@@ -17,14 +17,12 @@ export default function AuthProvider({ children }) {
     onAuthStateChanged(
       getAuth(),
       (user) => {
-        console.log(user);
         if (user) {
           onSnapshot(
             doc(getFirestore(), "users", user.uid),
             (doc) => {
               setUser({ ...doc.data(), ...user, id: doc.id });
               setLoading(false);
-              console.log("object");
             },
             (err) => {
               console.log(err);

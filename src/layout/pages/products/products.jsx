@@ -22,7 +22,8 @@ function Products(props) {
       types: [],
       selectedTypes: [],
       subcategories: [],
-      selectedSubcategory: params.subcategory ? [params.subcategory] : [],
+      // selectedSubcategory: params.subcategory ? [params.subcategory] : [],
+      selectedSubcategory: [],
       priceRange: [],
     },
     categories: [],
@@ -54,14 +55,14 @@ function Products(props) {
           ...prev,
           filter: {
             ...prev.filter,
-            subcategories: category.subcategories.filter(
-              (sub) => sub.type === params.type
+            subcategories: category.subcategories.filter((sub) =>
+              params.type ? sub.type === params.type : true
             ),
           },
         }));
       }
     });
-  }, [params]);
+  }, []);
 
   const NoProductsAvailable = () => {
     return (
@@ -79,6 +80,63 @@ function Products(props) {
         <h1>Sorry No Products Available</h1>
       </div>
     );
+  };
+
+  const mapProductByCategory = () => {
+    return state.filter.selectedTypes.length
+      ? products
+          ?.filter(
+            (product) =>
+              product.category === params.category &&
+              state.filter.selectedTypes.includes(product.subcategory.type)
+          )
+          .map((item) => (
+            <ProductCard key={item.id} product={item} sold={item.sold} />
+          ))
+      : products
+          ?.filter((product) => product.category === params.category)
+          .map((item) => (
+            <ProductCard key={item.id} product={item} sold={item.sold} />
+          ));
+  };
+
+  const mapProductBySubcategory = () => {
+    return state.filter.selectedSubcategory.length
+      ? products
+          ?.filter((product) => {
+            if (
+              product.category === params.category &&
+              (product.subcategory.name === params.subcategory ||
+                state.filter.selectedSubcategory.includes(
+                  product.subcategory.name
+                ))
+            ) {
+              if (!params.type) return product;
+              if (params.type !== product.subcategory.type) return false;
+              return product;
+            }
+            return false;
+          })
+          .map((item) => {
+            return (
+              <ProductCard key={item.id} product={item} sold={item.sold} />
+            );
+          })
+      : products
+          ?.filter((product) => {
+            if (
+              product.category === params.category &&
+              product.subcategory.name === params.subcategory
+            ) {
+              if (!params.type) return product;
+              if (params.type !== product.subcategory.type) return false;
+              return product;
+            }
+            return false;
+          })
+          .map((item) => (
+            <ProductCard key={item.id} product={item} sold={item.sold} />
+          ));
   };
 
   return (
@@ -175,7 +233,8 @@ function Products(props) {
                 <h3>Subcategories</h3>
                 {state.filter.subcategories?.map((subcategory) => {
                   return (
-                    subcategory.name && (
+                    subcategory.name &&
+                    subcategory.name !== params.subcategory && (
                       <label>
                         <input
                           type="checkbox"
@@ -209,45 +268,6 @@ function Products(props) {
                 })}
               </div>
             )}
-            {/* <div className="optionList">
-              <h3>Color</h3>
-              <label>
-                <input type="checkbox" />
-                Red
-              </label>
-              <label>
-                <input type="checkbox" />
-                Yellow
-              </label>
-              <label>
-                <input type="checkbox" />
-                Pink
-              </label>
-              <label>
-                <input type="checkbox" />
-                Blue
-              </label>{" "}
-              <label>
-                <input type="checkbox" />
-                Green
-              </label>
-              <label>
-                <input type="checkbox" />
-                Purple
-              </label>
-              <label>
-                <input type="checkbox" />
-                Black
-              </label>{" "}
-              <label>
-                <input type="checkbox" />
-                Gray
-              </label>
-              <label>
-                <input type="checkbox" />
-                Violet
-              </label>
-            </div> */}
           </div>
         ) : null}
         <div
@@ -272,59 +292,8 @@ function Products(props) {
                   <ProductCard key={item.id} product={item} sold={true} />
                 ))
             : params.subcategory
-            ? state.filter.selectedSubcategory.length
-              ? products
-                  ?.filter(
-                    (product) =>
-                      product.category === params.category &&
-                      params.type === product.subcategory.type &&
-                      state.filter.selectedSubcategory.includes(
-                        product.subcategory.name
-                      )
-                  )
-                  .map((item) => (
-                    <ProductCard
-                      key={item.id}
-                      product={item}
-                      sold={item.sold}
-                    />
-                  ))
-              : products
-                  ?.filter((product) => {
-                    if (
-                      product.category === params.category &&
-                      product.subcategory.name === params.subcategory
-                    ) {
-                      if (!params.type) return product;
-                      if (params.type !== product.subcategory.type)
-                        return false;
-                      return product;
-                    }
-                  })
-                  .map((item) => (
-                    <ProductCard
-                      key={item.id}
-                      product={item}
-                      sold={item.sold}
-                    />
-                  ))
-            : state.filter.selectedTypes.length
-            ? products
-                ?.filter(
-                  (product) =>
-                    product.category === params.category &&
-                    state.filter.selectedTypes.includes(
-                      product.subcategory.type
-                    )
-                )
-                .map((item) => (
-                  <ProductCard key={item.id} product={item} sold={item.sold} />
-                ))
-            : products
-                ?.filter((product) => product.category === params.category)
-                .map((item) => (
-                  <ProductCard key={item.id} product={item} sold={item.sold} />
-                ))}
+            ? mapProductBySubcategory()
+            : mapProductByCategory()}
         </div>
       </div>
     </div>
