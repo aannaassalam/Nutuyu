@@ -19,8 +19,7 @@ export default function PostCard({ post }) {
       if (replyId) {
         const modifiedComments = post.comments.map((com) => {
           if (com.id === replyId) {
-            const prevReply = com.replies.slice(-1)[0];
-            console.log(prevReply.id.indexOf("-"));
+            const prevReply = com.replies[0];
             const id =
               com.replies.length > 0
                 ? parseInt(prevReply.id.substr(prevReply.id.indexOf("-") + 1)) +
@@ -47,21 +46,19 @@ export default function PostCard({ post }) {
       } else {
         updateDoc(doc(getFirestore(), "#nutuyu", post.id), {
           comments: [
-            ...post.comments,
             {
               comment,
               date: new Date(),
               id: `com${
                 post.comments.length > 0
-                  ? parseInt(
-                      post.comments[post.comments.length - 1].id.substr(3)
-                    ) + 1
+                  ? parseInt(post.comments[0].id.substr(3)) + 1
                   : 1
               }`,
               replies: [],
               user_id: user.uid,
               user_name: user.full_name,
             },
+            ...post.comments,
           ],
         })
           .then(() => setComment(""))
@@ -109,7 +106,10 @@ export default function PostCard({ post }) {
               {reply_name && (
                 <i
                   className="fa-solid fa-times"
-                  onClick={() => setReply_name("")}
+                  onClick={() => {
+                    setReply_name("");
+                    setReplyId("");
+                  }}
                 ></i>
               )}
               <input
