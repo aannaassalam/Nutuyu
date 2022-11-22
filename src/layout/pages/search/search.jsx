@@ -15,8 +15,7 @@ function Search(props) {
   const [state, setState] = useState({
     filterOptions: false,
     sortOptions: false,
-    whatsNew: false,
-    sold: false,
+    products: [],
     loading: true,
     filter: {
       categories: [],
@@ -38,6 +37,24 @@ function Search(props) {
     });
   }, [params.id]);
 
+  useEffect(() => {
+    state.filter.selectedCategory.length
+      ? setState((prev) => ({
+          ...prev,
+          products: products?.filter(
+            (product) =>
+              state.filter.selectedCategory.includes(product.category) &&
+              product.name.includes(params.id)
+          ),
+        }))
+      : setState((prev) => ({
+          ...prev,
+          products: products?.filter((product) =>
+            product.name.toLowerCase().includes(params.id.toLowerCase())
+          ),
+        }));
+  }, [state.filter.selectedCategory, products]);
+
   const NoProductsAvailable = () => {
     return (
       <div className="noProductAvailable">
@@ -51,7 +68,7 @@ function Search(props) {
           height={200}
           width={200}
         />
-        <h1>Sorry No Products Available</h1>
+        <h1>No Products Found</h1>
       </div>
     );
   };
@@ -129,33 +146,35 @@ function Search(props) {
         )}
       </div>
       <h1 className="displayName">You Searched for "{params.id}"</h1>
-      <div className="filterSection">
-        <button
-          onClick={() =>
-            setState({ ...state, filterOptions: !state.filterOptions })
-          }
-        >
-          {state.filterOptions ? <Minus /> : <Plus />}
-          <span>Filter</span>
-        </button>
-        <button
-          onClick={() =>
-            setState({ ...state, sortOptions: !state.sortOptions })
-          }
-        >
-          <span>Sort By</span>
-          {state.sortOptions ? <Minus /> : <Plus />}
-          <div
-            className={state.sortOptions ? "sortOptions open" : "sortOptions"}
+      {state.products.length > 0 && (
+        <div className="filterSection">
+          <button
+            onClick={() =>
+              setState({ ...state, filterOptions: !state.filterOptions })
+            }
           >
-            <p>Best Selling</p>
-            <p>A to Z</p>
-            <p>Z to A</p>
-            <p>Price Low To High</p>
-            <p>Price High To Low</p>
-          </div>
-        </button>
-      </div>
+            {state.filterOptions ? <Minus /> : <Plus />}
+            <span>Filter</span>
+          </button>
+          <button
+            onClick={() =>
+              setState({ ...state, sortOptions: !state.sortOptions })
+            }
+          >
+            <span>Sort By</span>
+            {state.sortOptions ? <Minus /> : <Plus />}
+            <div
+              className={state.sortOptions ? "sortOptions open" : "sortOptions"}
+            >
+              <p>Best Selling</p>
+              <p>A to Z</p>
+              <p>Z to A</p>
+              <p>Price Low To High</p>
+              <p>Price High To Low</p>
+            </div>
+          </button>
+        </div>
+      )}
       <div
         className={
           state.filterOptions
@@ -205,47 +224,6 @@ function Search(props) {
                 })}
               </div>
             )}
-            {/* {state.filter.subcategories.length > 0 && (
-              <div className="optionList">
-                <h3>Subcategories</h3>
-                {state.filter.subcategories?.map((subcategory) => {
-                  return (
-                    subcategory.name &&
-                    subcategory.name !== params.subcategory && (
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={state.filter.selectedSubcategory.includes(
-                            subcategory.name
-                          )}
-                          onChange={(e) =>
-                            setState((prev) => ({
-                              ...prev,
-                              filter: {
-                                ...prev.filter,
-                                selectedSubcategory:
-                                  prev.filter.selectedSubcategory.includes(
-                                    subcategory.name
-                                  )
-                                    ? prev.filter.selectedSubcategory.filter(
-                                        (s) => s !== subcategory.name
-                                      )
-                                    : [
-                                        ...prev.filter.selectedSubcategory,
-                                        subcategory.name,
-                                      ],
-                              },
-                            }))
-                          }
-                        />
-                        {subcategory.name}
-                      </label>
-                    )
-                  );
-                })}
-              </div>
-            )}
-        </div>*/}
           </div>
         ) : null}
         <div
@@ -253,7 +231,15 @@ function Search(props) {
             state.filterOptions ? "productListing threefr" : "productListing"
           }
         >
-          {mapProducts()}
+          {state.products.length > 0
+            ? state.products.map((product) => (
+                <ProductCard
+                  product={product}
+                  sold={product.sold}
+                  key={product.id}
+                />
+              ))
+            : NoProductsAvailable()}
         </div>
       </div>
     </div>

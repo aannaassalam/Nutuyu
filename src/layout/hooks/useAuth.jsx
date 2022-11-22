@@ -13,6 +13,8 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const updateUser = () => setUser(getAuth().currentUser);
+
   useEffect(() => {
     onAuthStateChanged(
       getAuth(),
@@ -39,7 +41,7 @@ export default function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loading, user }}>
+    <AuthContext.Provider value={{ loading, user, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
