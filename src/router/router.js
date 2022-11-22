@@ -49,6 +49,11 @@ const routes = [
     ),
   },
   {
+    route: "/search/:id",
+    id: "search product",
+    Component: lazy(() => import("../layout/pages/search/search.jsx")),
+  },
+  {
     route: "/nutuyu",
     id: "#nutuyu",
     Component: lazy(() => import("../layout/pages/nutuyu/nutuyu.jsx")),

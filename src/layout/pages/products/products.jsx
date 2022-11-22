@@ -1,7 +1,7 @@
 import React, { createElement, useEffect, useRef, useState } from "react";
 import "./products.css";
 import ProductCard from "../../components/productCard/productCard";
-import { Plus } from "react-feather";
+import { Minus, Plus } from "react-feather";
 import { useParams } from "react-router-dom";
 import Lottie from "react-lottie";
 import ProductJson from "../../../assets/product.json";
@@ -165,7 +165,7 @@ function Products(props) {
             setState({ ...state, filterOptions: !state.filterOptions })
           }
         >
-          <Plus />
+          {state.filterOptions ? <Minus /> : <Plus />}
           <span>Filter</span>
         </button>
         <button
@@ -174,7 +174,7 @@ function Products(props) {
           }
         >
           <span>Sort By</span>
-          <Plus />
+          {state.sortOptions ? <Minus /> : <Plus />}
           <div
             className={state.sortOptions ? "sortOptions open" : "sortOptions"}
           >

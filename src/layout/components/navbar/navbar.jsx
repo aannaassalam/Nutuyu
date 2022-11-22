@@ -74,11 +74,13 @@ function Navbar({ handleCart }) {
                 .filter((item) =>
                   item.name.toLowerCase().includes(searchValue.toLowerCase())
                 )
+                .slice(0, 5)
                 .map((prod) => (
                   <a href={`/product/${prod.id}`}>
                     {prod.name} <ArrowUpRight />
                   </a>
                 ))}
+              <a href={`/search/${searchValue}`}>Search for "{searchValue}"</a>
             </div>
           ) : null}
         </div>
@@ -227,11 +229,13 @@ function Navbar({ handleCart }) {
             .filter((item) =>
               item.name.toLowerCase().includes(searchValue.toLowerCase())
             )
+            .slice(0, 5)
             .map((prod) => (
               <a href={`/product/${prod.id}`}>
                 {prod.name} <ArrowUpRight />
               </a>
             ))}
+          <a href={`/search/${searchValue}`}>Search for "{searchValue}"</a>
         </div>
       ) : null}
     </div>

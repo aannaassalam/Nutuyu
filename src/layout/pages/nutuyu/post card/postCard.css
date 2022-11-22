@@ -101,6 +101,20 @@
 .post_modal .comments-container .comments {
   padding: 10px 15px;
   height: calc(100% - 95px);
+  overflow-y: auto;
+  margin-right: 1px;
+}
+
+.post_modal .comments-container .comments::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  scroll-behavior: smooth;
+  background-color: #ddd;
+}
+
+.post_modal .comments-container .comments::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 10px;
 }
 
 .post_modal .comments-container .comments .no_comments {
