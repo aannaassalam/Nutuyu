@@ -145,12 +145,14 @@
 }
 .noProductAvailable {
   width: 100%;
+  height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   grid-column-start: 1;
   grid-column-end: 12;
+  margin-bottom: 200px;
 }
 @media (max-width: 845px) {
   .Products .productListingWrapper .productListing {

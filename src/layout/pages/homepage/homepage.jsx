@@ -26,7 +26,7 @@ function Homepage() {
 
   return (
     <div className="Homepage">
-      <Toaster message="hii" positive={true} />
+      {/* <Toaster message="hii" positive={true} /> */}
       <TopSection banner={banner} />
       <Slider slider={sliders[0]} />
       <CategorySec />

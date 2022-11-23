@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./profileDetails.css";
 import { Button, TextField } from "@mui/material";
 import { useAuth } from "../../../hooks/useAuth";
-import { getAuth, updatePassword } from "firebase/auth";
+import {
+  EmailAuthProvider,
+  getAuth,
+  reauthenticateWithCredential,
+  updatePassword,
+} from "firebase/auth";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
 
 function ProfileDetails() {
@@ -10,26 +15,38 @@ function ProfileDetails() {
 
   const [state, setState] = useState({
     full_name: "",
-    password: "",
+    old_password: "",
+    new_password: "",
     email: "",
     phone_number: "",
   });
 
   useEffect(() => {
     if (!user.loading && user.user) {
-      setState({
+      setState((prev) => ({
+        ...prev,
         full_name: user.user.full_name,
         email: user.user.email,
         phone_number: user.user.phone_number,
-      });
+      }));
     }
   }, [user]);
+
+  const reauthenticate = () => {
+    // var local_user = getAuth().currentUser;
+    var cred = EmailAuthProvider.credential(
+      user.user.email,
+      state.old_password
+    );
+    return reauthenticateWithCredential(getAuth().currentUser, cred);
+  };
 
   const handleUpdate = () => {
     if (
       state.full_name.trim().length > 0 &&
       state.phone_number.trim().length > 8 &&
-      state.password.trim().length > 7
+      state.old_password.trim().length > 7 &&
+      state.new_password.trim().length > 7
     ) {
       updateDoc(doc(getFirestore(), "users", user.user.id), {
         full_name: state.full_name.trim(),
@@ -37,8 +54,19 @@ function ProfileDetails() {
       })
         .then(() => {
           console.log("updated");
-          updatePassword(getAuth().currentUser, state.password)
-            .then(() => setState((prev) => ({ ...prev, password: "" })))
+          reauthenticate()
+            .then(() => {
+              updatePassword(getAuth().currentUser, state.new_password)
+                .then(() => {
+                  user.updateUser();
+                  setState((prev) => ({
+                    ...prev,
+                    new_password: "",
+                    old_password: "",
+                  }));
+                })
+                .catch((err) => console.log(err));
+            })
             .catch((err) => console.log(err));
         })
         .catch((err) => console.log(err));
@@ -54,6 +82,8 @@ function ProfileDetails() {
           variant="standard"
           type="email"
           value={state.full_name}
+          fullWidth
+          sx={{ marginBottom: "20px" }}
           onChange={(e) =>
             setState((prev) => ({ ...prev, full_name: e.target.value }))
           }
@@ -63,6 +93,8 @@ function ProfileDetails() {
           variant="standard"
           type="email"
           value={state.email}
+          fullWidth
+          sx={{ marginBottom: "20px" }}
           disabled
         />
         <TextField
@@ -70,18 +102,32 @@ function ProfileDetails() {
           variant="standard"
           type="number"
           value={state.phone_number}
+          fullWidth
+          sx={{ marginBottom: "20px" }}
           onChange={(e) =>
             setState((prev) => ({ ...prev, phone_number: e.target.value }))
           }
         />
         <TextField
-          label="Password"
+          label="Old Password"
           variant="standard"
           type="password"
-          value={state.password}
-          sx={{ width: "100%" }}
+          value={state.old_password}
+          fullWidth
+          sx={{ marginBottom: "20px" }}
           onChange={(e) =>
-            setState((prev) => ({ ...prev, password: e.target.value }))
+            setState((prev) => ({ ...prev, old_password: e.target.value }))
+          }
+        />
+        <TextField
+          label="New Password"
+          variant="standard"
+          type="password"
+          value={state.new_password}
+          fullWidth
+          sx={{ marginBottom: "20px" }}
+          onChange={(e) =>
+            setState((prev) => ({ ...prev, new_password: e.target.value }))
           }
         />
         <Button onClick={handleUpdate}>Submit</Button>

@@ -77,3 +77,13 @@
 .loader span:nth-child(8) {
   animation-delay: 1.4s;
 }
+
+@media (width<=680px) {
+  .loader p {
+    font-size: 16px;
+  }
+
+  .loader span {
+    font-size: 50px;
+  }
+}

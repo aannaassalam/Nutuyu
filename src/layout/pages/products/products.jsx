@@ -1,7 +1,7 @@
 import React, { createElement, useEffect, useRef, useState } from "react";
 import "./products.css";
 import ProductCard from "../../components/productCard/productCard";
-import { Plus } from "react-feather";
+import { Minus, Plus } from "react-feather";
 import { useParams } from "react-router-dom";
 import Lottie from "react-lottie";
 import ProductJson from "../../../assets/product.json";
@@ -18,6 +18,7 @@ function Products(props) {
     whatsNew: false,
     sold: false,
     loading: true,
+    products: [],
     filter: {
       types: [],
       selectedTypes: [],
@@ -28,15 +29,6 @@ function Products(props) {
     },
     categories: [],
   });
-
-  useEffect(() => {
-    if (params.category === "what's-new") {
-      setState({ ...state, whatsNew: true });
-    }
-    if (params.category === "sold") {
-      setState({ ...state, sold: true });
-    }
-  }, []);
 
   useEffect(() => {
     onSnapshot(collection(getFirestore(), "settings"), (snapshot) => {
@@ -64,6 +56,82 @@ function Products(props) {
     });
   }, []);
 
+  useEffect(() => {
+    state.filter.selectedSubcategory.length
+      ? setState((prev) => ({
+          ...prev,
+          products: products.filter((product) => {
+            if (
+              product.category === params.category &&
+              (product.subcategory.name === params.subcategory ||
+                state.filter.selectedSubcategory.includes(
+                  product.subcategory.name
+                ))
+            ) {
+              if (!params.type) return product;
+              if (params.type !== product.subcategory.type) return false;
+              return product;
+            }
+            return false;
+          }),
+        }))
+      : setState((prev) => ({
+          ...prev,
+          products: products?.filter((product) => {
+            if (
+              product.category === params.category &&
+              product.subcategory.name === params.subcategory
+            ) {
+              if (!params.type) return product;
+              if (params.type !== product.subcategory.type) return false;
+              return product;
+            }
+            return false;
+          }),
+        }));
+  }, [state.filter.selectedSubcategory.length, products]);
+
+  useEffect(() => {
+    state.filter.selectedTypes.length
+      ? setState((prev) => ({
+          ...prev,
+          products: products?.filter(
+            (product) =>
+              product.category === params.category &&
+              state.filter.selectedTypes.includes(product.subcategory.type)
+          ),
+        }))
+      : setState((prev) => ({
+          ...prev,
+          products: products?.filter(
+            (product) => product.category === params.category
+          ),
+        }));
+  }, [state.filter.selectedTypes.length, products]);
+
+  useEffect(() => {
+    if (params.category === "what's-new") {
+      console.log(
+        products
+          .sort((a, b) => (a.date.nanoseconds > b.date.nanoseconds ? 1 : -1))
+          .slice(0, 20)
+      );
+      setState((prev) => ({
+        ...prev,
+        products: products
+          .sort((a, b) => (a.date.nanoseconds > b.date.nanoseconds ? 1 : -1))
+          .slice(0, 20),
+      }));
+    }
+    if (params.category === "sold") {
+      console.log(products?.filter((product) => product.sold));
+      setState((prev) => ({
+        ...prev,
+        products: products?.filter((product) => product.sold),
+      }));
+    }
+  }, [products]);
+
   const NoProductsAvailable = () => {
     return (
       <div className="noProductAvailable">
@@ -77,7 +145,7 @@ function Products(props) {
           height={200}
           width={200}
         />
-        <h1>Sorry No Products Available</h1>
+        <h1>No Products Available</h1>
       </div>
     );
   };
@@ -159,33 +227,35 @@ function Products(props) {
         )}
       </div>
       <h1 className="displayName">{params.subcategory || params.category}</h1>
-      <div className="filterSection">
-        <button
-          onClick={() =>
-            setState({ ...state, filterOptions: !state.filterOptions })
-          }
-        >
-          <Plus />
-          <span>Filter</span>
-        </button>
-        <button
-          onClick={() =>
-            setState({ ...state, sortOptions: !state.sortOptions })
-          }
-        >
-          <span>Sort By</span>
-          <Plus />
-          <div
-            className={state.sortOptions ? "sortOptions open" : "sortOptions"}
+      {state.products.length > 0 && (
+        <div className="filterSection">
+          <button
+            onClick={() =>
+              setState({ ...state, filterOptions: !state.filterOptions })
+            }
           >
-            <p>Best Selling</p>
-            <p>A to Z</p>
-            <p>Z to A</p>
-            <p>Price Low To High</p>
-            <p>Price High To Low</p>
-          </div>
-        </button>
-      </div>
+            {state.filterOptions ? <Minus /> : <Plus />}
+            <span>Filter</span>
+          </button>
+          <button
+            onClick={() =>
+              setState({ ...state, sortOptions: !state.sortOptions })
+            }
+          >
+            <span>Sort By</span>
+            {state.sortOptions ? <Minus /> : <Plus />}
+            <div
+              className={state.sortOptions ? "sortOptions open" : "sortOptions"}
+            >
+              <p>Best Selling</p>
+              <p>A to Z</p>
+              <p>Z to A</p>
+              <p>Price Low To High</p>
+              <p>Price High To Low</p>
+            </div>
+          </button>
+        </div>
+      )}
       <div
         className={
           state.filterOptions
@@ -275,25 +345,24 @@ function Products(props) {
             state.filterOptions ? "productListing threefr" : "productListing"
           }
         >
-          {state.whatsNew
-            ? products
-                .sort((a, b) =>
-                  a.date.nanoseconds > b.date.nanoseconds ? 1 : -1
-                )
-                .slice(0, 20)
-                .map((item) => (
-                  <ProductCard key={item.id} product={item} sold={item.sold} />
-                ))
+          {/* {state.whatsNew
+            ? 
             : state.sold
-            ? products
-                ?.filter((product) => product.sold === true)
-
-                .map((item) => (
-                  <ProductCard key={item.id} product={item} sold={true} />
-                ))
+            ? 
             : params.subcategory
             ? mapProductBySubcategory()
-            : mapProductByCategory()}
+            : mapProductByCategory()} */}
+          {state.products.length > 0
+            ? state.products.map((product) => {
+                return (
+                  <ProductCard
+                    product={product}
+                    sold={product.sold}
+                    key={product.id}
+                  />
+                );
+              })
+            : NoProductsAvailable()}
         </div>
       </div>
     </div>
