@@ -9,7 +9,11 @@ import {
   updatePassword,
 } from "firebase/auth";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
-
+// import toaster from "toasted-notes";
+import "toasted-notes/src/styles.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.min.css";
 function ProfileDetails() {
   const user = useAuth();
 
@@ -70,11 +74,25 @@ function ProfileDetails() {
             .catch((err) => console.log(err));
         })
         .catch((err) => console.log(err));
+    } else if (!state.full_name.trim().length > 0) {
+      // toaster.notify("Please Enter Name");
     }
   };
 
   return (
     <div className="ProfileDetails">
+      {/* <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      /> */}
       <h2>Profile Details</h2>
       <div className="inputs">
         <TextField

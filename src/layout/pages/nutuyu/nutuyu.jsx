@@ -26,9 +26,15 @@ export default function Nutuyu() {
       <h1 className="displayName">#Nutuyu</h1>
       <p>Look how good this looks on me...</p>
       <div className="posts">
-        {posts.map((post) => (
-          <PostCard post={post} key={post.id} />
-        ))}
+        {posts?.length > 0 ? (
+          <>
+            {posts.map((post) => (
+              <PostCard post={post} key={post.id} />
+            ))}
+          </>
+        ) : (
+          <h2>No Photos Available</h2>
+        )}
       </div>
     </div>
   );

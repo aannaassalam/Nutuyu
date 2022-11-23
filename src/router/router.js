@@ -75,5 +75,10 @@ const routes = [
       import("../layout/pages/orderDetail/orderDetail.jsx")
     ),
   },
+  {
+    route: "*",
+    id: "404",
+    Component: lazy(() => import("../layout/pages/404/404.jsx")),
+  },
 ];
 export default routes;

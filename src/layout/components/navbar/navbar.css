@@ -115,6 +115,13 @@
 .Navbar .menu {
   display: none;
 }
+.Navbar .searchButton {
+  width: 100px;
+  background-color: red !important;
+  margin-top: 10px;
+  color: #fff;
+  display: none;
+}
 @media (max-width: 1340px) {
   .Navbar .bottom {
     width: 95%;
@@ -167,6 +174,9 @@
   }
   .Navbar .hide {
     display: none;
+  }
+  .Navbar .searchButton {
+    display: block;
   }
   .Navbar .bottom {
     position: fixed;

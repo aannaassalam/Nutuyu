@@ -9,9 +9,15 @@ function Orders() {
   return (
     <div className="Orders">
       <h2>Orders</h2>
-      {user.orders.map((item, id) => (
-        <OrderCard Orderid={item} key={id} />
-      ))}
+      {user.orders.length > 0 ? (
+        <>
+          {user.orders.map((item, id) => (
+            <OrderCard Orderid={item} key={id} />
+          ))}
+        </>
+      ) : (
+        <h2>It seems you have not placed any orders yet</h2>
+      )}
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/useAuth";
 function Profile() {
   const [tabs, settabs] = useState(1);
   const user = useAuth().user;
-  if (!user?.loading && !user?.user) {
+  if (!user?.loading && !user) {
     window.location.href = "/";
   }
 

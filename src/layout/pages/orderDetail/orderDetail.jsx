@@ -16,6 +16,7 @@ function OrderDetail() {
       setloading(false);
     });
   }, []);
+  console.log(URL.revokeObjectURL(image));
   return (
     <>
       {loading ? null : (

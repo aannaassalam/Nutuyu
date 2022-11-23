@@ -141,54 +141,60 @@ function Addresses() {
             <div className="shippingAddress">
               <h3>Shipping Address</h3>
               <div className="addressList">
-                {user?.shipping_addresses.map((item, id) => (
-                  <div className="address">
-                    <p>{item.name}</p>
-                    <p style={{ marginTop: "10px" }}> {item.address1}</p>
-                    <p>{item.address2}</p>
-                    <p>
-                      {item.city}, {item.state}
-                    </p>
-                    <p>{item.zipcode}</p>
-                    <p>{item.phone}</p>
+                {user?.shipping_addresses.length > 0 ? (
+                  <>
+                    {user?.shipping_addresses.map((item, id) => (
+                      <div className="address">
+                        <p>{item.name}</p>
+                        <p style={{ marginTop: "10px" }}> {item.address1}</p>
+                        <p>{item.address2}</p>
+                        <p>
+                          {item.city}, {item.state}
+                        </p>
+                        <p>{item.zipcode}</p>
+                        <p>{item.phone}</p>
 
-                    <div style={{ marginTop: "10px" }}>
-                      <p
-                        onClick={() => {
-                          setstate({
-                            ...state,
-                            addAddress: true,
-                            editAddress: true,
-                            updateItem: "shipping_addresses",
-                            selectedId: id,
-                          });
-                          setvalues({
-                            name: user.shipping_addresses[id].name,
-                            address1: user.shipping_addresses[id].address1,
-                            address2: user.shipping_addresses[id].address2,
-                            state: user.shipping_addresses[id].state,
-                            city: user.shipping_addresses[id].city,
-                            zipcode: user.shipping_addresses[id].zipcode,
-                            phone: user.shipping_addresses[id].phone,
-                          });
-                        }}
-                      >
-                        Edit
-                      </p>
-                      <p
-                        onClick={() => {
-                          setstate({
-                            ...state,
-                            selectedId: item.id,
-                          });
-                          deletAddress("shipping_addresses", id);
-                        }}
-                      >
-                        Delete
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                        <div style={{ marginTop: "10px" }}>
+                          <p
+                            onClick={() => {
+                              setstate({
+                                ...state,
+                                addAddress: true,
+                                editAddress: true,
+                                updateItem: "shipping_addresses",
+                                selectedId: id,
+                              });
+                              setvalues({
+                                name: user.shipping_addresses[id].name,
+                                address1: user.shipping_addresses[id].address1,
+                                address2: user.shipping_addresses[id].address2,
+                                state: user.shipping_addresses[id].state,
+                                city: user.shipping_addresses[id].city,
+                                zipcode: user.shipping_addresses[id].zipcode,
+                                phone: user.shipping_addresses[id].phone,
+                              });
+                            }}
+                          >
+                            Edit
+                          </p>
+                          <p
+                            onClick={() => {
+                              setstate({
+                                ...state,
+                                selectedId: item.id,
+                              });
+                              deletAddress("shipping_addresses", id);
+                            }}
+                          >
+                            Delete
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <h2>No Shipping Address Added</h2>
+                )}
               </div>
               <Button
                 onClick={() =>
@@ -205,54 +211,60 @@ function Addresses() {
             <div className="billingAddress">
               <h3>Billing Address</h3>
               <div className="addressList">
-                {user?.billing_addresses.map((item, id) => (
-                  <div className="address">
-                    <p>{item.name}</p>
-                    <p style={{ marginTop: "10px" }}> {item.address1}</p>
-                    <p>{item.address2}</p>
-                    <p>
-                      {item.city}, {item.state}
-                    </p>
-                    <p>{item.zipcode}</p>
-                    <p>{item.phone}</p>
+                {user?.billing_addresses.length > 0 ? (
+                  <>
+                    {user?.billing_addresses.map((item, id) => (
+                      <div className="address">
+                        <p>{item.name}</p>
+                        <p style={{ marginTop: "10px" }}> {item.address1}</p>
+                        <p>{item.address2}</p>
+                        <p>
+                          {item.city}, {item.state}
+                        </p>
+                        <p>{item.zipcode}</p>
+                        <p>{item.phone}</p>
 
-                    <div style={{ marginTop: "10px" }}>
-                      <p
-                        onClick={() => {
-                          setstate({
-                            ...state,
-                            addAddress: true,
-                            editAddress: true,
-                            updateItem: "billing_addresses",
-                            selectedId: id,
-                          });
-                          setvalues({
-                            name: user.billing_addresses[id].name,
-                            address1: user.billing_addresses[id].address1,
-                            address2: user.billing_addresses[id].address2,
-                            state: user.billing_addresses[id].state,
-                            city: user.billing_addresses[id].city,
-                            zipcode: user.billing_addresses[id].zipcode,
-                            phone: user.billing_addresses[id].phone,
-                          });
-                        }}
-                      >
-                        Edit
-                      </p>
-                      <p
-                        onClick={() => {
-                          setstate({
-                            ...state,
-                            selectedId: item.id,
-                          });
-                          deletAddress("billing_addresses", id);
-                        }}
-                      >
-                        Delete
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                        <div style={{ marginTop: "10px" }}>
+                          <p
+                            onClick={() => {
+                              setstate({
+                                ...state,
+                                addAddress: true,
+                                editAddress: true,
+                                updateItem: "billing_addresses",
+                                selectedId: id,
+                              });
+                              setvalues({
+                                name: user.billing_addresses[id].name,
+                                address1: user.billing_addresses[id].address1,
+                                address2: user.billing_addresses[id].address2,
+                                state: user.billing_addresses[id].state,
+                                city: user.billing_addresses[id].city,
+                                zipcode: user.billing_addresses[id].zipcode,
+                                phone: user.billing_addresses[id].phone,
+                              });
+                            }}
+                          >
+                            Edit
+                          </p>
+                          <p
+                            onClick={() => {
+                              setstate({
+                                ...state,
+                                selectedId: item.id,
+                              });
+                              deletAddress("billing_addresses", id);
+                            }}
+                          >
+                            Delete
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <h2>No Billing Address Added</h2>
+                )}
               </div>
               <Button
                 onClick={() =>

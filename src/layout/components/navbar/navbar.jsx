@@ -15,6 +15,7 @@ import "./navbar.css";
 import { getDoc, doc, getFirestore } from "firebase/firestore";
 import { useAuth } from "../../hooks/useAuth";
 import { useProducts } from "../../hooks/useProducts";
+import { Button } from "@mui/material";
 
 function Navbar({ handleCart }) {
   const [categories, setCategories] = useState([]);
@@ -221,23 +222,16 @@ function Navbar({ handleCart }) {
             }}
           />
         </div>
+        <Button
+          className="searchButton show"
+          onClick={() => {
+            if (searchValue)
+              window.location.pathname = `/search/${searchValue}`;
+          }}
+        >
+          Search
+        </Button>
       </div>
-      {searchValue ? (
-        <div className="searchList">
-          <p>Search Results</p>
-          {products
-            .filter((item) =>
-              item.name.toLowerCase().includes(searchValue.toLowerCase())
-            )
-            .slice(0, 5)
-            .map((prod) => (
-              <a href={`/product/${prod.id}`}>
-                {prod.name} <ArrowUpRight />
-              </a>
-            ))}
-          <a href={`/search/${searchValue}`}>Search for "{searchValue}"</a>
-        </div>
-      ) : null}
     </div>
   );
 }

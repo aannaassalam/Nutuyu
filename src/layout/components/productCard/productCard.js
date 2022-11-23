@@ -47,10 +47,12 @@ export default function ProductCard({ product, sold }) {
   return (
     <a href={`/product/${product.id}`} className="product-card">
       {sold && <span className="sold">Sold</span>}
-      <img src={product.images[0]?.image} alt="" className="main-img" />
+      <img src={product?.images[0]?.image} alt="" className="main-img" />
       <img
         src={
-          product.images[1] ? product.images[1].image : product.images[0].image
+          product?.images[1]
+            ? product?.images[1]?.image
+            : product?.images[0]?.image
         }
         alt=""
         className="hover-img"

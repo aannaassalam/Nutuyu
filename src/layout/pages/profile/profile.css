@@ -23,13 +23,14 @@
   position: sticky;
   top: 0px;
   height: 50vh;
+  margin-top: 5px;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 .Profile .container .left p {
   text-transform: uppercase;
   cursor: pointer;
   user-select: none;
-  padding: 20px 10px;
+  padding: 15px 10px;
   font-size: 18px;
 }
 .Profile .container .right {
@@ -38,7 +39,8 @@
 }
 .Profile .container .left p.active {
   background-color: #f4f4f4;
-  border-bottom: 1px solid #bdb7b7;
+  border-left: 3px solid #bdb7b7;
+  padding-left: 7px;
 }
 @media (max-width: 1080px) {
   .Profile .container .right {
@@ -49,7 +51,7 @@
     width: 17%;
   }
 }
-@media (max-width: 850px) {
+@media (max-width: 900px) {
   .Profile .container {
     flex-direction: column;
   }
