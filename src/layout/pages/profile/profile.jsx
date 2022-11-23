@@ -8,8 +8,10 @@ import { useAuth } from "../../hooks/useAuth";
 
 function Profile() {
   const [tabs, settabs] = useState(1);
-
   const user = useAuth().user;
+  if (!user?.loading && !user?.user) {
+    window.location.href = "/";
+  }
 
   return (
     <div className="Profile">

@@ -68,4 +68,8 @@
   .Slider {
     margin: 30px 0;
   }
+  .Slider .swiper-button-prev,
+  .Slider .swiper-button-next {
+    display: none;
+  }
 }
