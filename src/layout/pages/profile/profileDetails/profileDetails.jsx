@@ -9,7 +9,7 @@ import {
   updatePassword,
 } from "firebase/auth";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
-// import toaster from "toasted-notes";
+import toaster from "toasted-notes";
 import "toasted-notes/src/styles.css";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
@@ -74,8 +74,8 @@ function ProfileDetails() {
             .catch((err) => console.log(err));
         })
         .catch((err) => console.log(err));
-    } else if (!state.full_name.trim().length > 0) {
-      // toaster.notify("Please Enter Name");
+    } else if (state.full_name.trim().length === 0) {
+      toaster.notify("Please Enter Name");
     }
   };
 
