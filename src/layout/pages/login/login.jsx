@@ -19,6 +19,7 @@ import {
 } from "firebase/auth";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+// import
 
 function Login() {
   const [handleSection, setHandleSection] = useState(0);
@@ -89,6 +90,7 @@ function Login() {
           signInWithEmailAndPassword(getAuth(), email, password)
             .then((user) => {
               console.log("logged In!!");
+              // toaster
               window.location.href = "/";
             })
             .catch((err) => console.log(err));
