@@ -73,7 +73,8 @@ export default function Checkout() {
       (state.selectedBilling.address1 && state.selectedShipping.address1) ||
       (state.selectedShipping.address1 && checkRef.current.checked)
     ) {
-      const paramsProductID = atob(params.id) || null;
+      const paramsProductID = params.id ? atob(params.id) : null;
+      console.log(paramsProductID);
       addDoc(collection(getFirestore(), "orders"), {
         date: new Date(),
         items: params.id

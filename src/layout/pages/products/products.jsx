@@ -31,6 +31,7 @@ function Products(props) {
   });
 
   useEffect(() => {
+    console.log(params);
     onSnapshot(collection(getFirestore(), "settings"), (snapshot) => {
       const categories = snapshot.docs[0].data().categories;
       const category = categories.find((cat) => cat.name === params.category);
@@ -82,6 +83,7 @@ function Products(props) {
               product.category === params.category &&
               product.subcategory.name === params.subcategory
             ) {
+              console.log("in");
               if (!params.type) return product;
               if (params.type !== product.subcategory.type) return false;
               return product;
@@ -89,6 +91,7 @@ function Products(props) {
             return false;
           }),
         }));
+    console.log(state.products);
   }, [state.filter.selectedSubcategory.length, products]);
 
   useEffect(() => {
@@ -103,11 +106,16 @@ function Products(props) {
         }))
       : setState((prev) => ({
           ...prev,
-          products: products?.filter(
-            (product) => product.category === params.category
-          ),
+          products: products?.filter((product) => {
+            if (!params.subcategory) {
+              console.log("insd");
+              return product.category === params.category;
+            }
+            if (params.type !== product.subcategory.type) return false;
+            return product.subcategory.name === params.subcategory;
+          }),
         }));
-  }, [state.filter.selectedTypes.length, products]);
+  }, [state.filter.selectedTypes.length, products, params.category]);
 
   useEffect(() => {
     if (params.category === "what's-new") {
