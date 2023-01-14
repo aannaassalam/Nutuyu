@@ -16,7 +16,6 @@ function OrderDetail() {
       setloading(false);
     });
   }, []);
-  console.log(URL.revokeObjectURL(image));
   return (
     <>
       {loading ? null : (
@@ -35,7 +34,7 @@ function OrderDetail() {
                     <span className="changeFont">{item.name} </span>
                   </p>
                   <strong className="changeFont">
-                    ${item.price.toFixed(2)}
+                    ${Number(item.price).toFixed(2)}
                   </strong>
                   <p className="changeFont">
                     {item.highlights[0].key}{" "}
@@ -62,10 +61,10 @@ function OrderDetail() {
               </div>
               <div className="bottom">
                 <h3>
-                  Total Price <span>${order.total.toFixed(2)}</span>
+                  Total Price <span>${Number(order.total).toFixed(2)}</span>
                 </h3>
                 <p>
-                  bag total <span>${order.total.toFixed(2)}</span>
+                  bag total <span>${Number(order.total).toFixed(2)}</span>
                 </p>
                 <p>
                   bag discount <span>$0.00</span>

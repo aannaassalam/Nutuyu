@@ -10,20 +10,6 @@ import { useProducts } from "../../../hooks/useProducts";
 function Slider({ slider = { name: "", category: "" } }) {
   const [data, setdata] = useState([]);
   const products = useProducts().products;
-  // useEffect(() => {
-  //   if (slider.subcategory === undefined) {
-  //     const p = products.filter(
-  //       (product) => product.category === slider.category
-  //     );
-  //     setdata(p);
-  //   } else {
-  //     const p = products
-  //       ?.filter((product) => product.category === slider.category)
-  //       .filter((product) => product.subcategory.name === slider.subcategory);
-  //     setdata(p);
-  //   }
-  // }, []);
-
   return (
     <div className="Slider">
       <h1>{slider.name}</h1>
@@ -56,7 +42,8 @@ function Slider({ slider = { name: "", category: "" } }) {
               .filter(
                 (product) =>
                   product.category === slider.category &&
-                  product.subcategory.name === slider.subcategory
+                  product.subcategory.name === slider.subcategory &&
+                  product.status === 1
               )
               .map((item, index) => (
                 <SwiperSlide key={index}>
@@ -64,7 +51,10 @@ function Slider({ slider = { name: "", category: "" } }) {
                 </SwiperSlide>
               ))
           : products
-              .filter((product) => product.category === slider.category)
+              .filter(
+                (product) =>
+                  product.category === slider.category && product.status === 1
+              )
               .map((item, index) => (
                 <SwiperSlide key={index}>
                   <ProductCard product={item} />
