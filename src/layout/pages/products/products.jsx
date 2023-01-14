@@ -7,6 +7,7 @@ import Lottie from "react-lottie";
 import ProductJson from "../../../assets/product.json";
 import { collection, getFirestore, onSnapshot } from "firebase/firestore";
 import { useProducts } from "../../hooks/useProducts";
+import moment from "moment/moment";
 
 function Products(props) {
   const products = useProducts().products;
@@ -119,15 +120,24 @@ function Products(props) {
 
   useEffect(() => {
     if (params.category === "what's-new") {
-      console.log(
-        products
-          .sort((a, b) => (a.date.nanoseconds > b.date.nanoseconds ? 1 : -1))
-          .slice(0, 20)
-      );
+      // console.log(
+      //   products
+      //     .sort(
+      //       (a, b) =>
+      //         moment(b.date.toDate()).format("YYYYMMDD") -
+      //         moment(a.date.toDate()).format("YYYYMMDD")
+      //     )
+      //     .slice(0, 20)
+      // );
       setState((prev) => ({
         ...prev,
         products: products
-          .sort((a, b) => (a.date.nanoseconds > b.date.nanoseconds ? 1 : -1))
+          .sort(
+            (a, b) =>
+              moment(b.date.toDate()).format("YYYYMMDD") -
+              moment(a.date.toDate()).format("YYYYMMDD")
+          )
+          .filter((prod) => prod.status === 1)
           .slice(0, 20),
       }));
     }
@@ -362,13 +372,15 @@ function Products(props) {
             : mapProductByCategory()} */}
           {state.products.length > 0
             ? state.products.map((product) => {
-                return (
-                  <ProductCard
-                    product={product}
-                    sold={product.sold}
-                    key={product.id}
-                  />
-                );
+                if (product.status === 1) {
+                  return (
+                    <ProductCard
+                      product={product}
+                      sold={product.sold}
+                      key={product.id}
+                    />
+                  );
+                }
               })
             : NoProductsAvailable()}
         </div>
