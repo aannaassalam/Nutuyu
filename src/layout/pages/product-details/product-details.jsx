@@ -3,6 +3,7 @@ import "./product-details.css";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useProducts } from "../../hooks/useProducts";
+import Slider from "./slider/slider";
 import {
   doc,
   getDoc,
@@ -59,86 +60,89 @@ export default function ProductDetails() {
   };
 
   return (
-    <div className="product-details">
-      <div className="left">
-        <div className="thumbnail-images">
-          {product.images?.map((image, idx) => (
-            <img
-              src={image.image}
-              alt="girl"
-              className={previewImage === image.id && "active"}
-              onClick={() => {
-                setPreviewImage(image.id);
-                // setImageChange(true);
-              }}
-              key={idx}
-            />
-          ))}
+    <>
+      <div className="product-details">
+        <div className="left">
+          <div className="thumbnail-images">
+            {product.images?.map((image, idx) => (
+              <img
+                src={image.image}
+                alt="girl"
+                className={previewImage === image.id && "active"}
+                onClick={() => {
+                  setPreviewImage(image.id);
+                  // setImageChange(true);
+                }}
+                key={idx}
+              />
+            ))}
+          </div>
+          <img
+            src={
+              product.images?.find((image) => image.id === previewImage).image
+            }
+            alt=""
+            className={imageChange ? "preview-image fade" : "preview-image"}
+          />
         </div>
-        <img
-          src={product.images?.find((image) => image.id === previewImage).image}
-          alt=""
-          className={imageChange ? "preview-image fade" : "preview-image"}
-        />
-      </div>
-      <div className="right">
-        <h3>{product.name}</h3>
-        <h3>${product.price}</h3>
-        {product.sold ? (
-          <h1 style={{ color: "red", textAlign: "center" }}>Sold Out</h1>
-        ) : (
-          <>
-            <button
-              onClick={() =>
-                user
-                  ? (window.location.href = `/checkout/${btoa(params.id)}`)
-                  : (window.location.pathname = "./login")
-              }
-            >
-              Buy Now
-            </button>
-            <button
-              onClick={() => {
-                user ? addToCart() : (window.location.pathname = "./login");
-              }}
-            >
-              {found ? "Go To Bag" : "Add to Bag"}{" "}
-            </button>
-          </>
-        )}
+        <div className="right">
+          <h3>{product.name}</h3>
+          <h3>${product.price}</h3>
+          {product.sold ? (
+            <h1 style={{ color: "red", textAlign: "center" }}>Sold Out</h1>
+          ) : (
+            <>
+              <button
+                onClick={() =>
+                  user
+                    ? (window.location.href = `/checkout/${btoa(params.id)}`)
+                    : (window.location.pathname = "./login")
+                }
+              >
+                Buy Now
+              </button>
+              <button
+                onClick={() => {
+                  user ? addToCart() : (window.location.pathname = "./login");
+                }}
+              >
+                {found ? "Go To Bag" : "Add to Bag"}{" "}
+              </button>
+            </>
+          )}
 
-        <div className="description">
-          <p>{product.description}</p>
-        </div>
-        {product.note?.trim().length > 0 && (
-          <div className="note">
-            <p>
-              <strong>[NOTE: </strong>
-              {product.note}]
-            </p>
+          <div className="description">
+            <p>{product.description}</p>
           </div>
-        )}
-        <div
-          className={details ? "details open" : "details"}
-          onClick={() => setDetails(!details)}
-        >
-          <div className="details-header">
-            <h5>Details</h5>
-            <i className={`fa-solid ${details ? "fa-minus" : "fa-plus"}`}></i>
-          </div>
-          <div className="details-body">
-            {product.highlights?.map((highlight) => {
-              return (
-                <div className="detail-row">
-                  <div className="detail-title">
-                    <i className="fa-solid fa-circle"></i>
-                    <p>{highlight.key}</p>
+          {product.note?.trim().length > 0 && (
+            <div className="note">
+              <p>
+                <strong>[NOTE: </strong>
+                {product.note}]
+              </p>
+            </div>
+          )}
+          <div
+            className={details ? "details open" : "details"}
+            onClick={() => setDetails(!details)}
+          >
+            <div className="details-header">
+              <h5>Details</h5>
+              <i className={`fa-solid ${details ? "fa-minus" : "fa-plus"}`}></i>
+            </div>
+            <div className="details-body">
+              {product.highlights?.map((highlight) => {
+                return (
+                  <div className="detail-row">
+                    <div className="detail-title">
+                      <i className="fa-solid fa-circle"></i>
+                      <p>{highlight.key}</p>
+                    </div>
+                    <div className="detail-text">{highlight.value}</div>
                   </div>
-                  <div className="detail-text">{highlight.value}</div>
-                </div>
-              );
-            })}
-            {/* <div className="detail-row">
+                );
+              })}
+              {/* <div className="detail-row">
                 <div className="detail-title">
                   <i className="fa-solid fa-circle"></i>
                   <p>Size</p>
@@ -152,9 +156,11 @@ export default function ProductDetails() {
                 </div>
                 <div className="detail-text">its for people of 5'11"</div>
               </div> */}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Slider product={product} />
+    </>
   );
 }
