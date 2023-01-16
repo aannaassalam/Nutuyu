@@ -52,8 +52,7 @@ function Slider({ slider = { name: "", category: "" } }) {
                   .filter(
                     (product) =>
                       product.category === slider.category &&
-                      product.subcategory.name === slider.subcategory &&
-                      product.status === 1
+                      product.subcategory.name === slider.subcategory
                   )
                   .map((item, index) => (
                     <SwiperSlide key={index}>
@@ -61,11 +60,7 @@ function Slider({ slider = { name: "", category: "" } }) {
                     </SwiperSlide>
                   ))
               : products
-                  .filter(
-                    (product) =>
-                      product.category === slider.category &&
-                      product.status === 1
-                  )
+                  .filter((product) => product.category === slider.category)
                   .map((item, index) => (
                     <SwiperSlide key={index}>
                       <ProductCard product={item} />

@@ -23,7 +23,7 @@ export default function ProductsProvider({ children }) {
     onSnapshot(prod, (snap) => {
       var arr = [];
       snap.docs.forEach((doc) => {
-        arr.push({ ...doc.data(), id: doc.id });
+        doc.data().status && arr.push({ ...doc.data(), id: doc.id });
       });
       setProducts(arr);
       setLoading(false);

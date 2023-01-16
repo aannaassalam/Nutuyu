@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc, getFirestore, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect } from "react";
 import { createContext, useState } from "react";
@@ -19,7 +19,7 @@ export default function AuthProvider({ children }) {
     onAuthStateChanged(
       getAuth(),
       (user) => {
-        if (user) {
+        if (user && user.email !== "admin@nutuyu72.com") {
           onSnapshot(
             doc(getFirestore(), "users", user.uid),
             (doc) => {

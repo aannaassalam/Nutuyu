@@ -31,12 +31,13 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
 .Products .filterSection button {
   background-color: #fff;
   border: 1px solid #121212;
   outline: none;
-  padding: 5px 10px;
+  padding: 7px 10px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -44,30 +45,37 @@
   text-transform: uppercase;
   position: relative;
   letter-spacing: 2px;
+  cursor: pointer;
 }
 .Products .filterSection .sortOptions {
   position: absolute;
-  top: 130%;
+  top: 45px;
   display: none;
   flex-direction: column;
   align-items: flex-start;
   width: 250px;
-  right: 0;
+  right: 50px;
   z-index: 9;
   padding: 10px 0;
   background-color: #fff;
   border: 1px solid #eee;
+  z-index: 3;
 }
 .Products .filterSection .sortOptions.open {
   display: flex;
 }
 .Products .filterSection .sortOptions p {
-  text-align: left;
-  padding: 10px 20px;
+  padding: 10px 0px;
+  font-weight: 500;
+  cursor: pointer;
+  padding-bottom: 0px;
+  margin: 0 0 10px 20px;
+  border-bottom: 2px solid transparent;
 }
+.Products .filterSection .sortOptions p.active,
 .Products .filterSection .sortOptions p:hover {
-  font-weight: 600;
-  text-decoration: underline;
+  border-bottom: 2px solid #121212;
+  width: fit-content;
 }
 .Products .filterSection button span {
   margin-bottom: 2px;
@@ -78,7 +86,7 @@
   margin-right: 10px;
 }
 .Products .productListingWrapper {
-  margin: 20px 0;
+  margin: 10px 0;
   position: relative;
   width: 100%;
 }
@@ -136,8 +144,10 @@
 }
 .Products .filterOptions .optionList label {
   width: 100%;
-  padding: 5px 0;
+  padding: 5px 10px;
   text-transform: capitalize;
+  display: flex;
+  align-items: center;
   transition: 0.2s;
 }
 .Products .filterOptions .optionList label:hover {

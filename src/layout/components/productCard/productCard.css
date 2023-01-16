@@ -20,7 +20,7 @@
   transform: rotate(-45deg);
   background-color: red;
   color: #fff;
-  z-index: 99;
+  z-index: 2;
 }
 
 .product-card .main-img {

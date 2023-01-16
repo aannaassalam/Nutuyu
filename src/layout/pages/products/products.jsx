@@ -28,11 +28,11 @@ function Products(props) {
       selectedSubcategory: [],
       priceRange: [],
     },
+    sort: "",
     categories: [],
   });
 
   useEffect(() => {
-    console.log(params);
     onSnapshot(collection(getFirestore(), "settings"), (snapshot) => {
       const categories = snapshot.docs[0].data().categories;
       const category = categories.find((cat) => cat.name === params.category);
@@ -92,7 +92,6 @@ function Products(props) {
             return false;
           }),
         }));
-    console.log(state.products);
   }, [state.filter.selectedSubcategory.length, products]);
 
   useEffect(() => {
@@ -120,15 +119,6 @@ function Products(props) {
 
   useEffect(() => {
     if (params.category === "what's-new") {
-      // console.log(
-      //   products
-      //     .sort(
-      //       (a, b) =>
-      //         moment(b.date.toDate()).format("YYYYMMDD") -
-      //         moment(a.date.toDate()).format("YYYYMMDD")
-      //     )
-      //     .slice(0, 20)
-      // );
       setState((prev) => ({
         ...prev,
         products: products
@@ -137,7 +127,6 @@ function Products(props) {
               moment(b.date.toDate()).format("YYYYMMDD") -
               moment(a.date.toDate()).format("YYYYMMDD")
           )
-          .filter((prod) => prod.status === 1)
           .slice(0, 20),
       }));
     }
@@ -168,62 +157,62 @@ function Products(props) {
     );
   };
 
-  const mapProductByCategory = () => {
-    return state.filter.selectedTypes.length
-      ? products
-          ?.filter(
-            (product) =>
-              product.category === params.category &&
-              state.filter.selectedTypes.includes(product.subcategory.type)
-          )
-          .map((item) => (
-            <ProductCard key={item.id} product={item} sold={item.sold} />
-          ))
-      : products
-          ?.filter((product) => product.category === params.category)
-          .map((item) => (
-            <ProductCard key={item.id} product={item} sold={item.sold} />
-          ));
-  };
+  // const mapProductByCategory = () => {
+  //   return state.filter.selectedTypes.length
+  //     ? products
+  //         ?.filter(
+  //           (product) =>
+  //             product.category === params.category &&
+  //             state.filter.selectedTypes.includes(product.subcategory.type)
+  //         )
+  //         .map((item) => (
+  //           <ProductCard key={item.id} product={item} sold={item.sold} />
+  //         ))
+  //     : products
+  //         ?.filter((product) => product.category === params.category)
+  //         .map((item) => (
+  //           <ProductCard key={item.id} product={item} sold={item.sold} />
+  //         ));
+  // };
 
-  const mapProductBySubcategory = () => {
-    return state.filter.selectedSubcategory.length
-      ? products
-          ?.filter((product) => {
-            if (
-              product.category === params.category &&
-              (product.subcategory.name === params.subcategory ||
-                state.filter.selectedSubcategory.includes(
-                  product.subcategory.name
-                ))
-            ) {
-              if (!params.type) return product;
-              if (params.type !== product.subcategory.type) return false;
-              return product;
-            }
-            return false;
-          })
-          .map((item) => {
-            return (
-              <ProductCard key={item.id} product={item} sold={item.sold} />
-            );
-          })
-      : products
-          ?.filter((product) => {
-            if (
-              product.category === params.category &&
-              product.subcategory.name === params.subcategory
-            ) {
-              if (!params.type) return product;
-              if (params.type !== product.subcategory.type) return false;
-              return product;
-            }
-            return false;
-          })
-          .map((item) => (
-            <ProductCard key={item.id} product={item} sold={item.sold} />
-          ));
-  };
+  // const mapProductBySubcategory = () => {
+  //   return state.filter.selectedSubcategory.length
+  //     ? products
+  //         ?.filter((product) => {
+  //           if (
+  //             product.category === params.category &&
+  //             (product.subcategory.name === params.subcategory ||
+  //               state.filter.selectedSubcategory.includes(
+  //                 product.subcategory.name
+  //               ))
+  //           ) {
+  //             if (!params.type) return product;
+  //             if (params.type !== product.subcategory.type) return false;
+  //             return product;
+  //           }
+  //           return false;
+  //         })
+  //         .map((item) => {
+  //           return (
+  //             <ProductCard key={item.id} product={item} sold={item.sold} />
+  //           );
+  //         })
+  //     : products
+  //         ?.filter((product) => {
+  //           if (
+  //             product.category === params.category &&
+  //             product.subcategory.name === params.subcategory
+  //           ) {
+  //             if (!params.type) return product;
+  //             if (params.type !== product.subcategory.type) return false;
+  //             return product;
+  //           }
+  //           return false;
+  //         })
+  //         .map((item) => (
+  //           <ProductCard key={item.id} product={item} sold={item.sold} />
+  //         ));
+  // };
 
   return (
     <div className="Products">
@@ -260,18 +249,47 @@ function Products(props) {
               setState({ ...state, sortOptions: !state.sortOptions })
             }
           >
-            <span>Sort By</span>
+            <span>
+              {state.sort === "AZ"
+                ? "A to Z"
+                : state.sort === "ZA"
+                ? "Z to A"
+                : state.sort === "LH"
+                ? "Price Low to High"
+                : state.sort === "HL"
+                ? "Price High to Low"
+                : "Sort By"}
+            </span>
             {state.sortOptions ? <Minus /> : <Plus />}
-            <div
-              className={state.sortOptions ? "sortOptions open" : "sortOptions"}
-            >
-              <p>Best Selling</p>
-              <p>A to Z</p>
-              <p>Z to A</p>
-              <p>Price Low To High</p>
-              <p>Price High To Low</p>
-            </div>
           </button>
+          <div
+            className={state.sortOptions ? "sortOptions open" : "sortOptions"}
+          >
+            <p
+              className={state.sort === "AZ" && "active"}
+              onClick={() => setState((prev) => ({ ...prev, sort: "AZ" }))}
+            >
+              A to Z
+            </p>
+            <p
+              className={state.sort === "ZA" && "active"}
+              onClick={() => setState((prev) => ({ ...prev, sort: "ZA" }))}
+            >
+              Z to A
+            </p>
+            <p
+              className={state.sort === "LH" && "active"}
+              onClick={() => setState((prev) => ({ ...prev, sort: "LH" }))}
+            >
+              Price Low To High
+            </p>
+            <p
+              className={state.sort === "HL" && "active"}
+              onClick={() => setState((prev) => ({ ...prev, sort: "HL" }))}
+            >
+              Price High To Low
+            </p>
+          </div>
         </div>
       )}
       <div
@@ -363,25 +381,27 @@ function Products(props) {
             state.filterOptions ? "productListing threefr" : "productListing"
           }
         >
-          {/* {state.whatsNew
-            ? 
-            : state.sold
-            ? 
-            : params.subcategory
-            ? mapProductBySubcategory()
-            : mapProductByCategory()} */}
           {state.products.length > 0
-            ? state.products.map((product) => {
-                if (product.status === 1) {
-                  return (
-                    <ProductCard
-                      product={product}
-                      sold={product.sold}
-                      key={product.id}
-                    />
-                  );
-                }
-              })
+            ? state.products
+                .sort((a, b) => {
+                  if (state.sort === "AZ") {
+                    return a.name.localeCompare(b.name);
+                  } else if (state.sort === "ZA") {
+                    return b.name.localeCompare(a.name);
+                  } else if (state.sort === "LH") {
+                    return a.price - b.price;
+                  } else if (state.sort === "HL") {
+                    return b.price - a.price;
+                  }
+                  return;
+                })
+                .map((product) => (
+                  <ProductCard
+                    product={product}
+                    sold={product.sold}
+                    key={product.id}
+                  />
+                ))
             : NoProductsAvailable()}
         </div>
       </div>
