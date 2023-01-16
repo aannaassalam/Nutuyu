@@ -34,12 +34,52 @@
   display: flex;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
+.OrderDetail .orderCards .buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.OrderDetail .orderCards label.add-image {
+  /* width: 150px; */
+  height: 36px;
+  background-color: #5a34ab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  /* border: 1px solid #333; */
+  border-radius: 5px;
+  color: #fff;
+  padding: 0 20px;
+  margin: 20px;
+}
 .OrderDetail .orderCards button {
   background-color: red;
   color: #fff;
   align-self: flex-end;
   margin: 20px;
   border-radius: 4px;
+}
+.OrderDetail .orderCards .imageUpload {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.OrderDetail .orderCards .imageUpload img {
+  max-width: 250px;
+  height: 200px;
+  object-fit: cover;
+  margin: 20px;
+  margin-bottom: 0;
+}
+
+.OrderDetail .orderCards .imageUpload button {
+  background-color: #5a34ab;
+  color: #fff;
+  font-size: 14px;
+}
+.OrderDetail .orderCards .imageUpload svg {
+  margin-right: 10px;
 }
 .OrderDetail .orderCards .details div {
   width: -webkit-fill-available;
@@ -109,6 +149,7 @@
 .OrderDetail .priceDetails .addressInfo p {
   font-size: 14px;
 }
+
 @media (max-width: 900px) {
   .OrderDetail {
     grid-template-columns: 1fr;

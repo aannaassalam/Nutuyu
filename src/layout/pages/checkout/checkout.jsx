@@ -73,6 +73,7 @@ export default function Checkout() {
       (state.selectedBilling.address1 && state.selectedShipping.address1) ||
       (state.selectedShipping.address1 && checkRef.current.checked)
     ) {
+      console.log("ni");
       const paramsProductID = params.id ? atob(params.id) : null;
       console.log(paramsProductID);
       addDoc(collection(getFirestore(), "orders"), {
@@ -119,9 +120,9 @@ export default function Checkout() {
         });
       });
     } else if (!state.selectedBilling.address1) {
-      setmessage("Select Billing Address");
+      console.log("Select Billing Address");
     } else if (!state.selectedShipping.address1) {
-      setmessage("Select Shipping Address");
+      console.log("Select Shipping Address");
     }
   };
   const AddAddress = (updateItem) => {
