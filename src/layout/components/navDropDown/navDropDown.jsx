@@ -34,7 +34,9 @@ function NavDropDown({ open, links, p, image, drop, name, types }) {
               return (
                 type && (
                   <div className="productList" key={idx}>
-                    <h4>{type}</h4>
+                    <a href={`/products/${name}/${type}/all`}>
+                      <h4>{type}</h4>
+                    </a>
                     {mapSubcategories(type)}
                   </div>
                 )
