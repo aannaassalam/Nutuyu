@@ -4,6 +4,7 @@ import {
   getFirestore,
   onSnapshot,
   collection,
+  updateDoc,
 } from "firebase/firestore";
 import { useContext, useEffect } from "react";
 import { createContext, useState } from "react";
@@ -25,6 +26,13 @@ export default function ProductsProvider({ children }) {
       snap.docs.forEach((doc) => {
         doc.data().status && arr.push({ ...doc.data(), id: doc.id });
       });
+      // code to unsold items
+
+      // snap.docs.forEach((doc2) => {
+      //   updateDoc(doc(getFirestore(), "products", doc2.id), {
+      //     sold: false,
+      //   });
+      // });
       setProducts(arr);
       setLoading(false);
     });
