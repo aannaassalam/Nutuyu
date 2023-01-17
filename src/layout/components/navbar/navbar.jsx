@@ -77,7 +77,7 @@ function Navbar({ handleCart }) {
                 )
                 .slice(0, 5)
                 .map((prod) => (
-                  <a href={`/product/${prod.id}`}>
+                  <a href={`/product/${prod.id}`} key={prod.id}>
                     {prod.name} <ArrowUpRight />
                   </a>
                 ))}
@@ -119,95 +119,93 @@ function Navbar({ handleCart }) {
         )}
         <a href={`/`}>Home</a>
         <a href={`/products/what's-new`}>What's new</a>
-        {categories.map((item, id) => (
-          <>
-            {width > 1080 ? (
-              <a
-                href={`/products/${item.name}`}
-                onMouseOver={() => {
-                  var arr = [...categories];
-                  arr[id].open = true;
-                  setCategories(arr);
-                }}
-                onMouseLeave={() => {
-                  var arr = [...categories];
-                  arr[id].open = false;
-                  setCategories(arr);
-                }}
-              >
-                {item.name}
-                <NavDropDown
-                  open={item.open}
-                  links={item.subcategories}
-                  p={item.p}
-                  image={image1}
-                  drop={item.subcategories?.length}
-                  name={item.name}
-                  types={item.types}
-                />
+        {categories.map((item, id) =>
+          width > 1080 ? (
+            <a
+              href={`/products/${item.name}`}
+              onMouseOver={() => {
+                var arr = [...categories];
+                arr[id].open = true;
+                setCategories(arr);
+              }}
+              onMouseLeave={() => {
+                var arr = [...categories];
+                arr[id].open = false;
+                setCategories(arr);
+              }}
+              key={id}
+            >
+              {item.name}
+              <NavDropDown
+                open={item.open}
+                links={item.subcategories}
+                p={item.p}
+                image={image1}
+                drop={item.subcategories?.length}
+                name={item.name}
+                types={item.types}
+              />
+            </a>
+          ) : (
+            <>
+              <a href={`/products/${item.name}`} className="fullWidth">
+                {item.name}{" "}
+                <span
+                  onClick={(e) => {
+                    e.preventDefault();
+                    var check = dropDown.includes(id);
+                    if (check) setdropDown(dropDown.filter((el) => el !== id));
+                    else setdropDown([...dropDown, id]);
+                  }}
+                >
+                  {dropDown.includes(id) ? <Minus /> : <Plus />}
+                </span>{" "}
               </a>
-            ) : (
-              <>
-                <a href={`/products/${item.name}`} className="fullWidth">
-                  {item.name}{" "}
-                  <span
-                    onClick={(e) => {
-                      e.preventDefault();
-                      var check = dropDown.includes(id);
-                      if (check)
-                        setdropDown(dropDown.filter((el) => el !== id));
-                      else setdropDown([...dropDown, id]);
-                    }}
-                  >
-                    {dropDown.includes(id) ? <Minus /> : <Plus />}
-                  </span>{" "}
-                </a>
-                {dropDown.includes(id) ? (
-                  <>
-                    {" "}
-                    {item.types.length > 0 ? (
-                      <>
-                        {item.types.map((type) => (
-                          <>
-                            <p
-                              style={{
-                                fontWeight: "bold",
-                                padding: "5px 10px",
-                              }}
-                            >
-                              {type}
-                            </p>
-                            {item.subcategories
-                              .filter((subItem) => type === subItem.type)
-                              .map((sub) => (
-                                <a
-                                  className="innerItem"
-                                  href={`/products/${item.name}/${type}/${sub.name}`}
-                                >
-                                  {sub.name}
-                                </a>
-                              ))}
-                          </>
-                        ))}
-                      </>
-                    ) : (
-                      <>
-                        {item.subcategories.map((sub) => (
-                          <a
-                            className="innerItem"
-                            href={`/products/${item.name}/${sub.name}`}
+              {dropDown.includes(id) ? (
+                <>
+                  {" "}
+                  {item.types.length > 0 ? (
+                    <>
+                      {item.types.map((type) => (
+                        <>
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              padding: "5px 10px",
+                            }}
                           >
-                            {sub.name}
-                          </a>
-                        ))}
-                      </>
-                    )}
-                  </>
-                ) : null}
-              </>
-            )}
-          </>
-        ))}
+                            {type}
+                          </p>
+                          {item.subcategories
+                            .filter((subItem) => type === subItem.type)
+                            .map((sub) => (
+                              <a
+                                className="innerItem"
+                                href={`/products/${item.name}/${type}/${sub.name}`}
+                              >
+                                {sub.name}
+                              </a>
+                            ))}
+                        </>
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      {item.subcategories.map((sub) => (
+                        <a
+                          className="innerItem"
+                          href={`/products/${item.name}/${sub.name}`}
+                        >
+                          {sub.name}
+                        </a>
+                      ))}
+                    </>
+                  )}
+                </>
+              ) : null}
+            </>
+          )
+        )}
         <a href={`/products/sold`}>Sold</a>
         <a href={`/nutuyu`}>#Nutuyu</a>
         <div className="search">

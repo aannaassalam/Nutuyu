@@ -73,9 +73,7 @@ export default function Checkout() {
       (state.selectedBilling.address1 && state.selectedShipping.address1) ||
       (state.selectedShipping.address1 && checkRef.current.checked)
     ) {
-      console.log("ni");
       const paramsProductID = params.id ? atob(params.id) : null;
-      console.log(paramsProductID);
       addDoc(collection(getFirestore(), "orders"), {
         date: new Date(),
         items: params.id
@@ -101,7 +99,6 @@ export default function Checkout() {
                 sold: true,
               })
                 .then(() => {
-                  console.log("added");
                   window.location.pathname = `orderDetail/${docRef.id}`;
                 })
                 .catch((err) => console.log(err))
@@ -112,7 +109,6 @@ export default function Checkout() {
                   updateDoc(doc(getFirestore(), "users", user.id), {
                     cart: [],
                   }).then(() => {
-                    console.log("added");
                     window.location.pathname = `orderDetail/${docRef.id}`;
                   });
                 });
@@ -376,7 +372,7 @@ export default function Checkout() {
                 }}
               >
                 <input type="checkbox" ref={checkRef} />
-                Select As Shipping Address
+                Same as Shipping Address
               </label>
               <br />
               {!state.billing ? (

@@ -4,7 +4,7 @@ import bag from "../../../assets/bag.png";
 import image from "../../../assets/Black-tee.jpg";
 import { Button } from "@mui/material";
 import { useParams } from "react-router";
-import { doc, getFirestore, onSnapshot } from "firebase/firestore";
+import { doc, getFirestore, onSnapshot, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
 import moment from "moment/moment";
 import { Camera } from "react-feather";
@@ -26,7 +26,6 @@ function OrderDetail() {
       ldata.images.push({ id: id, img: null });
       ldata.msg.push({ id: id, msg: "" });
     });
-    console.log(ldata);
     setdata(ldata);
   }, [loading]);
   const upload = async () => {
@@ -35,7 +34,17 @@ function OrderDetail() {
   const ImageUploader = () => {
     const imageRef = ref(getStorage(), `/#nutuyu/${2}`);
   };
-  console.log(data.images);
+
+  const CancelOrder = () => {
+    order?.items?.forEach((item) =>
+      updateDoc(doc(getFirestore(), "products", item.id), {
+        sold: false,
+      })
+        .then(() => console.log("order cancelled"))
+        .catch((err) => console.log(err))
+    );
+  };
+
   return (
     <>
       {loading ? null : (
@@ -45,8 +54,8 @@ function OrderDetail() {
               <img src={bag} alt="" />
               Confirmed
             </h3>
-            {order?.items?.map((item, id) => (
-              <>
+            {order?.items?.map((item, idx) => (
+              <div key={item.id}>
                 <div className="details">
                   <img src={item.images[0].image} alt="" />
                   <div>
@@ -67,20 +76,20 @@ function OrderDetail() {
                   </div>
                 </div>
                 <div className="imageUpload">
-                  {data?.images[id]?.img ? (
+                  {data?.images[idx]?.img ? (
                     <img
-                      src={URL.createObjectURL(data?.images[id]?.img)}
+                      src={URL.createObjectURL(data?.images[idx]?.img)}
                       alt="pic"
                     ></img>
                   ) : null}
-                  {data?.images[id]?.img ? (
+                  {data?.images[idx]?.img ? (
                     <div className="actionButtons">
                       <Button onClick={upload}>Upload</Button>
                       <Button
                         style={{ marginLeft: 0, background: "red" }}
                         onClick={() => {
                           let limages = data.images;
-                          limages[id].img = null;
+                          limages[idx].img = null;
                           setdata({ ...data, images: limages });
                         }}
                       >
@@ -96,9 +105,9 @@ function OrderDetail() {
                         onChange={(e) => {
                           if (e.target.files[0].size > 300000) {
                             let limages = data.images;
-                            limages[id].img = null;
+                            limages[idx].img = null;
                             let lmsg = data.msg;
-                            lmsg[id].msg = "Image should not exceed 300kb";
+                            lmsg[idx].msg = "Image should not exceed 300kb";
                             setdata({
                               images: limages,
                               msg: lmsg,
@@ -106,9 +115,9 @@ function OrderDetail() {
                           } else {
                             let limages = data.images;
                             console.log(limages);
-                            limages[id].img = e.target.files[0];
+                            limages[idx].img = e.target.files[0];
                             let lmsg = data.msg;
-                            lmsg[id].msg = "";
+                            lmsg[idx].msg = "";
                             setdata({
                               images: limages,
                               msg: lmsg,
@@ -121,15 +130,15 @@ function OrderDetail() {
                     </label>
                   )}
 
-                  {data?.msg[id]?.msg ? (
+                  {data?.msg[idx]?.msg ? (
                     <span style={{ margin: "auto 20px", color: "red" }}>
-                      {data?.msg[id]?.msg}
+                      {data?.msg[idx]?.msg}
                     </span>
                   ) : null}
                 </div>
-              </>
+              </div>
             ))}
-            <Button>Cancel order</Button>
+            <Button onClick={CancelOrder}>Cancel order</Button>
           </div>
           <div className="priceDetails">
             <div>
