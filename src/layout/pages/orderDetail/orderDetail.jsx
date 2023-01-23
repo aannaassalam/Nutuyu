@@ -100,6 +100,17 @@ function OrderDetail() {
     });
   };
   // console.log(user && user);
+
+  const CancelOrder = () => {
+    order?.items?.forEach((item) =>
+      updateDoc(doc(getFirestore(), "products", item.id), {
+        sold: false,
+      })
+        .then(() => console.log("order cancelled"))
+        .catch((err) => console.log(err))
+    );
+  };
+
   return (
     <>
       {loading ? null : (
@@ -110,7 +121,7 @@ function OrderDetail() {
               Confirmed
             </h3>
             {order?.items?.map((item, id) => (
-              <>
+              <div key={item.id}>
                 <div className="details">
                   <div className="orderCardWrapper">
                     <img src={item.images[0].image} alt="" />
@@ -229,9 +240,9 @@ function OrderDetail() {
                     ) : null}
                   </div>
                 </div>
-              </>
+              </div>
             ))}
-            <Button>Cancel order</Button>
+            <Button onClick={CancelOrder}>Cancel order</Button>
           </div>
           <div className="priceDetails">
             <div>

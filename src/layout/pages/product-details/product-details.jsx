@@ -21,7 +21,7 @@ export default function ProductDetails() {
   // const [loading, setloading] = useState(true);
   const params = useParams();
   const user = useAuth().user;
-  const products = useProducts().products;
+  const [products, setProducts] = useState({});
 
   useEffect(() => {
     if (imageChange) {
@@ -32,8 +32,10 @@ export default function ProductDetails() {
   }, [imageChange]);
 
   useEffect(() => {
-    const local_product = products.find((product) => product.id === params.id);
-    setProduct(local_product);
+    getDoc(doc(getFirestore(), "products", params.id))
+      .then((doc) => setProduct({ ...doc.data(), id: doc.id }))
+      .catch((err) => console.log(err));
+    // setProduct(local_product);
     if (user && user.cart.includes(params.id)) {
       setFound(true);
     } else {
