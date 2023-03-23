@@ -4,16 +4,48 @@ import PerComment from "./per comment/perComment";
 import profile from "../../../../assets/user-profile.png";
 import moment from "moment";
 import { useAuth } from "../../../hooks/useAuth";
-import { doc, getFirestore, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getFirestore,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { useLocation, useParams } from "react-router";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, init, active }) {
   const [modal, setModal] = useState(false);
   const [comment, setComment] = useState("");
   const [reply_name, setReply_name] = useState("");
   const [replyId, setReplyId] = useState("");
+  const params = useParams();
 
   const user = useAuth().user;
+  // console.log(params);
+  function useQuery() {
+    const { search } = useLocation();
 
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+  }
+  let query = useQuery();
+  let queryId = query.get("id");
+
+  // useEffect(() => {
+  //   if (params.id) {
+  //     const ref = collection(getFirestore(), "nutuyu");
+  //     const q = query(ref, where("uniqueid", "==", params?.id));
+  //     onSnapshot(q, (snapshot) => {
+  //       console.log(snapshot.docs);
+  //       snapshot.docs.forEach((item) => {
+  //         console.log(item.data());
+  //       });
+  //     });
+  //   }
+  // }, [params.id]);
   const postComment = () => {
     if (comment.trim().length > 0 && user) {
       if (replyId) {
@@ -72,15 +104,22 @@ export default function PostCard({ post }) {
       <div className="modal-backdrop">
         <div className="post_modal">
           <div className="image">
-            <img src={post.image} alt="" />
+            <img src={active?.image} alt="" />
           </div>
           <div className="comments-container">
             <div className="user">
               {/* <img src={profile} alt="" /> */}
-              <p>John Doe</p>
-              <div onClick={() => setModal(false)}>
-                <i className="fa-solid fa-times"></i>
-              </div>
+              <p>{active?.name}</p>
+              <Link to="/nutuyu">
+                <div
+                // onClick={() => {
+                //   setModal(false);
+                //   window.location.pathname = "/nutuyu";
+                // }}
+                >
+                  <i className="fa-solid fa-times"></i>
+                </div>
+              </Link>
             </div>
             <div className="comments">
               {post.comments.length > 0 ? (
@@ -136,13 +175,21 @@ export default function PostCard({ post }) {
 
   return (
     <>
-      <div className="nutuyu-card" onClick={() => setModal(true)}>
-        <img src={post.image} alt="" />
-        <div className="date">
-          <span>{moment(post.date.toDate()).fromNow()}</span>
+      <a
+        href={`/nutuyu?id=${post.uniqueid}`}
+        onClick={() => {
+          init();
+        }}
+      >
+        <div className="nutuyu-card">
+          <img src={post.image} alt="" />
+          <div className="date">
+            <span>{moment(post.date.toDate()).fromNow()}</span>
+          </div>
         </div>
-      </div>
-      {modal && post_modal()}
+      </a>
+
+      {(queryId && post_modal()) || (modal && post_modal())}
     </>
   );
 }

@@ -58,6 +58,7 @@ const routes = [
     id: "#nutuyu",
     Component: lazy(() => import("../layout/pages/nutuyu/nutuyu.jsx")),
   },
+
   {
     route: "/checkout",
     id: "checkout",
