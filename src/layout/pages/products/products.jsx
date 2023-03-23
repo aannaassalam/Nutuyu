@@ -35,7 +35,9 @@ function Products(props) {
   useEffect(() => {
     onSnapshot(collection(getFirestore(), "settings"), (snapshot) => {
       const categories = snapshot.docs[0].data().categories;
-      const category = categories.find((cat) => cat.name === params.category);
+      const category = categories.find(
+        (cat) => cat.name?.toLowerCase() === params.category?.toLowerCase()
+      );
       if (category && !params.subcategory) {
         setState((prev) => ({
           ...prev,
@@ -60,7 +62,9 @@ function Products(props) {
           filter: {
             ...prev.filter,
             subcategories: category.subcategories.filter((sub) =>
-              params.type ? sub.type === params.type : true
+              params.type
+                ? sub.type?.toLowerCase() === params.type?.toLowerCase()
+                : true
             ),
           },
         }));
@@ -74,14 +78,20 @@ function Products(props) {
           ...prev,
           products: products.filter((product) => {
             if (
-              product.category === params.category &&
-              (product.subcategory.name === params.subcategory ||
+              product.category?.toLowerCase() ===
+                params.category?.toLowerCase() &&
+              (product.subcategory.name?.toLowerCase() ===
+                params.subcategory?.toLowerCase() ||
                 state.filter.selectedSubcategory.includes(
-                  product.subcategory.name
+                  product.subcategory.name?.toLowerCase()
                 ))
             ) {
               if (!params.type) return product;
-              if (params.type !== product.subcategory.type) return false;
+              if (
+                params.type?.toLowerCase() !==
+                product.subcategory.type?.toLowerCase()
+              )
+                return false;
               return product;
             }
             return false;
@@ -91,20 +101,28 @@ function Products(props) {
           ...prev,
           products: products?.filter((product) => {
             if (
-              product.category === params.category &&
-              product.subcategory.name === params.subcategory
+              product.category?.toLowerCase() ===
+                params.category?.toLowerCase() &&
+              product.subcategory.name?.toLowerCase() ===
+                params.subcategory?.toLowerCase()
             ) {
               if (!params.type) return product;
-              if (params.type !== product.subcategory.type) return false;
+              if (
+                params.type?.toLowerCase() !==
+                product.subcategory.type?.toLowerCase()
+              )
+                return false;
               return product;
             }
             if (
-              product.category === params.category &&
-              params.subcategory === "all"
+              product.category?.toLowerCase() ===
+                params.category?.toLowerCase() &&
+              params.subcategory?.toLowerCase() === "all"
             ) {
-              console.log("in");
-              if (params.type === product.subcategory.type) {
-                console.log("k");
+              if (
+                params.type?.toLowerCase() ===
+                product.subcategory.type?.toLowerCase()
+              ) {
                 return product;
               }
             }
@@ -119,25 +137,38 @@ function Products(props) {
           ...prev,
           products: products?.filter(
             (product) =>
-              product.category === params.category &&
-              state.filter.selectedTypes.includes(product.subcategory.type)
+              product.category?.toLowerCase() ===
+                params.category?.toLowerCase() &&
+              state.filter.selectedTypes.includes(
+                product.subcategory.type?.toLowerCase()
+              )
           ),
         }))
       : setState((prev) => ({
           ...prev,
           products: products?.filter((product) => {
             if (!params.subcategory) {
-              return product.category === params.category;
+              return (
+                product.category?.toLowerCase() ===
+                params.category?.toLowerCase()
+              );
             }
-            if (params.type !== product.subcategory.type) return false;
-            if (params.subcategory === "all") return product;
-            return product.subcategory.name === params.subcategory;
+            if (
+              params.type?.toLowerCase() !==
+              product.subcategory.type?.toLowerCase()
+            )
+              return false;
+            if (params.subcategory?.toLowerCase() === "all") return product;
+            return (
+              product.subcategory.name?.toLowerCase() ===
+              params.subcategory?.toLowerCase()
+            );
           }),
         }));
   }, [state.filter.selectedTypes.length, products, params.category]);
 
   useEffect(() => {
-    if (params.category === "what's-new") {
+    if (params.category?.toLowerCase() === "what's-new") {
       setState((prev) => ({
         ...prev,
         products: products
@@ -149,8 +180,7 @@ function Products(props) {
           .slice(0, 20),
       }));
     }
-    if (params.category === "sold") {
-      console.log(products?.filter((product) => product.sold));
+    if (params.category?.toLowerCase() === "sold") {
       setState((prev) => ({
         ...prev,
         products: products?.filter((product) => product.sold),
@@ -330,16 +360,22 @@ function Products(props) {
                       <label>
                         <input
                           type="checkbox"
-                          checked={state.filter.selectedTypes.includes(type)}
+                          checked={state.filter.selectedTypes.includes(
+                            type?.toLowerCase()
+                          )}
                           onChange={(e) =>
                             setState((prev) => ({
                               ...prev,
                               filter: {
                                 ...prev.filter,
                                 selectedTypes:
-                                  prev.filter.selectedTypes.includes(type)
+                                  prev.filter.selectedTypes.includes(
+                                    type?.toLowerCase()
+                                  )
                                     ? prev.filter.selectedTypes.filter(
-                                        (t) => t !== type
+                                        (t) =>
+                                          t?.toLowerCase() !==
+                                          type?.toLowerCase()
                                       )
                                     : [...prev.filter.selectedTypes, type],
                               },
@@ -359,12 +395,13 @@ function Products(props) {
                 {state.filter.subcategories?.map((subcategory) => {
                   return (
                     subcategory.name &&
-                    subcategory.name !== params.subcategory && (
+                    subcategory.name?.toLowerCase() !==
+                      params.subcategory?.toLowerCase() && (
                       <label>
                         <input
                           type="checkbox"
                           checked={state.filter.selectedSubcategory.includes(
-                            subcategory.name
+                            subcategory.name?.toLowerCase()
                           )}
                           onChange={(e) =>
                             setState((prev) => ({
@@ -373,10 +410,12 @@ function Products(props) {
                                 ...prev.filter,
                                 selectedSubcategory:
                                   prev.filter.selectedSubcategory.includes(
-                                    subcategory.name
+                                    subcategory.name?.toLowerCase()
                                   )
                                     ? prev.filter.selectedSubcategory.filter(
-                                        (s) => s !== subcategory.name
+                                        (s) =>
+                                          s?.toLowerCase() !==
+                                          subcategory.name?.toLowerCase()
                                       )
                                     : [
                                         ...prev.filter.selectedSubcategory,

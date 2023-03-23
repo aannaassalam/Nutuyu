@@ -8,15 +8,18 @@ import "swiper/swiper.min.css";
 import { useProducts } from "../../../hooks/useProducts";
 
 function Slider({ slider = { name: "", category: "" } }) {
-  console.log(slider);
   const [data, setdata] = useState([]);
   const products = useProducts().products;
   let exist = null;
   if (slider.subcategory)
     exist = products.find(
-      (prod) => prod.subcategory.name === slider.subcategory
+      (prod) =>
+        prod.subcategory.name.toLowerCase() === slider.subcategory.toLowerCase()
     );
-  else exist = products.find((prod) => prod.category === slider.category);
+  else
+    exist = products.find(
+      (prod) => prod.category.toLowerCase() === slider.category.toLowerCase()
+    );
 
   return (
     <>
@@ -51,8 +54,10 @@ function Slider({ slider = { name: "", category: "" } }) {
               ? products
                   .filter(
                     (product) =>
-                      product.category === slider.category &&
-                      product.subcategory.name === slider.subcategory
+                      product.category.toLowerCase() ===
+                        slider.category.toLowerCase() &&
+                      product.subcategory.name.toLowerCase() ===
+                        slider.subcategory.toLowerCase()
                   )
                   .map((item, index) => (
                     <SwiperSlide key={index}>
@@ -60,7 +65,11 @@ function Slider({ slider = { name: "", category: "" } }) {
                     </SwiperSlide>
                   ))
               : products
-                  .filter((product) => product.category === slider.category)
+                  .filter(
+                    (product) =>
+                      product.category.toLowerCase() ===
+                      slider.category.toLowerCase()
+                  )
                   .map((item, index) => (
                     <SwiperSlide key={index}>
                       <ProductCard product={item} />
