@@ -16,13 +16,6 @@ import "swiper/swiper.min.css"; // core Swiper
 
 function TopSection({ banner }) {
   const [data, setdata] = useState([
-    // {
-    //   name: "Anna's Picks",
-    //   image: slider1,
-    //   background: "#a0b997",
-    //   content:
-    //     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, obcaecati perferendis assumenda dignissimos dolor saepe quam tempora distinctio eaque corrupti beatae, aliquam eligendi accusamus dicta.",
-    // },
     {
       name: "NuTuYu72",
       image: slider2,
@@ -49,31 +42,12 @@ function TopSection({ banner }) {
         </>
       ),
     },
-    // {
-    //   name: "Rino Choices",
-    //   image: slider1,
-    //   background: "#f7f",
-    //   content:
-    //     "Embrace the energizing new shades of autumn with Leon & Harper's new collection, explore this Parisian label’s timeless and effortlessly cool silhouettes.",
-    // },
   ]);
   return (
     <div className="TopSection">
-      {/* <Swiper
-        className="slider"
-        effect="fade"
-        loop={true}
-        modules={[EffectFade, Autoplay]}
-        spaceBetween={50}
-        slidesPerView={1}
-        allowTouchMove={false}
-        // autoplay={{ delay: 3000 }}
-        // pagination={{ clickable: true }}
-      > */}
       {data.map((item, index) => (
         <div className="slide" style={{ backgroundColor: item.background }}>
           <div className="content">
-            <p>{item.name}</p>
             <h1>{item.name}</h1>
             <p>{item.content}</p>
             <button>Shop Now</button>

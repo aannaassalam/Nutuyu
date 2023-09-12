@@ -206,8 +206,7 @@ function Navbar({ handleCart }) {
             </>
           )
         )}
-        <a href={`/products/sold`}>Sold</a>
-        <a href={`/nutuyu`}>#Nutuyu</a>
+
         <div className="search">
           <Search className="" />
           <input

@@ -32,6 +32,7 @@ function Login() {
   const navigate = useNavigate();
 
   const createAccount = () => {
+    console.log("in");
     if (
       email.trim().length > 0 &&
       email.includes("@") &&
@@ -72,6 +73,7 @@ function Login() {
         })
         .catch((err) => console.log(err));
     } else {
+      console.log("error");
     }
   };
 
