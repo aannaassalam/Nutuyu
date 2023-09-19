@@ -8,7 +8,7 @@
 .product-details .right {
   width: 50%;
   height: 100%;
-  padding: 80px 140px;
+  padding: 80px;
 }
 
 .product-details .left {
@@ -57,17 +57,104 @@
   display: flex;
   flex-direction: column;
 }
-
+.product-details .right p {
+  line-height: 30px;
+  font-size: 18px;
+}
+.product-details .right .pricing {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
 .product-details .right h3 {
-  font-size: 34px;
-  margin-bottom: 10px;
+  font-size: 35px;
+  margin-bottom: 20px;
 }
-
-.product-details .right h3:nth-child(2) {
+.product-details .right .pricing h3 {
   font-size: 30px;
-  font-weight: 500;
+  margin-bottom: 5px;
+}
+/* .product-details .right .pricing h3:nth-child(1) {
+  font-size: 40px;
+  font-weight: 800;
+  color: #000;
+  margin-bottom: 0;
+}
+.product-details .right .pricing h3:nth-child(2) {
+  font-size: 20px;
+  font-weight: 800;
+  opacity: 0.5;
+  text-decoration: line-through;
+  margin: 5px 10px;
+}
+.product-details .right .pricing h3:nth-child(3) {
+  font-size: 20px;
+  font-weight: 800;
+  color: green;
+  margin-bottom: 5px;
+} */
+.product-details .right .pricing > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 30px;
 }
 
+.product-details .right .pricing > div:nth-child(2) {
+  border-left: 2px solid #777;
+  border-right: 2px solid #777;
+}
+.product-details .right .pricing > div:nth-child(1) h3 {
+  color: #777;
+  text-decoration: line-through;
+}
+.product-details .right .pricing > div:nth-child(2) h3 {
+  color: green;
+}
+.product-details .right .pricing > div:nth-child(3) h3 {
+  color: red;
+}
+.product-details .right .variances > div {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.product-details .right .variances img {
+  width: 70px;
+  object-fit: contain;
+  margin: 5px;
+  cursor: pointer;
+}
+.product-details .right .variances .active-variance {
+  border: 2px solid #121212;
+}
+.product-details .right .sizes {
+  /* margin: 20px 0; */
+}
+.product-details .right .sizes h2,
+.variances h2,
+.product-details .right > h2 {
+  margin: 20px 0;
+  color: #777;
+}
+.product-details .right .sizes > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+.product-details .right .sizes div .size {
+  width: 100%;
+  text-align: center;
+  padding: 15px 0;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.3s;
+  border: 1px solid #121212;
+}
+.product-details .right .sizes div .size.selected {
+  color: #fff;
+  background-color: #121212;
+}
 .product-details .right button {
   all: unset;
   display: block;

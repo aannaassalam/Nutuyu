@@ -84,6 +84,12 @@
 .AnimatedSlider .swiper .bannerImage {
   opacity: 0;
 }
+.AnimatedSlider .swiper .swiper-slide {
+  opacity: 0 !important;
+}
+.AnimatedSlider .swiper .swiper-slide-active {
+  opacity: 1 !important;
+}
 .AnimatedSlider .swiper .swiper-slide-active .content h1 {
   animation: swipe 8s;
   animation-delay: 0.7s;
@@ -102,12 +108,12 @@
 @keyframes slide {
   0%,
   100% {
-    transform: translateY(-400px);
+    transform: translateX(50px);
     opacity: 0;
   }
-  15%,
-  95% {
-    transform: translateY(0px);
+  10%,
+  98% {
+    transform: translateX(0px);
     opacity: 1;
   }
   /* 95% {

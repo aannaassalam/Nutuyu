@@ -44,6 +44,9 @@ export default function ProductCard({ product, sold }) {
       });
     }
   };
+  const discount = () => {
+    return 100 - (product.sellingPrice * 100) / product.markedPrice;
+  };
   return (
     <a href={`/product/${product.id}`} className="product-card">
       {sold && <span className="sold">Sold</span>}
@@ -88,14 +91,15 @@ export default function ProductCard({ product, sold }) {
           <p>{product.name}</p>
         </div>
         <div className="pricing">
-          <p className="selling-price">${product.price}</p>
-          {/* <p className="marked-price">₹8,0000</p> */}
+          <p className="selling-price">${product.sellingPrice}</p>
+          <p className="marked-price"> ${product.markedPrice}</p>
         </div>
       </div>
-      {/* <div className="ratings">
+      <div className="ratings">
         <StyledRating value={4} precision={0.5} readOnly size="small" />
         <span className="reviews">231 Reviews</span>
-      </div> */}
+        <p className="discount">{discount()}% Off</p>
+      </div>
       {/* </div> */}
     </a>
   );

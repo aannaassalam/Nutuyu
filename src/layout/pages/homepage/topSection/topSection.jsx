@@ -1,25 +1,15 @@
 import React, { useState } from "react";
 import "./topSection.css";
 import slider1 from "../../../../assets/slider1.png";
-import slider2 from "../../../../assets/slider2.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, EffectFade, Autoplay } from "swiper";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
-// import "swiper/css/effect-fade";
-// import "swiper/css";
-import "swiper/swiper.min.css"; // core Swiper
-// import "swiper/css/navigation"; // Navigation module
-// import "swiper/modules/pagination/pagination.scss";
-// import "swiper/swiper.min.css";
-// import "swiper/modules/pagination/pagination.min.css";
-
-function TopSection({ banner }) {
+import "swiper/swiper.min.css";
+function TopSection({ about }) {
   const [data, setdata] = useState([
     {
       name: "NuTuYu72",
-      image: slider2,
-      background: "#f7f553",
+      image: about,
+      background: "#a6c8c7",
       content: (
         <>
           <span>
@@ -48,11 +38,11 @@ function TopSection({ banner }) {
       {data.map((item, index) => (
         <div className="slide" style={{ backgroundColor: item.background }}>
           <div className="content">
-            <h1>{item.name}</h1>
+            <h1>About Nutuyu !</h1>
             <p>{item.content}</p>
-            <button>Shop Now</button>
+            <button>Explore</button>
           </div>
-          <img src={banner} alt="" />
+          <img src={about} alt="" />
         </div>
       ))}
     </div>

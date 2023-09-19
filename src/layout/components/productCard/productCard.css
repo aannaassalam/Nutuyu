@@ -127,7 +127,6 @@
   font-weight: normal;
   font-size: 1rem;
   line-height: 1.1875rem;
-  margin-bottom: 8px;
 }
 
 .product-card .data-sec .pricing {
@@ -135,10 +134,14 @@
   font-size: 1rem;
   line-height: 1.1875rem;
   text-align: right;
+  display: flex;
+  margin-left: auto;
 }
 
 .product-card .data-sec .pricing .selling-price {
-  color: red;
+  color: green;
+  margin-right: 10px;
+  font-size: 18px;
 }
 
 .product-card .data-sec .pricing .marked-price {
@@ -164,4 +167,8 @@
   margin-left: 10px;
   margin-top: 3px;
   /* font-family: "nimbus-sans", sans-serif; */
+}
+.product-card .ratings .discount {
+  color: red;
+  margin-left: auto;
 }

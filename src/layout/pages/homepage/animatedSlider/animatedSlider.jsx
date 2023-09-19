@@ -52,7 +52,7 @@ function AnimatedSlider() {
         modules={[EffectFade, Autoplay]}
         spaceBetween={50}
         slidesPerView={1}
-        allowTouchMove={false}
+        allowTouchMove={true}
         autoplay={{ delay: 8500 }}
         // pagination={{ clickable: true }}
       >

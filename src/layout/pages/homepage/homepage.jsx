@@ -6,7 +6,7 @@ import Slider from "../homepage/slider/slider";
 import CategorySec from "./category-sec/category-sec";
 import FabricSec from "./Fabric-sec/fabric-sec";
 import Toaster from "../../components/toaster/toaster";
-
+import about from "../../../assets/about.png";
 import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 import AnimatedSlider from "./animatedSlider/animatedSlider";
 function Homepage() {
@@ -29,8 +29,8 @@ function Homepage() {
     <div className="Homepage">
       {/* <Toaster message="hii" positive={true} /> */}
       <AnimatedSlider />
-      {/* <TopSection banner={banner} /> */}
       <Slider slider={sliders[0]} />
+      <TopSection about={about} />
       <CategorySec />
       <Slider slider={sliders[1]} />
       <Slider slider={sliders[2]} />
