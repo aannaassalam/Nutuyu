@@ -8,7 +8,7 @@ import "swiper/swiper.min.css";
 import { useProducts } from "../../../hooks/useProducts";
 
 function Slider({ product }) {
-  console.log(product);
+  // console.log(product);
   const [data, setdata] = useState([]);
   const products = useProducts().products;
   let exist = null;

@@ -12,6 +12,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import Loader from "../../components/loader/loader";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 export default function ProductDetails() {
   const [details, setDetails] = useState(false);
@@ -22,6 +23,7 @@ export default function ProductDetails() {
   const [variance, setVariance] = useState({});
   const [selectedSize, setSelectedSize] = useState();
   const [loading, setloading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
   const params = useParams();
   const user = useAuth().user;
   const [products, setProducts] = useState({});
@@ -59,22 +61,50 @@ export default function ProductDetails() {
           skuId: doc.data().skuId,
           sizes: doc.data().sizes,
         });
+        setSelectedSize(doc.data().sizes[0].name);
       })
       .catch((err) => console.log(err));
     // setProduct(local_product);
-    if (user && user.cart.includes(params.id)) {
+  }, []);
+  useEffect(() => {
+    if (
+      user &&
+      user.cart.find(
+        (item) =>
+          item.variance.skuId == variance.skuId &&
+          item.size == selectedSize &&
+          params.id === item.productId
+      )
+    ) {
       setFound(true);
     } else {
+      // console.log(user.cart.find((item) => console.log(variance.skuId)));
       setFound(false);
     }
-  }, [user]);
+  }, [variance, selectedSize, product]);
 
   const addToCart = async () => {
     if (user) {
-      if (!found) {
+      if (
+        !user.cart.find(
+          (item) =>
+            item.variance.skuId == variance.skuId &&
+            item.size == selectedSize &&
+            params.id === item.productId
+        )
+      ) {
         const docref = doc(getFirestore(), "users", user.id);
         updateDoc(docref, {
-          cart: [...user.cart, params.id],
+          cart: [
+            ...user.cart,
+            {
+              productId: params.id,
+              variance,
+              name: product.name,
+              size: selectedSize,
+              quantity,
+            },
+          ],
         }).then(() => {
           setFound(true);
           console.log("added");
@@ -89,7 +119,14 @@ export default function ProductDetails() {
   const discount = () => {
     return 100 - (variance.sellingPrice * 100) / variance.markedPrice;
   };
-  console.log(product.images);
+  let quantiyOptions = [];
+  let quan = parseInt(
+    variance?.sizes?.find((item) => item.name === selectedSize)?.quantity
+  );
+  for (let i = 1; i <= quan; i++) {
+    quantiyOptions[i] = i;
+  }
+  console.log(user.cart);
   return (
     <>
       {loading ? (
@@ -160,7 +197,7 @@ export default function ProductDetails() {
                     onClick={() => {
                       setVariance(item);
                       setPreviewImage(1);
-                      setSelectedSize();
+                      setSelectedSize(item.sizes[0].name);
                     }}
                   />
                 ))}
@@ -175,7 +212,10 @@ export default function ProductDetails() {
                       className={
                         selectedSize === item.name ? "size selected" : "size"
                       }
-                      onClick={() => setSelectedSize(item.name)}
+                      onClick={() => {
+                        setSelectedSize(item.name);
+                        setQuantity(1);
+                      }}
                     >
                       {item.name}
                     </div>
@@ -183,26 +223,81 @@ export default function ProductDetails() {
                 </div>
               </div>
             )}
-            {product.sold ? (
-              <h1 style={{ color: "red", textAlign: "center" }}>Sold Out</h1>
+            {parseInt(
+              variance?.sizes?.find((item) => item.name === selectedSize)
+                ?.quantity
+            ) > 1 ? (
+              <div
+                style={{
+                  display: found ? "none" : "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  margin: "40px 0 0",
+                }}
+              >
+                <FormControl
+                  sx={{ m: 1, minWidth: 120 }}
+                  size="small"
+                  className="quantity"
+                >
+                  <InputLabel id="demo-select-small-label">Quantity</InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={quantity}
+                    label="Quantity"
+                    onChange={(e) => {
+                      setQuantity(e.target.value);
+                    }}
+                  >
+                    {quantiyOptions.map((item) => (
+                      <MenuItem key={item} value={item}>
+                        {item}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <i
+                  class="fa-solid fa-share-nodes"
+                  style={{ fontSize: 25, cursor: "pointer" }}
+                ></i>
+              </div>
             ) : (
+              <p style={{ color: "red", margin: "20px 0 0" }}>Not Available</p>
+            )}
+            {parseInt(
+              variance?.sizes?.find((item) => item.name === selectedSize)
+                ?.quantity
+            ) > 1 && (
               <>
-                <button
-                  onClick={() =>
-                    user
-                      ? (window.location.href = `/checkout/${btoa(params.id)}`)
-                      : (window.location.pathname = "./login")
-                  }
-                >
-                  Buy Now
-                </button>
-                <button
-                  onClick={() => {
-                    user ? addToCart() : (window.location.pathname = "./login");
-                  }}
-                >
-                  {found ? "Go To Bag" : "Add to Bag"}{" "}
-                </button>
+                {product.sold ? (
+                  <h1 style={{ color: "red", textAlign: "center" }}>
+                    Sold Out
+                  </h1>
+                ) : (
+                  <>
+                    <button
+                      onClick={() =>
+                        user
+                          ? (window.location.href = `/checkout/${btoa(
+                              params.id
+                            )}`)
+                          : (window.location.pathname = "./login")
+                      }
+                    >
+                      Buy Now
+                    </button>
+                    <button
+                      onClick={() => {
+                        user
+                          ? addToCart()
+                          : (window.location.pathname = "./login");
+                      }}
+                    >
+                      {found ? "Go To Bag" : "Add to Bag"}{" "}
+                    </button>
+                  </>
+                )}
               </>
             )}
 
