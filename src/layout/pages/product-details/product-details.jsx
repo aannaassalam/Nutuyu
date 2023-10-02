@@ -11,6 +11,7 @@ import {
   onSnapshot,
   updateDoc,
 } from "firebase/firestore";
+import { v4 as uuid } from "uuid";
 import Loader from "../../components/loader/loader";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
@@ -103,6 +104,7 @@ export default function ProductDetails() {
               name: product.name,
               size: selectedSize,
               quantity,
+              id: uuid(),
             },
           ],
         }).then(() => {
@@ -117,7 +119,7 @@ export default function ProductDetails() {
     }
   };
   const discount = () => {
-    return 100 - (variance.sellingPrice * 100) / variance.markedPrice;
+    return parseInt(100 - (variance.sellingPrice * 100) / variance.markedPrice);
   };
   let quantiyOptions = [];
   let quan = parseInt(

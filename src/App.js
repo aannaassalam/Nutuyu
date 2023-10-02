@@ -37,9 +37,9 @@ function App() {
               );
             })}
           </Routes>
-          {/* {!location.pathname.startsWith("/checkout") && (
+          {!location.pathname.startsWith("/checkout") && (
             <Cart open={cart} handleCart={() => setcart(!cart)} />
-          )} */}
+          )}
           {!location.pathname.startsWith("/checkout") && <Footer />}
         </>
       )}
