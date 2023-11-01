@@ -11,24 +11,30 @@ function CartCard({ product, setPrice, handleDelete }) {
     .find((p) => p.id === cart_product.productId)
     .variances?.find((v) => v.id === cart_product.variance.id);
   // .sizes?.find((s) => s.name === cart_product.size).quantity;
-  const quantity = variant?.sizes?.find(
+  let quantity = variant?.sizes?.find(
     (s) => s.name === cart_product.size
   ).quantity;
-  console.log(quantity);
+  if (quantity === undefined) {
+    const localproduct = products.find((p) => p.id === cart_product.productId);
+    quantity = localproduct.sizes.find(
+      (s) => s.name === cart_product.size
+    ).quantity;
+  }
+  console.log(cart_product.variance.sellingPrice * cart_product.quantity);
   const [sold, setSold] = useState(quantity > 0 ? false : true);
   useEffect(() => {
-    if (sold) {
+    if (!sold) {
       setPrice(
         (prev) =>
           prev + cart_product.variance.sellingPrice * cart_product.quantity
       );
-      return () => {
-        setPrice(
-          (prev) =>
-            prev - cart_product.variance.sellingPrice * cart_product.quantity
-        );
-      };
     }
+    return () => {
+      setPrice(
+        (prev) =>
+          prev - cart_product.variance.sellingPrice * cart_product.quantity
+      );
+    };
   }, []);
 
   return (

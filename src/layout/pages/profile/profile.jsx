@@ -19,7 +19,7 @@ function Profile() {
       <div className="container">
         <div className="left">
           <p onClick={() => settabs(0)} className={tabs === 0 ? "active" : ""}>
-            profile{" "}
+            profile
           </p>
           <p onClick={() => settabs(1)} className={tabs === 1 ? "active" : ""}>
             orders

@@ -19,13 +19,22 @@ function OrderCard({ Orderid }) {
       {loading ? null : (
         <a href={`/orderDetail/${Orderid}`} className="orderList">
           <div className="part1">
-            <img src={orderCard?.items[0]?.images[0]?.image} alt="img" />
-            <p className="deliveryState">Cancel</p>
+            <img
+              src={orderCard?.items[0]?.variance.images[0]?.image}
+              alt="img"
+            />
+            {/* <p className="deliveryState">{!orderCard?.delivered && "Cancel"}</p> */}
           </div>
 
           <div className="left">
             <div className="part2">
-              <h4>{orderCard?.items[0]?.name}</h4>
+              <h4>
+                {orderCard?.items.length > 1
+                  ? `${orderCard?.items[0].name} & ${
+                      orderCard?.items.length - 1
+                    } more`
+                  : orderCard?.items[0]?.name}
+              </h4>
               <span className="date1">
                 {moment(orderCard?.date.toDate()).format("MMM Do YY")}
               </span>

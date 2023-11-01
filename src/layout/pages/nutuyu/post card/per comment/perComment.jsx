@@ -19,7 +19,7 @@ export default function PerComment({
           onClick={() => {
             // setDelete_modal(true);
             // replyId && setReplyId(replyId);
-            setReply_name("harry");
+            setReply_name(comment.user_name);
             setReplyId(comment.id);
           }}
         >
@@ -42,7 +42,7 @@ export default function PerComment({
       </div> */}
       <div className="comment">
         <span className="comment_text">
-          <span className="username">harry_potter</span>
+          <span className="username">{comment.user_name}</span>
           {comment.comment}
         </span>
         {actions(comment.replies.length > 0, comment.date.toDate())}
@@ -59,7 +59,7 @@ export default function PerComment({
                   </div> */}
                   <div className="comment">
                     <span className="comment_text">
-                      <span className="username">harry_potter</span>
+                      <span className="username">{reply.user_name}</span>
                       {reply.comment}
                     </span>
                     {actions(false, reply.date.toDate())}

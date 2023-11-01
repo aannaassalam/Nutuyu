@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./product-details.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useProducts } from "../../hooks/useProducts";
 import Slider from "./slider/slider";
@@ -14,6 +14,7 @@ import {
 import { v4 as uuid } from "uuid";
 import Loader from "../../components/loader/loader";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import Rating from "./rating/rating";
 
 export default function ProductDetails() {
   const [details, setDetails] = useState(false);
@@ -82,7 +83,7 @@ export default function ProductDetails() {
       // console.log(user.cart.find((item) => console.log(variance.skuId)));
       setFound(false);
     }
-  }, [variance, selectedSize, product]);
+  }, [variance, selectedSize, product, user]);
 
   const addToCart = async () => {
     if (user) {
@@ -173,7 +174,7 @@ export default function ProductDetails() {
                 <h3>
                   <span></span>${variance.sellingPrice}
                 </h3>
-                <p>NUTUYU PRICE</p>
+                <p style={{ textAlign: "center" }}>NUTUYU PRICE</p>
               </div>
               <div>
                 <h3>
@@ -200,6 +201,7 @@ export default function ProductDetails() {
                       setVariance(item);
                       setPreviewImage(1);
                       setSelectedSize(item.sizes[0].name);
+                      setQuantity(1);
                     }}
                   />
                 ))}
@@ -265,7 +267,9 @@ export default function ProductDetails() {
                 ></i>
               </div>
             ) : (
-              <p style={{ color: "red", margin: "20px 0 0" }}>Not Available</p>
+              <h2 style={{ color: "red", margin: "20px 0 0" }}>
+                Not Available
+              </h2>
             )}
             {parseInt(
               variance?.sizes?.find((item) => item.name === selectedSize)
@@ -278,16 +282,23 @@ export default function ProductDetails() {
                   </h1>
                 ) : (
                   <>
-                    <button
-                      onClick={() =>
-                        user
-                          ? (window.location.href = `/checkout/${btoa(
-                              params.id
-                            )}`)
-                          : (window.location.pathname = "./login")
-                      }
-                    >
-                      Buy Now
+                    <button>
+                      <Link
+                        style={{ textDecoration: "none", color: "#fff" }}
+                        to={{
+                          pathname: user
+                            ? `/checkout/${btoa(params.id)}`
+                            : "./login",
+                        }}
+                        state={{
+                          name: product.name,
+                          variance: variance,
+                          size: selectedSize,
+                          quantity,
+                        }}
+                      >
+                        Buy Now
+                      </Link>
                     </button>
                     <button
                       onClick={() => {
@@ -336,20 +347,6 @@ export default function ProductDetails() {
                     </div>
                   );
                 })}
-                {/* <div className="detail-row">
-                <div className="detail-title">
-                  <i className="fa-solid fa-circle"></i>
-                  <p>Size</p>
-                </div>
-                <div className="detail-text">its for people of 5'11"</div>
-              </div>
-              <div className="detail-row">
-                <div className="detail-title">
-                  <i className="fa-solid fa-circle"></i>
-                  <p>Size</p>
-                </div>
-                <div className="detail-text">its for people of 5'11"</div>
-              </div> */}
               </div>
             </div>
           </div>
@@ -357,6 +354,7 @@ export default function ProductDetails() {
       )}
 
       <Slider product={product} />
+      {product.ratings && <Rating data={product.ratings} />}
     </>
   );
 }

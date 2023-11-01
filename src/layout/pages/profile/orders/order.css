@@ -35,7 +35,7 @@
 .Orders .orderList .part1 img {
   height: 70%;
   width: 70%;
-  object-fit: cover;
+  object-fit: contain;
   margin-right: 10px;
 }
 .Orders .orderList .part1 .deliveryState {
@@ -100,7 +100,7 @@
   .Orders .orderList .part1 img {
     width: 80%;
     height: 80%;
-    object-fit: cover;
+    object-fit: contain;
   }
   .Orders .orderList {
     padding: 0.5rem 0;

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./orderDetail.css";
 import bag from "../../../assets/bag.png";
 import image from "../../../assets/Black-tee.jpg";
-import { Button } from "@mui/material";
+import { Button, Rating } from "@mui/material";
 import { useParams } from "react-router";
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getFirestore,
   onSnapshot,
   setDoc,
@@ -19,10 +20,67 @@ import moment from "moment/moment";
 import { Camera, Eye } from "react-feather";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
+import StarIcon from "@mui/icons-material/Star";
+
+const RatingModal = ({ open, item, setRating }) => {
+  const [value, setValue] = useState();
+  const [review, setReview] = useState("");
+  const user = useAuth().user;
+
+  const handleSubmit = async () => {
+    console.log(item);
+    if (value) {
+      const prod = await getDoc(
+        doc(getFirestore(), "products", item.productId)
+      );
+      let lRatings = [...(prod.data()?.ratings || [])];
+      setDoc(doc(getFirestore(), "products", item.productId), {
+        ...prod.data(),
+        ratings: [
+          ...lRatings,
+          {
+            review,
+            rateValue: value,
+            user: user.full_name,
+            date: new Date(),
+          },
+        ],
+      }).then(() => setRating());
+    }
+  };
+  return (
+    <div className={open ? "RatingModal open" : "RatingModal"}>
+      <div className="rating">
+        <div className="top">
+          RATE {item.name}
+          <i className="fa-solid fa-xmark" onClick={setRating}></i>
+        </div>
+        <Rating
+          name="hover-feedback"
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+          // emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+        />
+        <textarea
+          value={review}
+          onChange={(e) => setReview(e.target.value)}
+          placeholder="Write Review (optional)"
+          cols="30"
+          rows="10"
+        ></textarea>
+        <Button onClick={handleSubmit}>Submit</Button>
+      </div>
+    </div>
+  );
+};
+
 function OrderDetail() {
   const [order, setorder] = useState({});
   const user = useAuth().user;
-
+  const [index, setIndex] = useState(0);
+  const [rating, setRating] = useState(false);
   const [loading, setloading] = useState(true);
   const [data, setdata] = useState({
     images: [],
@@ -115,134 +173,173 @@ function OrderDetail() {
     <>
       {loading ? null : (
         <div className="OrderDetail">
+          <RatingModal
+            open={rating}
+            item={order?.items[index]}
+            setRating={() => setRating(false)}
+          />
           <div className="orderCards">
-            <h3>
+            <h3 style={{ color: order.delivered && "green" }}>
               <img src={bag} alt="" />
-              Confirmed
+              {order.delivered ? "Order Delivered" : "Confirmed"}
             </h3>
             {order?.items?.map((item, id) => (
-              <div key={item.id}>
+              <div key={item.id} style={{ width: "100%" }}>
                 <div className="details">
                   <div className="orderCardWrapper">
-                    <img src={item.images[0].image} alt="" />
+                    <img src={item.variance.images[0].image} alt="" />
                     <div>
-                      {" "}
                       <p>
                         <span className="changeFont">{item.name} </span>
                       </p>
-                      <strong className="changeFont">
-                        ${Number(item.price).toFixed(2)}
-                      </strong>
-                      <p className="changeFont">
-                        {item.highlights[0].key}{" "}
-                        <strong>{item.highlights[0].value}</strong>
+                      <p
+                        className="changeFont"
+                        style={{ fontWeight: "bold", fontSize: 20 }}
+                      >
+                        ${Number(item.variance.sellingPrice).toFixed(2)}
                       </p>
+                      <p className="changeFont">Size : {item.size}</p>
+                      <p>Quantity : {item.quantity}</p>
                       <p className="changeFont">
                         Estimated Delivery : 02 November
                       </p>
                     </div>
                   </div>
-                  <div className="imageUpload">
-                    {typeof data?.images[id]?.img !== "string" &&
-                    data?.images[id]?.img ? (
-                      <img
-                        src={URL.createObjectURL(data?.images[id]?.img)}
-                        alt="pic"
-                      ></img>
-                    ) : null}
-                    {typeof data?.images[id]?.img !== "string" &&
-                    data?.images[id]?.img ? (
-                      <div className="actionButtons">
-                        <Button
-                          style={{ marginLeft: 0 }}
-                          onClick={() => upload(item.id, id)}
-                        >
-                          Upload
-                        </Button>
-                        <Button
-                          style={{ marginLeft: 0, background: "red" }}
-                          onClick={() => {
-                            let limages = data.images;
-                            limages[id].img = null;
-                            setdata({ ...data, images: limages });
-                          }}
-                        >
-                          Discard{" "}
-                        </Button>
-                      </div>
-                    ) : typeof data?.images[id]?.img === "string" ? (
-                      <div className="actionButtons">
-                        <a href={`/nutuyu?id=${item.linkId}`}>
+                  {order?.delivered && (
+                    <div className="imageUpload">
+                      {typeof data?.images[id]?.img !== "string" &&
+                      data?.images[id]?.img ? (
+                        <img
+                          src={URL.createObjectURL(data?.images[id]?.img)}
+                          alt="pic"
+                        ></img>
+                      ) : null}
+                      {typeof data?.images[id]?.img !== "string" &&
+                      data?.images[id]?.img ? (
+                        <div className="actionButtons">
                           <Button
-                            style={{
-                              alignSelf: "flex-start",
-                              margin: "20px 0 10px",
-                            }}
-                            // onClick={() =>
-                            //   (window.location.pathname = `/nutuyu?id=${item.linkId}`)
-                            // }
+                            style={{ marginLeft: 0 }}
+                            onClick={() => upload(item.id, id)}
                           >
-                            <Eye />
-                            Preview
+                            Upload
                           </Button>
-                        </a>
-
-                        <Button
-                          style={{
-                            margin: "20px 10px 10px",
-                            background: "red",
-                          }}
-                          onClick={() => {
-                            deleteImage(item.linkId, id);
-                          }}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    ) : (
-                      <label className="add-image">
-                        <input
-                          type="file"
-                          style={{ display: "none" }}
-                          accept="image/*"
-                          onChange={(e) => {
-                            if (e.target.files[0].size > 300000) {
+                          <Button
+                            style={{ marginLeft: 0, background: "red" }}
+                            onClick={() => {
                               let limages = data.images;
                               limages[id].img = null;
-                              let lmsg = data.msg;
-                              lmsg[id].msg = "Image should not exceed 300kb";
-                              setdata({
-                                images: limages,
-                                msg: lmsg,
-                              });
-                            } else {
-                              let limages = data.images;
-                              console.log(limages);
-                              limages[id].img = e.target.files[0];
-                              let lmsg = data.msg;
-                              lmsg[id].msg = "";
-                              setdata({
-                                images: limages,
-                                msg: lmsg,
-                              });
-                            }
-                          }}
-                        />
-                        <Camera />
-                        Upload Image
-                      </label>
-                    )}
+                              setdata({ ...data, images: limages });
+                            }}
+                          >
+                            Discard{" "}
+                          </Button>
+                          <p
+                            className="rate"
+                            onClick={() => {
+                              setRating(true);
+                              setIndex(id);
+                            }}
+                          >
+                            Rate Product
+                          </p>
+                        </div>
+                      ) : typeof data?.images[id]?.img === "string" ? (
+                        <div className="actionButtons">
+                          <a href={`/nutuyu?id=${item.linkId}`}>
+                            <Button
+                              style={{
+                                margin: "20px 0 10px",
+                              }}
+                              // onClick={() =>
+                              //   (window.location.pathname = `/nutuyu?id=${item.linkId}`)
+                              // }
+                            >
+                              <Eye />
+                              Preview
+                            </Button>
+                          </a>
 
-                    {data?.msg[id]?.msg ? (
-                      <span style={{ margin: "auto 20px", color: "red" }}>
-                        {data?.msg[id]?.msg}
-                      </span>
-                    ) : null}
-                  </div>
+                          <Button
+                            style={{
+                              alignSelf: "center",
+                              // margin: "20px 10px 10px",
+                              background: "red",
+                            }}
+                            onClick={() => {
+                              deleteImage(item.linkId, id);
+                            }}
+                          >
+                            Delete
+                          </Button>
+                          <p
+                            className="rate"
+                            onClick={() => {
+                              setRating(true);
+                              setIndex(id);
+                            }}
+                          >
+                            Rate Product
+                          </p>
+                        </div>
+                      ) : (
+                        <div style={{ display: "flex" }}>
+                          <label className="add-image">
+                            <input
+                              type="file"
+                              style={{ display: "none" }}
+                              accept="image/*"
+                              onChange={(e) => {
+                                if (e.target.files[0].size > 300000) {
+                                  let limages = data.images;
+                                  limages[id].img = null;
+                                  let lmsg = data.msg;
+                                  lmsg[id].msg =
+                                    "Image should not exceed 300kb";
+                                  setdata({
+                                    images: limages,
+                                    msg: lmsg,
+                                  });
+                                } else {
+                                  let limages = data.images;
+                                  console.log(limages);
+                                  limages[id].img = e.target.files[0];
+                                  let lmsg = data.msg;
+                                  lmsg[id].msg = "";
+                                  setdata({
+                                    images: limages,
+                                    msg: lmsg,
+                                  });
+                                }
+                              }}
+                            />
+                            <Camera />
+                            Upload Image
+                          </label>
+                          <p
+                            className="rate"
+                            onClick={() => {
+                              setRating(true);
+                              setIndex(id);
+                            }}
+                          >
+                            Rate Product
+                          </p>
+                        </div>
+                      )}
+
+                      {data?.msg[id]?.msg ? (
+                        <span style={{ margin: "auto 20px", color: "red" }}>
+                          {data?.msg[id]?.msg}
+                        </span>
+                      ) : null}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
-            <Button onClick={CancelOrder}>Cancel order</Button>
+            {!order.delivered && (
+              <Button onClick={CancelOrder}>Cancel order</Button>
+            )}
           </div>
           <div className="priceDetails">
             <div>

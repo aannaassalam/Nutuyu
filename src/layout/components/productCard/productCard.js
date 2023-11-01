@@ -47,6 +47,11 @@ export default function ProductCard({ product, sold }) {
   const discount = () => {
     return 100 - (product.sellingPrice * 100) / product.markedPrice;
   };
+  const ratingValue = () => {
+    let totalValue = 0;
+    product?.ratings?.forEach((item) => (totalValue += item.rateValue));
+    return parseInt(totalValue / product?.ratings?.length);
+  };
   return (
     <a href={`/product/${product.id}`} className="product-card">
       {sold && <span className="sold">Sold</span>}
@@ -62,7 +67,7 @@ export default function ProductCard({ product, sold }) {
       />
       {/* <div className="data-sec"> */}
       <div className="data-sec">
-        {!sold && (
+        {/* {!sold && (
           <div className="quick-add">
             <ShoppingBag size={20} />
             {Found ? (
@@ -86,7 +91,7 @@ export default function ProductCard({ product, sold }) {
               </strong>
             )}
           </div>
-        )}
+        )} */}
         <div className="title">
           <p>{product.name}</p>
         </div>
@@ -96,8 +101,13 @@ export default function ProductCard({ product, sold }) {
         </div>
       </div>
       <div className="ratings">
-        <StyledRating value={4} precision={0.5} readOnly size="small" />
-        <span className="reviews">231 Reviews</span>
+        <StyledRating
+          value={ratingValue()}
+          precision={1}
+          readOnly
+          size="small"
+        />
+        <span className="reviews">{product?.ratings?.length} reviews</span>
         <p className="discount">{discount()}% Off</p>
       </div>
       {/* </div> */}

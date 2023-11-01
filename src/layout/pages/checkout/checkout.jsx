@@ -5,20 +5,30 @@ import visa from "../../../assets/visa.png";
 import paypal from "../../../assets/paypal.png";
 import { useAuth } from "../../hooks/useAuth";
 import { useProducts } from "../../hooks/useProducts";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getFirestore,
+  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { Button } from "@mui/material";
 
 export default function Checkout() {
+  const location = useLocation();
+  const params = useParams();
+  const singleItem = {
+    name: location.state?.name,
+    variance: location.state?.variance,
+    quantity: location.state?.quantity,
+    size: location.state?.size,
+    productId: params.id ? atob(params.id) : null,
+  };
   const user = useAuth().user;
   const products = useProducts().products;
-  const params = useParams();
   const checkRef = useRef();
   const [state, setstate] = useState({
     billing: false,
@@ -40,7 +50,7 @@ export default function Checkout() {
   };
   const [values, setvalues] = useState(initialValue);
   const [values2, setvalues2] = useState(initialValue);
-
+  console.log(singleItem);
   useEffect(() => {
     if (
       (user?.cart.length === 0 && params.id) ||
@@ -49,13 +59,12 @@ export default function Checkout() {
     )
       params.id
         ? setTotalPrice(
-            products.find((prod) => prod.id === atob(params.id)).price
+            location.state.quantity * location.state.variance.sellingPrice
           )
         : user.cart.forEach((item) => {
             setTotalPrice(
               (prev) =>
-                prev +
-                parseInt(products.find((product) => product.id === item).price)
+                prev + parseInt(item.quantity * item.variance.sellingPrice)
             );
           });
     else {
@@ -69,6 +78,7 @@ export default function Checkout() {
     else setvalues({ ...values, [name]: value });
   };
   const placeOrder = () => {
+    console.log(location.state === null);
     if (
       (state.selectedBilling.address1 && state.selectedShipping.address1) ||
       (state.selectedShipping.address1 && checkRef.current.checked)
@@ -76,9 +86,7 @@ export default function Checkout() {
       const paramsProductID = params.id ? atob(params.id) : null;
       addDoc(collection(getFirestore(), "orders"), {
         date: new Date(),
-        items: params.id
-          ? [products.find((prod) => prod.id === paramsProductID)]
-          : user.cart.map((item) => products.find((prod) => prod.id === item)),
+        items: location.state !== null ? [{ ...singleItem }] : user.cart,
         user: {
           user_id: user.id,
           user_email: user.email,
@@ -90,29 +98,77 @@ export default function Checkout() {
           : state.selectedBilling,
         total: parseInt(totalPrice),
         paid: true,
+        delivered: false,
       }).then((docRef) => {
         updateDoc(doc(getFirestore(), "users", user.id), {
           orders: [...user.orders, docRef.id],
-        }).then(() => {
-          paramsProductID
-            ? updateDoc(doc(getFirestore(), "products", paramsProductID), {
-                sold: true,
-              })
-                .then(() => {
-                  window.location.pathname = `orderDetail/${docRef.id}`;
-                })
-                .catch((err) => console.log(err))
-            : user.cart.forEach((item) => {
-                updateDoc(doc(getFirestore(), "products", item), {
-                  sold: true,
-                }).then(() => {
-                  updateDoc(doc(getFirestore(), "users", user.id), {
-                    cart: [],
-                  }).then(() => {
-                    window.location.pathname = `orderDetail/${docRef.id}`;
-                  });
-                });
+        }).then(async () => {
+          console.log("ordered");
+          // lp=localProduct lv=localVariance <-- full form
+          const order = await getDoc(doc(getFirestore(), "orders", docRef.id));
+          const prod = order.data().items;
+          const func = async (index) => {
+            let lp = await getDoc(
+              doc(getFirestore(), "products", prod[index].productId)
+            );
+            const changeLp = { ...lp.data() };
+            if (prod[index].variance.id) {
+              let lvIndex = changeLp.variances.findIndex(
+                (_) => _.id === prod[index].variance.id
+              );
+              let lv = changeLp.variances.find(
+                (_) => _.id === prod[index].variance.id
+              );
+              let lsIndex = lv.sizes.findIndex(
+                (_) => _.name === prod[index].size
+              );
+              let ls = lv.sizes.find((_) => _.name === prod[index].size);
+              changeLp.variances[lvIndex].sizes[lsIndex] = {
+                name: prod[index].size,
+                quantity: ls.quantity - prod[index].quantity,
+              };
+              console.log(changeLp);
+              await updateDoc(
+                doc(getFirestore(), "products", prod[index].productId),
+                {
+                  ...changeLp,
+                }
+              ).then(() => {
+                console.log("sizes updated");
+                if (index < order.data().items.length - 1) {
+                  func(index + 1);
+                  console.log("sent");
+                }
               });
+            } else {
+              let lsIndex = changeLp.sizes.findIndex(
+                (_) => _.name === prod[index].size
+              );
+              let ls = changeLp.sizes.find((_) => _.name === prod[index].size);
+              changeLp.sizes[lsIndex] = {
+                name: prod[index].size,
+                quantity: ls.quantity - prod[index].quantity,
+              };
+              console.log(changeLp);
+              await setDoc(
+                doc(getFirestore(), "products", prod[index].productId),
+                {
+                  ...changeLp,
+                }
+              ).then(() => {
+                console.log("sizes updated");
+                if (index < order.data().items.length - 1) {
+                  func(index + 1);
+                  console.log("sent");
+                }
+              });
+            }
+          };
+          await func(0);
+          updateDoc(doc(getFirestore(), "users", user.id), {
+            cart: params.id ? user.cart : [],
+            orders: [...user.orders, docRef.id],
+          }).then(() => (window.location.href = `/orderDetail/${docRef.id}`));
         });
       });
     } else if (!state.selectedBilling.address1) {
@@ -191,15 +247,18 @@ export default function Checkout() {
   };
 
   const orderSummaryCard = (item) => {
-    const product = products.find((prod) => prod.id === item);
+    const product = item;
     return (
       <div className="summary-card">
         <div className="summary">
-          <img src={product.images[0].image} alt="" />
+          <img src={product.variance.images[0].image} alt="" />
           <p>{product.name}</p>
         </div>
-        <p className="price">${product.price}</p>
-        <p className="total">${product.price}</p>
+        <p>{product.quantity}</p>
+        <p className="price">${product.variance.sellingPrice}</p>
+        <p className="total">
+          ${product.variance.sellingPrice * product.quantity}
+        </p>
       </div>
     );
   };
@@ -249,14 +308,15 @@ export default function Checkout() {
           <div className="order-summary">
             <h3>
               <span>Order Summary</span>
+              <span>Quantity</span>
               <span>Price</span>
               <span>Total</span>
             </h3>
             {params.id
-              ? orderSummaryCard(atob(params.id))
+              ? orderSummaryCard(singleItem)
               : user.cart.map((item) => orderSummaryCard(item))}
             <div className="total-sec">
-              <span>Items total</span>
+              <span>Items Total</span>
               <span>${totalPrice}</span>
             </div>
           </div>
@@ -601,7 +661,9 @@ export default function Checkout() {
             Pay and place order
           </button>
           <h3>
-            <span>Contact Us | Help | Terms & conditions | Privacy Policy</span>
+            <span style={{ width: "100%", textAlign: "center" }}>
+              Contact Us | Help | Terms & conditions | Privacy Policy
+            </span>
           </h3>
         </>
       )}

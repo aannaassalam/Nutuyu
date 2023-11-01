@@ -36,7 +36,7 @@
   align-items: center;
   width: 100%;
   text-transform: uppercase;
-  font-size: 50px;
+  font-size: 35px;
   letter-spacing: 2px;
   margin-bottom: 10px;
 }
@@ -44,10 +44,10 @@
   cursor: pointer;
 }
 .Cart .cartDiv .top > p {
-  margin: 20px 0;
+  margin: 10px 0;
 }
 .Cart .cartDiv .top {
-  padding: 10px 20px;
+  padding: 10px 0px;
   width: 100%;
 }
 .Cart .cartCards {

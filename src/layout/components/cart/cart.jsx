@@ -24,7 +24,7 @@ function Cart({ open, handleCart }) {
   const goCheckout = () => {
     const prods = [];
     user.cart.forEach((Cartitem) => {
-      prods.push(products.find((item) => item.id === Cartitem));
+      prods.push(products.find((item) => item.id === Cartitem.productId));
     });
     if (prods.find((item) => item.sold === true)) {
       console.error("Your bag contains items which are sold");
@@ -41,7 +41,7 @@ function Cart({ open, handleCart }) {
               <X />
             </span>
           </h1>
-          <p>Free shipping on all domestic orders over ₹‌14,100.00</p>
+          <p>Free shipping on all domestic orders over ₹14,100.00</p>
         </div>
 
         {user?.cart?.length > 0 ? (

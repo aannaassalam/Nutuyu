@@ -20,12 +20,12 @@
 
 .checkout-page h3 span:first-of-type {
   display: inline-block;
-  width: 65%;
+  width: 40%;
 }
 
 .checkout-page h3 span {
   display: inline-block;
-  width: 17%;
+  width: 20%;
 }
 
 .checkout-page .order-summary .total-sec {
@@ -47,23 +47,23 @@
 }
 
 .summary-card:not(.first-child) {
-  padding-top: 10px;
+  padding: 10px 0;
 }
 
 .summary-card .summary {
   display: flex;
   align-items: center;
-  width: 65%;
+  width: 40%;
 }
 
 .summary-card .summary img {
   width: 100px;
   object-fit: contain;
-  margin: 0 60px;
+  margin-right: 50px;
 }
 
 .summary-card > p {
-  width: 17%;
+  width: 20%;
 }
 
 .address-container {

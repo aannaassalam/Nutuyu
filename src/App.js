@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import "./App.css";
 import Navbar from "./layout/components/navbar/navbar";
 import Homepage from "./layout/pages/homepage/homepage";
@@ -25,18 +25,21 @@ function App() {
           {!location.pathname.startsWith("/checkout") && (
             <Navbar handleCart={() => setcart((prev) => !prev)} />
           )}
-          <Routes>
-            {routes.map((Item, key) => {
-              return (
-                <Route
-                  exact
-                  path={Item.route}
-                  key={key}
-                  element={<Item.Component />}
-                />
-              );
-            })}
-          </Routes>
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              {routes.map((Item, key) => {
+                return (
+                  <Route
+                    exact
+                    path={Item.route}
+                    key={key}
+                    element={<Item.Component />}
+                  />
+                );
+              })}
+            </Routes>
+          </Suspense>
+
           {!location.pathname.startsWith("/checkout") && (
             <Cart open={cart} handleCart={() => setcart(!cart)} />
           )}

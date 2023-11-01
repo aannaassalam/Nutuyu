@@ -126,6 +126,8 @@ function ProfileDetails() {
             setState((prev) => ({ ...prev, phone_number: e.target.value }))
           }
         />
+        <h2 style={{ marginLeft: 0 }}>Change Password</h2>
+
         <TextField
           label="Old Password"
           variant="standard"

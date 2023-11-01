@@ -119,7 +119,7 @@ function Navbar({ handleCart }) {
         )}
         <a href={`/`}>Home</a>
         <a href={`/products/what's-new`}>What's new</a>
-        {categories.map((item, id) =>
+        {categories.slice(0, 4).map((item, id) =>
           width > 1080 ? (
             <a
               href={`/products/${item.name}`}
@@ -206,6 +206,7 @@ function Navbar({ handleCart }) {
             </>
           )
         )}
+        <a href={`/nutuyu`}>#Nutuyu</a>
 
         <div className="search">
           <Search className="" />
