@@ -107,7 +107,7 @@ export default function ProductCard({ product, sold }) {
           readOnly
           size="small"
         />
-        <span className="reviews">{product?.ratings?.length} reviews</span>
+        <span className="reviews">{product?.ratings?.length || 0} reviews</span>
         <p className="discount">{discount()}% Off</p>
       </div>
       {/* </div> */}
