@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "nutuyu72",
+    "site": "ecommerce2023",
     "public": "./build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [

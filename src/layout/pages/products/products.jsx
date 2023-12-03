@@ -377,7 +377,10 @@ function Products(props) {
                                           t?.toLowerCase() !==
                                           type?.toLowerCase()
                                       )
-                                    : [...prev.filter.selectedTypes, type],
+                                    : [
+                                        ...prev.filter.selectedTypes,
+                                        type.toLowerCase(),
+                                      ],
                               },
                             }))
                           }
