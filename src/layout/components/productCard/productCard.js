@@ -45,7 +45,7 @@ export default function ProductCard({ product, sold }) {
     }
   };
   const discount = () => {
-    return 100 - (product.sellingPrice * 100) / product.markedPrice;
+    return parseInt(100 - (product.sellingPrice * 100) / product.markedPrice);
   };
   const ratingValue = () => {
     let totalValue = 0;

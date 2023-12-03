@@ -129,7 +129,7 @@ export default function ProductDetails() {
   for (let i = 1; i <= quan; i++) {
     quantiyOptions[i] = i;
   }
-  console.log(user.cart);
+  console.log(user?.cart);
   return (
     <>
       {loading ? (
@@ -288,7 +288,7 @@ export default function ProductDetails() {
                         to={{
                           pathname: user
                             ? `/checkout/${btoa(params.id)}`
-                            : "./login",
+                            : "/login",
                         }}
                         state={{
                           name: product.name,
