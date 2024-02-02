@@ -118,6 +118,7 @@ function Login() {
             id="standard-basic"
             label="Email"
             variant="standard"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -125,6 +126,7 @@ function Login() {
             id="standard-basic"
             label="Password"
             variant="standard"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

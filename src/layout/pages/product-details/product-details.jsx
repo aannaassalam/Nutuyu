@@ -103,6 +103,8 @@ export default function ProductDetails() {
               productId: params.id,
               variance,
               name: product.name,
+              category: product.category,
+              subCategory: product.subcategory,
               size: selectedSize,
               quantity,
               id: uuid(),
@@ -129,7 +131,7 @@ export default function ProductDetails() {
   for (let i = 1; i <= quan; i++) {
     quantiyOptions[i] = i;
   }
-  console.log(user?.cart);
+  console.log(product);
   return (
     <>
       {loading ? (
@@ -230,7 +232,7 @@ export default function ProductDetails() {
             {parseInt(
               variance?.sizes?.find((item) => item.name === selectedSize)
                 ?.quantity
-            ) > 1 ? (
+            ) >= 1 ? (
               <div
                 style={{
                   display: found ? "none" : "flex",
@@ -274,43 +276,40 @@ export default function ProductDetails() {
             {parseInt(
               variance?.sizes?.find((item) => item.name === selectedSize)
                 ?.quantity
-            ) > 1 && (
+            ) >= 1 && (
               <>
-                {product.sold ? (
-                  <h1 style={{ color: "red", textAlign: "center" }}>
-                    Sold Out
-                  </h1>
-                ) : (
-                  <>
-                    <button>
-                      <Link
-                        style={{ textDecoration: "none", color: "#fff" }}
-                        to={{
-                          pathname: user
-                            ? `/checkout/${btoa(params.id)}`
-                            : "/login",
-                        }}
-                        state={{
-                          name: product.name,
-                          variance: variance,
-                          size: selectedSize,
-                          quantity,
-                        }}
-                      >
-                        Buy Now
-                      </Link>
-                    </button>
-                    <button
-                      onClick={() => {
-                        user
-                          ? addToCart()
-                          : (window.location.pathname = "./login");
-                      }}
-                    >
-                      {found ? "Go To Bag" : "Add to Bag"}{" "}
-                    </button>
-                  </>
-                )}
+                <button>
+                  <Link
+                    style={{
+                      textDecoration: "none",
+                      color: "#fff",
+                      display: "block",
+                      width: "100%",
+                    }}
+                    to={{
+                      pathname: user
+                        ? `/checkout/${btoa(params.id)}`
+                        : "/login",
+                    }}
+                    state={{
+                      name: product.name,
+                      variance: variance,
+                      size: selectedSize,
+                      category: product.category,
+                      subCategory: product.subcategory,
+                      quantity,
+                    }}
+                  >
+                    Buy Now
+                  </Link>
+                </button>
+                <button
+                  onClick={() => {
+                    user ? addToCart() : (window.location.pathname = "./login");
+                  }}
+                >
+                  {found ? "Go To Bag" : "Add to Bag"}{" "}
+                </button>
               </>
             )}
 

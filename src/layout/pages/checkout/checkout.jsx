@@ -23,6 +23,8 @@ export default function Checkout() {
   const singleItem = {
     name: location.state?.name,
     variance: location.state?.variance,
+    category: location.state?.category,
+    subCategory: location.state?.subcategory,
     quantity: location.state?.quantity,
     size: location.state?.size,
     productId: params.id ? atob(params.id) : null,

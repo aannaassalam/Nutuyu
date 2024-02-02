@@ -2,8 +2,10 @@
   position: absolute;
   top: 160px;
   z-index: 10;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  /* border-radius: 10px; */
   background-color: #fff;
   padding: 20px;
   padding-top: 0;
@@ -11,6 +13,7 @@
   justify-content: center;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   animation: fade.5s;
+  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
 }
 .NavDropDown.open {
   display: flex;

@@ -20,7 +20,7 @@ import moment from "moment/moment";
 import { Camera, Eye } from "react-feather";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
-import StarIcon from "@mui/icons-material/Star";
+// import StarIcon from "@mui/icons-material/Star";
 
 const RatingModal = ({ open, item, setRating }) => {
   const [value, setValue] = useState();

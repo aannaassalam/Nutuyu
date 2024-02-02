@@ -59,12 +59,12 @@ function NavDropDown({ open, links, p, image, drop, name, types }) {
               </div>
             </div>
           )}
-          <div className="imageSide">
+          {/* <div className="imageSide">
             <img src={image ? image : null} alt="" />
             {p?.map((item) => (
               <p>{item}</p>
             ))}
-          </div>
+          </div> */}
         </div>
       )}
     </>

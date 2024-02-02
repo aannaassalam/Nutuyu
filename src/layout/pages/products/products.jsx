@@ -450,9 +450,9 @@ function Products(props) {
                   } else if (state.sort === "ZA") {
                     return b.name.localeCompare(a.name);
                   } else if (state.sort === "LH") {
-                    return a.price - b.price;
+                    return a.sellingPrice - b.sellingPrice;
                   } else if (state.sort === "HL") {
-                    return b.price - a.price;
+                    return b.sellingPrice - a.sellingPrice;
                   }
                   return;
                 })

@@ -36,7 +36,7 @@ function Homepage() {
       <Slider slider={sliders[2]} />
       <FabricSec />
       <Slider slider={sliders[3]} />
-      <DoubleImageText />
+      {/* <DoubleImageText /> */}
     </div>
   );
 }
