@@ -9,6 +9,7 @@ import Toaster from "../../components/toaster/toaster";
 import about from "../../../assets/about.png";
 import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 import AnimatedSlider from "./animatedSlider/animatedSlider";
+import AnimatedHeroSection from "./animatedHeroSection/animatedHeroSection";
 function Homepage() {
   const [banner, setBanner] = useState(null);
   const [sliders, setSliders] = useState([]);
@@ -28,7 +29,8 @@ function Homepage() {
   return (
     <div className="Homepage">
       {/* <Toaster message="hii" positive={true} /> */}
-      <AnimatedSlider />
+      {/* <AnimatedSlider /> */}
+      <AnimatedHeroSection />
       <Slider slider={sliders[0]} />
       <TopSection about={about} />
       <CategorySec />

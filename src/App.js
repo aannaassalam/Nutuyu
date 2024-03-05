@@ -9,6 +9,7 @@ import Cart from "./layout/components/cart/cart";
 import AuthProvider, { useAuth } from "./layout/hooks/useAuth";
 import ProductsProvider, { useProducts } from "./layout/hooks/useProducts";
 import Loader from "./layout/components/loader/loader";
+import AnimatedNavbar from "./layout/components/AnimatedNavbar/AnimatedNavbar";
 
 function App() {
   const [cart, setcart] = useState(false);
@@ -23,7 +24,8 @@ function App() {
       {!user.loading && !products.loading && (
         <>
           {!location.pathname.startsWith("/checkout") && (
-            <Navbar handleCart={() => setcart((prev) => !prev)} />
+            <AnimatedNavbar />
+            // <Navbar handleCart={() => setcart((prev) => !prev)} />
           )}
           <Suspense fallback={<Loader />}>
             <Routes>
