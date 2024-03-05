@@ -6,7 +6,9 @@ export default function AnimatedHeroSection() {
   return (
     <div className="animatedHero">
       <h1>
-        <span>Alisha</span>
+        <span>A</span>
+        <span>lisha</span>
+        <br />
         Fabrics
       </h1>
       <p>

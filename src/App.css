@@ -6,6 +6,11 @@
   font-family: GT;
 }
 
+@font-face {
+  font-family: "westiva-bold";
+  src: url("./assets/fonts/Westiva\ Bold.ttf");
+}
+
 /* @font-face {
   font-family: GT;
   src: url(./assets/fonts/GT-Pressura-Mono.otf);

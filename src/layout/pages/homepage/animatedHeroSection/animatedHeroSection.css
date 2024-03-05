@@ -11,15 +11,22 @@
 }
 
 .animatedHero h1 {
-  font-size: 150px;
+  font-size: 180px;
   color: #000;
   text-shadow: 10px 15px 10px rgba(17, 12, 46, 0.25);
+  font-family: "westiva-bold";
+  line-height: 170px;
 }
 
-.animatedHero h1 span {
-  display: block;
-  margin-left: 70px;
-  line-height: 120px;
+.animatedHero h1 span:first-of-type {
+  margin-left: 90px;
+  /* line-height: 120px; */
+}
+
+.animatedHero h1 span:not(:first-of-type) {
+  /* display: block; */
+  /* line-height: 120px; */
+  font-family: "westiva-bold";
 }
 
 .animatedHero p {
